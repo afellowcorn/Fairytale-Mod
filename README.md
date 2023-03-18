@@ -1,3 +1,9 @@
+# Acorn's Fairytale Mod
+
+### [Discord Server Thread](https://discord.com/channels/1003759225522110524/1079478795490304100)
+
+This mod integrates many features of real folklore and mythology as well as imagined fantasy elements with the intent to blend with ClanGen's original style, including new critters to recruit to your clan such as winged cats, tatzelwurm, ball-tailed cats and more, new accessories, new clan backgrounds, and a few more minor additions!
+
 # clangen
 
 ### [Discord Server](https://discord.gg/rnFQqyPZ7K) || [Itch.io Page](https://sablesteel.itch.io/clan-gen-fan-edit)
