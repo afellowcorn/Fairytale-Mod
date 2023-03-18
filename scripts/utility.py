@@ -214,6 +214,7 @@ def create_new_cat(Cat,
                    backstory=None,
                    status=None,
                    age=None,
+                   species=None,
                    gender=None,
                    thought='Is looking around the camp with wonder',
                    alive=True,
@@ -276,10 +277,32 @@ def create_new_cat(Cat,
         if not gender:
             gender = choice(['female', 'male'])
 
+        # setting species
+        if not species:
+                wngd_chance = randint(0, 15)
+                wurm_chance = randint(0, 25)
+                if wngd_chance == 1:
+                    species = "winged cat"
+                elif wurm_chance == 1:
+                    species = "tatzelwurm"
+                else:
+                    species = "regular cat"
+            #if choice([1, 2]) == 1:
+            #else:
+            #    fthr_chance = randint(0, 20)
+            #    basilisk_chance = randint(0, 35)
+            #    if fthr_chance == 1:
+            #        species = "feathered cat"
+            #    elif basilisk_chance == 1:
+            #        species = "basilisk"
+            #    else:
+            #        species = "regular cat"
+
         # other clan cats and kittens (kittens get indoctrinated lmao no old names for them)
         if other_clan or kit or litter:
             new_cat = Cat(moons=age,
                           status=status,
+                          species=species,
                           gender=gender,
                           backstory=backstory)
         else:
@@ -307,11 +330,13 @@ def create_new_cat(Cat,
                     new_cat = Cat(moons=age,
                                   prefix=name,
                                   status=status,
+                                  species=species,
                                   gender=gender,
                                   backstory=backstory)
                 else:  # completely new name
                     new_cat = Cat(moons=age,
                                   status=status,
+                                  species=species,
                                   gender=gender,
                                   backstory=backstory)
             # these cats keep their old names
@@ -320,6 +345,7 @@ def create_new_cat(Cat,
                               prefix=name,
                               suffix="",
                               status=status,
+                              species=species,
                               gender=gender,
                               backstory=backstory)
 

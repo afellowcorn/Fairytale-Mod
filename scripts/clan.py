@@ -382,6 +382,7 @@ class Clan():
         the program starts
         """
         self.instructor = Cat(status=choice(["warrior", "elder"]))
+        self.instructor = Cat(species=choice(species_list))
         self.instructor.dead = True
         update_sprite(self.instructor)
         self.add_cat(self.instructor)

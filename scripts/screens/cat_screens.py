@@ -782,6 +782,11 @@ class ProfileScreen(Screens):
         # NEWLINE ----------
         output += "\n"
 
+        # SPECIES
+        output += str(the_cat.species)
+        # NEWLINE ----------
+        output += "\n"
+
         # AGE
         if the_cat.age == 'kitten':
             output += 'young'

@@ -95,6 +95,10 @@ class Cat():
 
     gender_tags = {'female': 'F', 'male': 'M'}
 
+    species_list = [
+        "regular cat", "feathered cat", "winged cat", "basilisk", "tatzelwurm"
+    ]
+
     skills = [
         'good hunter', 'great hunter', 'fantastic hunter', 'smart',
         'very smart', 'extremely smart', 'good fighter', 'great fighter',
@@ -164,6 +168,7 @@ class Cat():
     def __init__(self,
                  prefix=None,
                  gender=None,
+                 species=None,
                  status="kitten",
                  backstory="clanborn",
                  parent1=None,
@@ -209,6 +214,7 @@ class Cat():
 
         # Public attributes
         self.gender = gender
+        self.species = species
         self.status = status
         self.backstory = backstory
         self.age = None
@@ -306,6 +312,9 @@ class Cat():
         else:
             self.ID = ID
 
+        if species is None:
+            self.species = choice(species_list)
+                
         # age and status
         if status is None and moons is None:
             self.age = choice(self.ages)

@@ -363,6 +363,7 @@ class Game():
                 "name_suffix": inter_cat.name.suffix,
                 "gender": inter_cat.gender,
                 "gender_align": inter_cat.genderalign,
+                "species": inter_cat.species,
                 "birth_cooldown": inter_cat.birth_cooldown,
                 "status": inter_cat.status,
                 "backstory": inter_cat.backstory if inter_cat.backstory else None,
@@ -482,6 +483,7 @@ class Game():
                 "name_suffix": {inter_cat.name.suffix},
                 "gender": {inter_cat.gender},
                 "gender_align": {inter_cat.genderalign},
+                "species": {inter_cat.species}
                 "birth_cooldown": {inter_cat.birth_cooldown},
                 "status": {inter_cat.status},
                 "backstory": {inter_cat.backstory if inter_cat.backstory else None},
