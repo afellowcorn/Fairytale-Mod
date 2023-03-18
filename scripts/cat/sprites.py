@@ -184,7 +184,7 @@ sprites = Sprites(50)
 #tiles = Sprites(64)
 
 for x in [
-    'lineart', 'singlecolours', 'speckledcolours', 'tabbycolours',
+    'lineart', 'lineartwng', 'lineartwurm', 'singlecolours', 'speckledcolours', 'tabbycolours',
     'whitepatches', 'eyes', 'eyes2', 'skin', 'scars', 'missingscars',
     'collars', 'bellcollars', 'bowcollars', 'nyloncollars',
     'bengalcolours', 'marbledcolours', 'rosettecolours', 'smokecolours', 'tickedcolours', 
@@ -203,6 +203,10 @@ sprites.make_group('lightingnew', (0, 0), 'lighting')
 
 sprites.make_group('lineartdead', (0, 0), 'lineartdead')
 sprites.make_group('lineartdf', (0, 0), 'lineartdf')
+
+sprites.make_group('lineartwng', (0, 0), 'lineswng')
+
+sprites.make_group('lineartwurm', (0, 0), 'lineswurm')
 
 # Fading Fog
 for i in range(1, 4):

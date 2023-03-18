@@ -72,7 +72,7 @@ def json_load():
                         prefix=cat["name_prefix"],
                         suffix=cat["name_suffix"],
                         gender=cat["gender"],
-                        species=cat["species"]
+                        species=cat["species"],
                         status=cat["status"],
                         parent1=cat["parent1"],
                         parent2=cat["parent2"],
