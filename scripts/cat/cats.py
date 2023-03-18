@@ -313,7 +313,19 @@ class Cat():
             self.ID = ID
 
         if species is None:
-            self.species = choice(species_list)
+            wngd_chance = randint(0, 3)
+            wurm_chance = randint(0, 10)
+            fthr_chance = randint(0, 18)
+            if wngd_chance == 1:
+                self.species = "winged cat"
+            elif wurm_chance == 1:
+                self.species = "tatzelwurm"
+            elif fthr_chance == 1:
+                self.species = "feathered cat"
+            else:
+                self.species = "regular cat"
+        else:
+            self.species = species
                 
         # age and status
         if status is None and moons is None:

@@ -279,24 +279,25 @@ def create_new_cat(Cat,
 
         # setting species
         if not species:
-                wngd_chance = randint(0, 15)
-                wurm_chance = randint(0, 25)
+            if choice([1, 2, 3]) == 1:
+                fthr_chance = randint(0, 10)
+                basilisk_chance = randint(0, 20)
+                if fthr_chance == 1:
+                    species = "feathered cat"
+                elif basilisk_chance == 1:
+                    species = "basilisk"
+                else:
+                    species = "regular cat"
+            else:
+                wngd_chance = randint(0, 3)
+                wurm_chance = randint(0, 10)
                 if wngd_chance == 1:
                     species = "winged cat"
                 elif wurm_chance == 1:
                     species = "tatzelwurm"
                 else:
                     species = "regular cat"
-            #if choice([1, 2]) == 1:
-            #else:
-            #    fthr_chance = randint(0, 20)
-            #    basilisk_chance = randint(0, 35)
-            #    if fthr_chance == 1:
-            #        species = "feathered cat"
-            #    elif basilisk_chance == 1:
-            #        species = "basilisk"
-            #    else:
-            #        species = "regular cat"
+
 
         # other clan cats and kittens (kittens get indoctrinated lmao no old names for them)
         if other_clan or kit or litter:
@@ -953,122 +954,361 @@ def update_sprite(cat):
 
 # generating the sprite
     try:
-        if cat.pelt.name not in ['Tortie', 'Calico']:
-            new_sprite.blit(sprites.sprites[cat.pelt.sprites[1] + cat.pelt.colour + cat_sprite], (0, 0))
-        else:
-                # Base Coat
-                new_sprite.blit(
-                    sprites.sprites[cat.tortiebase + cat.pelt.colour + cat_sprite],
-                    (0, 0))
-
-                # Create the patch image
-                if cat.tortiepattern == "Single":
-                    tortie_pattern = "SingleColour"
-                else:
-                    tortie_pattern = cat.tortiepattern
-
-                patches = sprites.sprites[
-                    tortie_pattern + cat.tortiecolour + cat_sprite].copy()
-                patches.blit(sprites.sprites["tortiemask" + cat.pattern + cat_sprite], (0, 0),
-                             special_flags=pygame.BLEND_RGBA_MULT)
-
-                # Add patches onto cat.
-                new_sprite.blit(patches, (0, 0))
-
-        # TINTS
-        if cat.tint != "none" and cat.tint in Sprites.cat_tints["tint_colours"]:
-            # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
-            # entire surface. To get around this, we first blit the tint onto a white background to dull it,
-            # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
-            tint = pygame.Surface((50, 50)).convert_alpha()
-            tint.fill(tuple(Sprites.cat_tints["tint_colours"][cat.tint]))
-            new_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-        # draw white patches
-        if cat.white_patches is not None:
-            white_patches = sprites.sprites['white' + cat.white_patches + cat_sprite].copy()
-
-            # Apply tint to white patches.
-            if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
-                "tint_colours"]:
-                tint = pygame.Surface((50, 50)).convert_alpha()
-                tint.fill(tuple(Sprites.white_patches_tints["tint_colours"][cat.white_patches_tint]))
-                white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-
-            new_sprite.blit(white_patches, (0, 0))
-
-        # draw vit & points
-
-        if cat.points:
-            points = sprites.sprites['white' + cat.points + cat_sprite].copy()
-            if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
-                 "tint_colours"]:
-                tint = pygame.Surface((50, 50)).convert_alpha()
-                tint.fill(tuple(Sprites.white_patches_tints["tint_colours"][cat.white_patches_tint]))
-                points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-            new_sprite.blit(points, (0, 0))
-
-
-        if cat.vitiligo:
-            new_sprite.blit(sprites.sprites['white' + cat.vitiligo + cat_sprite], (0, 0))
-
-        # draw eyes & scars1
-        new_sprite.blit(sprites.sprites['eyes' + cat.eye_colour + cat_sprite], (0, 0))
-        if cat.eye_colour2 != None:
-            new_sprite.blit(sprites.sprites['eyes2' + cat.eye_colour2 + cat_sprite], (0, 0))
-        for scar in cat.scars:
-            if scar in scars1:
-                new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
-            if scar in scars3:
-                new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
-
-        # draw line art
-        if game.settings['shaders'] and not cat.dead:
-            new_sprite.blit(sprites.sprites['shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-            new_sprite.blit(sprites.sprites['lighting' + cat_sprite], (0, 0))
-
-        if not cat.dead:
-            new_sprite.blit(sprites.sprites['lines' + cat_sprite], (0, 0))
-        elif cat.df:
-            new_sprite.blit(sprites.sprites['lineartdf' + cat_sprite], (0, 0))
-        elif cat.dead:
-            new_sprite.blit(sprites.sprites['lineartdead' + cat_sprite], (0, 0))
-        # draw skin and scars2
-        blendmode = pygame.BLEND_RGBA_MIN
-        new_sprite.blit(sprites.sprites['skin' + cat.skin + cat_sprite], (0, 0))
-        for scar in cat.scars:
-            if scar in scars2:
-                new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0), special_flags=blendmode)
-
-        # draw accessories        
-        if cat.accessory in plant_accessories:
-            new_sprite.blit(sprites.sprites['acc_herbs' + cat.accessory + cat_sprite], (0, 0))
-        elif cat.accessory in wild_accessories:
-            new_sprite.blit(sprites.sprites['acc_wild' + cat.accessory + cat_sprite], (0, 0))
-        elif cat.accessory in collars:
-            new_sprite.blit(sprites.sprites['collars' + cat.accessory + cat_sprite], (0, 0))
-
-        # Apply fading fog
-        if cat.opacity <= 97 and not cat.prevent_fading and game.settings["fading"]:
-            stage = "1"
-            if 80 >= cat.opacity > 45:
-                # Stage 2
-                stage = "2"
-            elif cat.opacity <= 45:
-                # Stage 3
-                stage = "3"
-
-            new_sprite.blit(sprites.sprites['fademask' + stage + cat_sprite], 
-                            (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-            if cat.df:
-                temp = sprites.sprites['fadedf' + stage + cat_sprite].copy()
-                temp.blit(new_sprite, (0, 0))
-                new_sprite = temp
+        if cat.species == "regular cat":
+            if cat.pelt.name not in ['Tortie', 'Calico']:
+                new_sprite.blit(sprites.sprites[cat.pelt.sprites[1] + cat.pelt.colour + cat_sprite], (0, 0))
             else:
-                temp = sprites.sprites['fadestarclan' + stage + cat_sprite].copy()
-                temp.blit(new_sprite, (0, 0))
-                new_sprite = temp
+                    # Base Coat
+                    new_sprite.blit(
+                        sprites.sprites[cat.tortiebase + cat.pelt.colour + cat_sprite],
+                        (0, 0))
+
+                    # Create the patch image
+                    if cat.tortiepattern == "Single":
+                        tortie_pattern = "SingleColour"
+                    else:
+                        tortie_pattern = cat.tortiepattern
+
+                    patches = sprites.sprites[
+                        tortie_pattern + cat.tortiecolour + cat_sprite].copy()
+                    patches.blit(sprites.sprites["tortiemask" + cat.pattern + cat_sprite], (0, 0),
+                                 special_flags=pygame.BLEND_RGBA_MULT)
+
+                    # Add patches onto cat.
+                    new_sprite.blit(patches, (0, 0))
+
+            # TINTS
+            if cat.tint != "none" and cat.tint in Sprites.cat_tints["tint_colours"]:
+                # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
+                # entire surface. To get around this, we first blit the tint onto a white background to dull it,
+                # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
+                tint = pygame.Surface((50, 50)).convert_alpha()
+                tint.fill(tuple(Sprites.cat_tints["tint_colours"][cat.tint]))
+                new_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            # draw white patches
+            if cat.white_patches is not None:
+                white_patches = sprites.sprites['white' + cat.white_patches + cat_sprite].copy()
+
+                # Apply tint to white patches.
+                if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
+                    "tint_colours"]:
+                    tint = pygame.Surface((50, 50)).convert_alpha()
+                    tint.fill(tuple(Sprites.white_patches_tints["tint_colours"][cat.white_patches_tint]))
+                    white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                new_sprite.blit(white_patches, (0, 0))
+
+            # draw vit & points
+
+            if cat.points:
+                points = sprites.sprites['white' + cat.points + cat_sprite].copy()
+                if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
+                     "tint_colours"]:
+                    tint = pygame.Surface((50, 50)).convert_alpha()
+                    tint.fill(tuple(Sprites.white_patches_tints["tint_colours"][cat.white_patches_tint]))
+                    points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                new_sprite.blit(points, (0, 0))
+
+
+            if cat.vitiligo:
+                new_sprite.blit(sprites.sprites['white' + cat.vitiligo + cat_sprite], (0, 0))
+
+            # draw eyes & scars1
+            new_sprite.blit(sprites.sprites['eyes' + cat.eye_colour + cat_sprite], (0, 0))
+            if cat.eye_colour2 != None:
+                new_sprite.blit(sprites.sprites['eyes2' + cat.eye_colour2 + cat_sprite], (0, 0))
+            for scar in cat.scars:
+                if scar in scars1:
+                    new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
+                if scar in scars3:
+                    new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
+
+            # draw line art
+            if game.settings['shaders'] and not cat.dead:
+                new_sprite.blit(sprites.sprites['shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                new_sprite.blit(sprites.sprites['lighting' + cat_sprite], (0, 0))
+
+            if not cat.dead:
+                new_sprite.blit(sprites.sprites['lines' + cat_sprite], (0, 0))
+            elif cat.df:
+                new_sprite.blit(sprites.sprites['lineartdf' + cat_sprite], (0, 0))
+            elif cat.dead:
+                new_sprite.blit(sprites.sprites['lineartdead' + cat_sprite], (0, 0))
+            # draw skin and scars2
+            blendmode = pygame.BLEND_RGBA_MIN
+            new_sprite.blit(sprites.sprites['skin' + cat.skin + cat_sprite], (0, 0))
+            for scar in cat.scars:
+                if scar in scars2:
+                    new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0), special_flags=blendmode)
+
+            # draw accessories        
+            if cat.accessory in plant_accessories:
+                new_sprite.blit(sprites.sprites['acc_herbs' + cat.accessory + cat_sprite], (0, 0))
+            elif cat.accessory in wild_accessories:
+                new_sprite.blit(sprites.sprites['acc_wild' + cat.accessory + cat_sprite], (0, 0))
+            elif cat.accessory in collars:
+                new_sprite.blit(sprites.sprites['collars' + cat.accessory + cat_sprite], (0, 0))
+
+            # Apply fading fog
+            if cat.opacity <= 97 and not cat.prevent_fading and game.settings["fading"]:
+                stage = "1"
+                if 80 >= cat.opacity > 45:
+                    # Stage 2
+                    stage = "2"
+                elif cat.opacity <= 45:
+                    # Stage 3
+                    stage = "3"
+
+                new_sprite.blit(sprites.sprites['fademask' + stage + cat_sprite], 
+                                (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                if cat.df:
+                    temp = sprites.sprites['fadedf' + stage + cat_sprite].copy()
+                    temp.blit(new_sprite, (0, 0))
+                    new_sprite = temp
+                else:
+                    temp = sprites.sprites['fadestarclan' + stage + cat_sprite].copy()
+                    temp.blit(new_sprite, (0, 0))
+                    new_sprite = temp
+
+        elif cat.species == "winged cat":
+            if cat.pelt.name not in ['Tortie', 'Calico']:
+                new_sprite.blit(sprites.sprites[cat.pelt.sprites[1] + cat.pelt.colour + cat_sprite], (0, 0))
+            else:
+                    # Base Coat
+                    new_sprite.blit(
+                        sprites.sprites[cat.tortiebase + cat.pelt.colour + cat_sprite],
+                        (0, 0))
+
+                    # Create the patch image
+                    if cat.tortiepattern == "Single":
+                        tortie_pattern = "SingleColour"
+                    else:
+                        tortie_pattern = cat.tortiepattern
+
+                    patches = sprites.sprites[
+                        tortie_pattern + cat.tortiecolour + cat_sprite].copy()
+                    patches.blit(sprites.sprites["tortiemask" + cat.pattern + cat_sprite], (0, 0),
+                                 special_flags=pygame.BLEND_RGBA_MULT)
+
+                    # Add patches onto cat.
+                    new_sprite.blit(patches, (0, 0))
+
+            # TINTS
+            if cat.tint != "none" and cat.tint in Sprites.cat_tints["tint_colours"]:
+                # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
+                # entire surface. To get around this, we first blit the tint onto a white background to dull it,
+                # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
+                tint = pygame.Surface((50, 50)).convert_alpha()
+                tint.fill(tuple(Sprites.cat_tints["tint_colours"][cat.tint]))
+                new_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            # draw white patches
+            if cat.white_patches is not None:
+                white_patches = sprites.sprites['white' + cat.white_patches + cat_sprite].copy()
+
+                # Apply tint to white patches.
+                if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
+                    "tint_colours"]:
+                    tint = pygame.Surface((50, 50)).convert_alpha()
+                    tint.fill(tuple(Sprites.white_patches_tints["tint_colours"][cat.white_patches_tint]))
+                    white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                new_sprite.blit(white_patches, (0, 0))
+
+            # draw vit & points
+
+            if cat.points:
+                points = sprites.sprites['white' + cat.points + cat_sprite].copy()
+                if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
+                     "tint_colours"]:
+                    tint = pygame.Surface((50, 50)).convert_alpha()
+                    tint.fill(tuple(Sprites.white_patches_tints["tint_colours"][cat.white_patches_tint]))
+                    points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                new_sprite.blit(points, (0, 0))
+
+
+            if cat.vitiligo:
+                new_sprite.blit(sprites.sprites['white' + cat.vitiligo + cat_sprite], (0, 0))
+
+            # draw eyes & scars1
+            new_sprite.blit(sprites.sprites['eyes' + cat.eye_colour + cat_sprite], (0, 0))
+            if cat.eye_colour2 != None:
+                new_sprite.blit(sprites.sprites['eyes2' + cat.eye_colour2 + cat_sprite], (0, 0))
+            for scar in cat.scars:
+                if scar in scars1:
+                    new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
+                if scar in scars3:
+                    new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
+
+            # draw line art
+            if game.settings['shaders'] and not cat.dead:
+                new_sprite.blit(sprites.sprites['shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                new_sprite.blit(sprites.sprites['lighting' + cat_sprite], (0, 0))
+
+            if not cat.dead:
+                new_sprite.blit(sprites.sprites['lineswng' + cat_sprite], (0, 0))
+            elif cat.df:
+                new_sprite.blit(sprites.sprites['lineartdf' + cat_sprite], (0, 0))
+            elif cat.dead:
+                new_sprite.blit(sprites.sprites['lineartdead' + cat_sprite], (0, 0))
+            # draw skin and scars2
+            blendmode = pygame.BLEND_RGBA_MIN
+            new_sprite.blit(sprites.sprites['skin' + cat.skin + cat_sprite], (0, 0))
+            for scar in cat.scars:
+                if scar in scars2:
+                    new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0), special_flags=blendmode)
+
+            # draw accessories        
+            if cat.accessory in plant_accessories:
+                new_sprite.blit(sprites.sprites['acc_herbs' + cat.accessory + cat_sprite], (0, 0))
+            elif cat.accessory in wild_accessories:
+                new_sprite.blit(sprites.sprites['acc_wild' + cat.accessory + cat_sprite], (0, 0))
+            elif cat.accessory in collars:
+                new_sprite.blit(sprites.sprites['collars' + cat.accessory + cat_sprite], (0, 0))
+
+            # Apply fading fog
+            if cat.opacity <= 97 and not cat.prevent_fading and game.settings["fading"]:
+                stage = "1"
+                if 80 >= cat.opacity > 45:
+                    # Stage 2
+                    stage = "2"
+                elif cat.opacity <= 45:
+                    # Stage 3
+                    stage = "3"
+
+                new_sprite.blit(sprites.sprites['fademask' + stage + cat_sprite], 
+                                (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                if cat.df:
+                    temp = sprites.sprites['fadedf' + stage + cat_sprite].copy()
+                    temp.blit(new_sprite, (0, 0))
+                    new_sprite = temp
+                else:
+                    temp = sprites.sprites['fadestarclan' + stage + cat_sprite].copy()
+                    temp.blit(new_sprite, (0, 0))
+                    new_sprite = temp
+
+        elif cat.species == "tatzelwurm":
+            if cat.pelt.name not in ['Tortie', 'Calico']:
+                new_sprite.blit(sprites.sprites[cat.pelt.sprites[1] + cat.pelt.colour + cat_sprite], (0, 0))
+            else:
+                    # Base Coat
+                    new_sprite.blit(
+                        sprites.sprites[cat.tortiebase + cat.pelt.colour + cat_sprite],
+                        (0, 0))
+
+                    # Create the patch image
+                    if cat.tortiepattern == "Single":
+                        tortie_pattern = "SingleColour"
+                    else:
+                        tortie_pattern = cat.tortiepattern
+
+                    patches = sprites.sprites[
+                        tortie_pattern + cat.tortiecolour + cat_sprite].copy()
+                    patches.blit(sprites.sprites["tortiemask" + cat.pattern + cat_sprite], (0, 0),
+                                 special_flags=pygame.BLEND_RGBA_MULT)
+
+                    # Add patches onto cat.
+                    new_sprite.blit(patches, (0, 0))
+
+            # TINTS
+            if cat.tint != "none" and cat.tint in Sprites.cat_tints["tint_colours"]:
+                # Multiply with alpha does not work as you would expect - it just lowers the alpha of the
+                # entire surface. To get around this, we first blit the tint onto a white background to dull it,
+                # then blit the surface onto the sprite with pygame.BLEND_RGB_MULT
+                tint = pygame.Surface((50, 50)).convert_alpha()
+                tint.fill(tuple(Sprites.cat_tints["tint_colours"][cat.tint]))
+                new_sprite.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+            # draw white patches
+            if cat.white_patches is not None:
+                white_patches = sprites.sprites['white' + cat.white_patches + cat_sprite].copy()
+
+                # Apply tint to white patches.
+                if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
+                    "tint_colours"]:
+                    tint = pygame.Surface((50, 50)).convert_alpha()
+                    tint.fill(tuple(Sprites.white_patches_tints["tint_colours"][cat.white_patches_tint]))
+                    white_patches.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+                new_sprite.blit(white_patches, (0, 0))
+
+            # draw vit & points
+
+            if cat.points:
+                points = sprites.sprites['white' + cat.points + cat_sprite].copy()
+                if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
+                     "tint_colours"]:
+                    tint = pygame.Surface((50, 50)).convert_alpha()
+                    tint.fill(tuple(Sprites.white_patches_tints["tint_colours"][cat.white_patches_tint]))
+                    points.blit(tint, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                new_sprite.blit(points, (0, 0))
+
+
+            if cat.vitiligo:
+                new_sprite.blit(sprites.sprites['white' + cat.vitiligo + cat_sprite], (0, 0))
+
+            # draw eyes & scars1
+            new_sprite.blit(sprites.sprites['eyes' + cat.eye_colour + cat_sprite], (0, 0))
+            if cat.eye_colour2 != None:
+                new_sprite.blit(sprites.sprites['eyes2' + cat.eye_colour2 + cat_sprite], (0, 0))
+            for scar in cat.scars:
+                if scar in scars1:
+                    new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
+                if scar in scars3:
+                    new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
+
+            # draw line art
+            if game.settings['shaders'] and not cat.dead:
+                new_sprite.blit(sprites.sprites['shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                new_sprite.blit(sprites.sprites['lighting' + cat_sprite], (0, 0))
+
+            if not cat.dead:
+                new_sprite.blit(sprites.sprites['lineswurm' + cat_sprite], (0, 0))
+            elif cat.df:
+                new_sprite.blit(sprites.sprites['lineartdf' + cat_sprite], (0, 0))
+            elif cat.dead:
+                new_sprite.blit(sprites.sprites['lineartdead' + cat_sprite], (0, 0))
+            # draw skin and scars2
+            blendmode = pygame.BLEND_RGBA_MIN
+            new_sprite.blit(sprites.sprites['skin' + cat.skin + cat_sprite], (0, 0))
+            for scar in cat.scars:
+                if scar in scars2:
+                    new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0), special_flags=blendmode)
+
+            # draw accessories        
+            if cat.accessory in plant_accessories:
+                new_sprite.blit(sprites.sprites['acc_herbs' + cat.accessory + cat_sprite], (0, 0))
+            elif cat.accessory in wild_accessories:
+                new_sprite.blit(sprites.sprites['acc_wild' + cat.accessory + cat_sprite], (0, 0))
+            elif cat.accessory in collars:
+                new_sprite.blit(sprites.sprites['collars' + cat.accessory + cat_sprite], (0, 0))
+
+            # Apply fading fog
+            if cat.opacity <= 97 and not cat.prevent_fading and game.settings["fading"]:
+                stage = "1"
+                if 80 >= cat.opacity > 45:
+                    # Stage 2
+                    stage = "2"
+                elif cat.opacity <= 45:
+                    # Stage 3
+                    stage = "3"
+
+                new_sprite.blit(sprites.sprites['fademask' + stage + cat_sprite], 
+                                (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                if cat.df:
+                    temp = sprites.sprites['fadedf' + stage + cat_sprite].copy()
+                    temp.blit(new_sprite, (0, 0))
+                    new_sprite = temp
+                else:
+                    temp = sprites.sprites['fadestarclan' + stage + cat_sprite].copy()
+                    temp.blit(new_sprite, (0, 0))
+                    new_sprite = temp
+        else:
+            new_sprite.blit(image_cache.load_image(f"sprites/faded/faded_adult.png").convert_alpha(), (0, 0))
 
     except (TypeError, KeyError):
         logger.exception("Failed to load sprite")
