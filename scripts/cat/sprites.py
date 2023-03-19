@@ -209,8 +209,8 @@ sprites.make_group('lineartwng', (0, 0), 'lineswng')
 sprites.make_group('lineartwurm', (0, 0), 'lineswurm')
 
 # Fading Fog
-for i in range(1, 4):
-    sprites.make_group('fademask', (i, 0), f'fademask{i}',)
+for i in range(0, 3):
+    sprites.make_group('fademask', (i, 0), f'fademask{i}')
     sprites.make_group('fadestarclan', (i, 0), f'fadestarclan{i}')
     sprites.make_group('fadedarkforest', (i, 0), f'fadedf{i}')
 
