@@ -184,7 +184,7 @@ sprites = Sprites(50)
 #tiles = Sprites(64)
 
 for x in [
-    'lineart', 'lineartwng', 'lineartwurm', 'singlecolours', 'speckledcolours', 'tabbycolours',
+    'lineart', 'lineartwng', 'lineartwurm', 'mainwng', 'singlecolours', 'speckledcolours', 'tabbycolours',
     'whitepatches', 'eyes', 'eyes2', 'skin', 'scars', 'missingscars',
     'collars', 'bellcollars', 'bowcollars', 'nyloncollars',
     'bengalcolours', 'marbledcolours', 'rosettecolours', 'smokecolours', 'tickedcolours', 
@@ -357,5 +357,12 @@ for a, i in enumerate(['DARK', 'DARKGREY', 'GREY', 'DARKSALMON', 'SALMON', 'PEAC
     sprites.make_group('skin', (a, 1), f"skin{i}")
 for a, i in enumerate(['DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE']):
     sprites.make_group('skin', (a, 2), f"skin{i}")
+
+# WINGED
+#pigeon
+for a, i in enumerate(['SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE']):
+    sprites.make_group('mainwng', (a, 0), f"pigeonbar{i}")
+for a, i in enumerate(['CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 'DARKBROWN']):
+    sprites.make_group('mainwng', (a, 1), f"pigeonbar{i}")
 
 sprites.load_scars()

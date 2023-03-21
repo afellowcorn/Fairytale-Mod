@@ -345,6 +345,17 @@ white_sprites = [
 skin_sprites = ['BLACK', 'RED', 'PINK', 'DARKBROWN', 'BROWN', 'LIGHTBROWN', 'DARK', 'DARKGREY', 'GREY', 'DARKSALMON',
                 'SALMON', 'PEACH', 'DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE']
 
+# WINGED ATTRIBUTES
+pelt_colours_wng = [
+    'SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE',
+    'CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 'DARKBROWN'
+]
+pelt_c_no_white = [
+    'SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE',
+    'CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 'DARKBROWN'
+]
+pigeon = ["Pigeonbar"]
+pelt_categories_wng = [pigeon]
 
 # CHOOSING PELT
 def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, determined=False):
@@ -470,6 +481,27 @@ def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, 
             return Tortie(colour, white, length)
     else:
         return Calico(colour, length)
+
+def choose_pelt_wng(colour=None, white=None, pelt=None, length=None, category=None, determined=False):
+    colour = colour
+    white = white
+    pelt = pelt
+    length = length
+    category = category
+    if pelt is None:
+        if category != None:
+            pelt = choice(category)
+    else:
+        pelt = pelt
+    if length is None:
+        length = choice(pelt_length)
+    if pelt == 'Pigeonbar':
+        if colour is None and white is None:
+            return Pigeonbar(choice(pelt_colours_wng), choice([False, True]), length)
+        elif colour is None:
+            return Pigeonbar(choice(pelt_colours_wng), white, length)
+        else:
+            return Pigeonbar(colour, white, length)
     
 def describe_appearance(cat, short=False):
     

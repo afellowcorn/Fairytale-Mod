@@ -7,6 +7,7 @@ from .pelts import (
     blue_eyes,
     brown_colours,
     choose_pelt,
+    choose_pelt_wng,
     colour_categories,
     exotic,
     eye_colours,
@@ -17,6 +18,7 @@ from .pelts import (
     mid_white,
     mostly_white,
     pelt_categories,
+    pelt_categories_wng,
     pelt_length,
     plain,
     plant_accessories,
@@ -345,6 +347,48 @@ def randomize_pelt(cat):
     cat.pelt = choose_pelt(chosen_pelt_color, chosen_white, chosen_pelt, chosen_pelt_length)
     cat.tortiebase = chosen_tortie_base   # This will be none if the cat isn't a tortie.
 
+    # ------------------------------------------------------------------------------------------------------------#
+    #   WINGED CAT
+    # ------------------------------------------------------------------------------------------------------------#
+def randomize_pelt_wng(cat):
+    # ------------------------------------------------------------------------------------------------------------#
+    #   PELT
+    # ------------------------------------------------------------------------------------------------------------#
+
+    # Determine pelt.
+    chosen_pelt = choice(pelt_categories)
+
+    # ------------------------------------------------------------------------------------------------------------#
+    #   PELT COLOUR
+    # ------------------------------------------------------------------------------------------------------------#
+
+    
+
+    # ------------------------------------------------------------------------------------------------------------#
+    #   PELT LENGTH
+    # ------------------------------------------------------------------------------------------------------------#
+
+
+    chosen_pelt_length = random.choice(pelt_length)
+
+    # ------------------------------------------------------------------------------------------------------------#
+    #   PELT WHITE
+    # ------------------------------------------------------------------------------------------------------------#
+
+
+    chosen_white = random.randint(1, 100) <= 40
+
+    # Adjustments to pelt chosen based on if the pelt has white in it or not.
+    if chosen_pelt in ["TwoColour", "SingleColour"]:
+        if chosen_white:
+            chosen_pelt = "TwoColour"
+        else:
+            chosen_white = "SingleColour"
+    elif chosen_pelt == "Calico":
+        if not chosen_white:
+            chosen_pelt = "Tortie"
+
+    cat.pelt = choose_pelt_wng(chosen_white, chosen_pelt, chosen_pelt_length)
 
 def init_pelt(cat):
     if cat.pelt is not None:
@@ -362,7 +406,12 @@ def init_pelt(cat):
             #If the cat has parents, use inheritance to decide pelt.
             pelt_inheritance(cat, (par1, par2))
         else:
-            randomize_pelt(cat)
+            if cat.species == "regular cat":
+                randomize_pelt(cat)
+            elif cat.species == "winged cat":
+                randomize_pelt_wng(cat)
+            else:
+                randomize_pelt(cat) 
 
 
 def init_sprite(cat):
