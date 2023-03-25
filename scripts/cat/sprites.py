@@ -361,8 +361,13 @@ for a, i in enumerate(['DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BL
 # WINGED
 #pigeon
 for a, i in enumerate(['SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE']):
-    sprites.make_group('mainwng', (a, 0), f"pigeonbar{i}")
+   sprites.make_group('mainwng', (a, 0), f"pigeonbar{i}")
 for a, i in enumerate(['CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 'DARKBROWN']):
     sprites.make_group('mainwng', (a, 1), f"pigeonbar{i}")
+
+for a, i in enumerate(['SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE']):
+   sprites.make_group('mainwng', (a+8, 0), f"pigeoncheck{i}")
+for a, i in enumerate(['CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 'DARKBROWN']):
+    sprites.make_group('mainwng', (a+8, 1), f"pigeoncheck{i}")
 
 sprites.load_scars()
