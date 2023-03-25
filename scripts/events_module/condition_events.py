@@ -22,7 +22,6 @@ class Condition_Events():
     """All events with a connection to conditions."""
 
     def __init__(self) -> None:
-        self.living_cats = len(list(filter(lambda r: not r.dead, Cat.all_cats.values())))
         self.event_sums = 0
         self.had_one_event = False
         self.scar_events = Scar_Events()
@@ -642,7 +641,7 @@ class Condition_Events():
         }
 
         if not triggered and not cat.dead and not cat.retired and cat.status not in \
-                ['leader', 'medicine cat', 'kitten', 'medicine cat apprentice', 'mediator', 'mediator apprentice'] \
+                ['leader', 'medicine cat', 'kitten', 'newborn', 'medicine cat apprentice', 'mediator', 'mediator apprentice'] \
                 and game.settings['retirement'] is False:
             for condition in cat.permanent_condition:
                 if cat.permanent_condition[condition]['severity'] == 'major':
@@ -686,7 +685,7 @@ class Condition_Events():
                         event = f'{cat.name} has decided to retire from normal Clan duty.'
 
                     if cat.age == 'adolescent':
-                        event += f"They are given the name {cat.name.prefix}{cat.name.suffix} in honor " \
+                        event += f" They are given the name {cat.name.prefix}{cat.name.suffix} in honor " \
                                  f"of their contributions to {game.clan.name}Clan."
 
                     cat.retire_cat()

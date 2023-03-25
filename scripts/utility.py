@@ -71,12 +71,8 @@ def get_alive_kits(Cat):
     """
     returns a list of all living kittens in the clan
     """
-    alive_kits = list(filter(
-        lambda kitty: (kitty.age == "kitten"
-                       and not kitty.dead
-                       and not kitty.outside),
-        Cat.all_cats.values()
-    ))
+    alive_kits = [i for i in Cat.all_cats.values() if 
+                  i.age in ['kitten', 'newborn'] and not (i.dead or i.outside)]
     return alive_kits
 
 
@@ -87,30 +83,11 @@ def get_med_cats(Cat, working=True):
     set working to False if you want all meds and med apps regardless of their work status
     """
     all_cats = Cat.all_cats.values()
+    possible_med_cats = [i for i in all_cats if i.status in ['medicine cat apprentice','medicine cat'] and not (i.dead or i.outside)] 
 
-    if working is False:
-        medicine_apprentices = list(filter(
-            lambda c: c.status == 'medicine cat apprentice' and not c.dead and not c.outside
-            , all_cats
-        ))
-        medicine_cats = list(filter(
-            lambda c: c.status == 'medicine cat' and not c.dead and not c.outside
-            , all_cats
-        ))
-    else:
-        medicine_apprentices = list(filter(
-            lambda c: c.status == 'medicine cat apprentice' and not c.dead and not c.outside and not c.not_working()
-            , all_cats
-        ))
-        medicine_cats = list(filter(
-            lambda c: c.status == 'medicine cat' and not c.dead and not c.outside and not c.not_working()
-            , all_cats
-        ))
-
-    possible_med_cats = []
-    possible_med_cats.extend(medicine_cats)
-    possible_med_cats.extend(medicine_apprentices)
-
+    if working:
+        possible_med_cats = [i for i in possible_med_cats if not i.not_working()]
+  
     return possible_med_cats
 
 
@@ -138,15 +115,45 @@ def get_living_clan_cat_count(Cat):
     return count
 
 
-def get_cats_same_age(cat, range=10):  # pylint: disable=redefined-builtin
+def get_cats_same_age(cat, Relationship, range=10):  # pylint: disable=redefined-builtin
     """Look for all cats in the clan and returns a list of cats, which are in the same age range as the given cat."""
     cats = []
     for inter_cat in cat.all_cats.values():
         if inter_cat.dead or inter_cat.outside or inter_cat.exiled:
             continue
+        if inter_cat.ID == cat.ID:
+            continue
+
+        if inter_cat.ID not in cat.relationships:
+            cat.relationships[inter_cat.ID] = Relationship(cat, inter_cat)
+            if cat.ID not in inter_cat.relationships:
+                inter_cat.relationships[cat.ID] = Relationship(inter_cat, cat)
+            continue
+
         if inter_cat.moons <= cat.moons + range and inter_cat.moons <= cat.moons - range:
             cats.append(inter_cat)
 
+    return cats
+
+
+def get_free_possible_mates(cat, Relationship):
+    """Returns a list of available cats, which are possible mates for the given cat."""
+    cats = []
+    for inter_cat in cat.all_cats.values():
+        if inter_cat.dead or inter_cat.outside or inter_cat.exiled:
+            continue
+        if inter_cat.ID == cat.ID:
+            continue
+
+        if inter_cat.ID not in cat.relationships:
+            cat.relationships[inter_cat.ID] = Relationship(cat, inter_cat)
+            if cat.ID not in inter_cat.relationships:
+                inter_cat.relationships[cat.ID] = Relationship(inter_cat, cat)
+            continue
+
+        if inter_cat.is_potential_mate(cat,True) and cat.is_potential_mate(inter_cat, True):
+            if not inter_cat.mate:
+                cats.append(inter_cat)
     return cats
 
 
@@ -158,6 +165,10 @@ def get_current_season():
     function to handle the math for finding the clan's current season
     :return: the clan's current season
     """
+    
+    if game.config['lock_season']:
+        game.clan.current_season = game.clan.starting_season
+        return game.clan.starting_season
     # print(game.clan.current_season)
     modifiers = {
         "Newleaf": 0,
@@ -248,7 +259,7 @@ def create_new_cat(Cat,
         number_of_cats = choices([1, 2, 3, 4, 5], [2, 5, 4, 1, 1], k=1)
         number_of_cats = number_of_cats[0]
     # setting age
-    if not age:
+    if not age and age != 0:
         if litter or kit:
             age = randint(0, 5)
         elif status == 'apprentice':
@@ -263,7 +274,9 @@ def create_new_cat(Cat,
         age = age
     # setting status
     if not status:
-        if age < 6:
+        if age == 0:
+            status = "newborn"
+        elif age < 6:
             status = "kitten"
         elif 6 <= age <= 11:
             status = "apprentice"
@@ -275,7 +288,10 @@ def create_new_cat(Cat,
 
         # setting gender
         if not gender:
-            gender = choice(['female', 'male'])
+            _gender = choice(['female', 'male'])
+        else:
+            _gender = gender
+
 
         # setting species
         if not species:
@@ -299,12 +315,12 @@ def create_new_cat(Cat,
                     species = "regular cat"
 
 
-        # other clan cats and kittens (kittens get indoctrinated lmao no old names for them)
-        if other_clan or kit or litter:
+        # other clan cats, apps, and kittens (kittens and apps get indoctrinated lmao no old names for them)
+        if other_clan or kit or litter or age < 12:
             new_cat = Cat(moons=age,
                           status=status,
                           species=species,
-                          gender=gender,
+                          gender=_gender,
                           backstory=backstory)
         else:
             # grab starting names and accs for loners/kittypets
@@ -332,13 +348,13 @@ def create_new_cat(Cat,
                                   prefix=name,
                                   status=status,
                                   species=species,
-                                  gender=gender,
+                                  gender=_gender,
                                   backstory=backstory)
                 else:  # completely new name
                     new_cat = Cat(moons=age,
                                   status=status,
                                   species=species,
-                                  gender=gender,
+                                  gender=_gender,
                                   backstory=backstory)
             # these cats keep their old names
             else:
@@ -347,7 +363,7 @@ def create_new_cat(Cat,
                               suffix="",
                               status=status,
                               species=species,
-                              gender=gender,
+                              gender=_gender,
                               backstory=backstory)
 
         # give em a collar if they got one
@@ -409,6 +425,7 @@ def create_new_cat(Cat,
 
     return created_cats
 
+
 def create_outside_cat(Cat, status, backstory):
         """
         TODO: DOCS
@@ -436,7 +453,7 @@ def create_outside_cat(Cat, status, backstory):
         if status == 'kittypet':
             new_cat.accessory = choice(collars)
         new_cat.outside = True
-        game.clan.add_cat(new_cat)
+        # game.clan.add_cat(new_cat)
         game.clan.add_to_outside(new_cat)
         name = str(name + suffix)
 
@@ -524,6 +541,26 @@ def get_personality_compatibility(cat1, cat2):
             return PERSONALITY_COMPATIBILITY[personality2][personality1]
 
     return None
+
+
+def get_cats_of_romantic_interest(cat, Relationship):
+    """Returns a list of cats, those cats are love interest of the given cat."""
+    cats = []
+    for inter_cat in cat.all_cats.values():
+        if inter_cat.dead or inter_cat.outside or inter_cat.exiled:
+            continue
+        if inter_cat.ID == cat.ID:
+            continue
+        
+        if inter_cat.ID not in cat.relationships:
+            cat.relationships[inter_cat.ID] = Relationship(cat, inter_cat)
+            if cat.ID not in inter_cat.relationships:
+                inter_cat.relationships[cat.ID] = Relationship(inter_cat, cat)
+            continue
+
+        if cat.relationships[inter_cat.ID].romantic_love > 0:
+            cats.append(inter_cat)
+    return cats
 
 
 def get_amount_of_cats_with_relation_value_towards(cat, value, all_cats):
@@ -632,8 +669,7 @@ def change_relationship_values(cats_to: list,
 
     # pick out the correct cats
     for kitty in cats_from:
-        relationships = list(filter(lambda rel: rel.cat_to.ID in cats_to,
-                                    list(kitty.relationships.values())))
+        relationships = [i for i in kitty.relationships.values() if i.cat_to.ID in cats_to]
 
         # make sure that cats don't gain rel with themselves
         for rel in relationships:
@@ -937,7 +973,7 @@ def update_sprite(cat):
 
     # setting the cat_sprite (bc this makes things much easier)
     if cat.paralyzed and not cat.not_working():
-        if cat.age in ['newborn', 'kitten', 'adolescent']:
+        if cat.age in ['newborn', 'kitten', 'adolescent'] or game.config['fun']['all_cats_are_newborn']:
             cat_sprite = str(17)
         else:
             if cat.pelt.length == 'long':
@@ -945,12 +981,17 @@ def update_sprite(cat):
             else:
                 cat_sprite = str(15)
     elif cat.not_working():
-        if cat.age in ['newborn', 'kitten', 'adolescent']:
+        if cat.age in ['newborn', 'kitten', 'adolescent'] or game.config['fun']['all_cats_are_newborn']:
             cat_sprite = str(19)
         else:
             cat_sprite = str(18)
     else:
-        cat_sprite = str(cat.cat_sprites[cat.age])
+        if cat.age == 'elder' and not game.config['fun']['all_cats_are_newborn']:
+            cat.age = 'senior'
+        if game.config['fun']['all_cats_are_newborn']:
+            cat_sprite = str(cat.cat_sprites['newborn'])
+        else:
+            cat_sprite = str(cat.cat_sprites[cat.age])
 
 # generating the sprite
     try:
@@ -1355,18 +1396,19 @@ def is_iterable(y):
         return False
 
 
-def get_text_box_theme(themename=""):
+def get_text_box_theme(theme_name=""):
     """Updates the name of the theme based on dark or light mode"""
     if game.settings['dark mode']:
-        if themename == "":
+        if theme_name == "":
             return "#default_dark"
         else:
-            return themename + "_dark"
+            print(theme_name + '_dark')
+            return theme_name + "_dark"
     else:
-        if themename == "":
-            return "text_box"
+        if theme_name == "":
+            return "#text_box"
         else:
-            return themename
+            return theme_name
 
 
 def quit(savesettings=False, clearevents=False):
