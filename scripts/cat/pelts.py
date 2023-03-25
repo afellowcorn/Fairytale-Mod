@@ -280,6 +280,23 @@ class Pigeoncheck():
         else:
             return f"{self.colour} pigeon{self.length}"
 
+# WINGED ATTRIBUTES
+pigeon_colours = [
+    'SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE',
+    'CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 'DARKBROWN'
+]
+pelt_c_no_white_wng = [
+    'SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE',
+    'CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 'DARKBROWN'
+]
+bird = ["Pigeonbar", "Pigeoncheck"]
+
+blue_colours_wng = ['SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE']
+brown_colours_wng = ['CINNAMON', 'BROWN', 'DARKBROWN']
+red_colours_wng = ['CREAM', 'FAWN', 'LIGHTRED', 'RED']
+colour_categories_wng = [blue_colours_wng, brown_colours_wng, red_colours_wng]
+
+pelt_categories_wng = [bird, bird]
 
 # ATTRIBUTES, including non-pelt related
 pelt_colours = [
@@ -342,7 +359,9 @@ spotted = ["Speckled", "Rosette"]
 plain = ["SingleColour", "TwoColour", "Smoke", "Singlestripe"]
 exotic = ["Bengal", "Marbled"]
 torties = ["Tortie", "Calico"]
-pelt_categories = [tabbies, spotted, plain, exotic, torties]
+pelt_categories_reg = [tabbies, spotted, plain, exotic, torties]
+
+pelt_categories = [tabbies, spotted, plain, exotic, torties, bird]
 
 # SPRITE NAMES
 single_colours = [
@@ -376,22 +395,6 @@ white_sprites = [
 
 skin_sprites = ['BLACK', 'RED', 'PINK', 'DARKBROWN', 'BROWN', 'LIGHTBROWN', 'DARK', 'DARKGREY', 'GREY', 'DARKSALMON',
                 'SALMON', 'PEACH', 'DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE']
-
-# WINGED ATTRIBUTES
-pelt_colours_wng = [
-    'SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE',
-    'CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 'DARKBROWN'
-]
-pelt_c_no_white_wng = [
-    'SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE',
-    'CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 'DARKBROWN'
-]
-bird = ["Pigeonbar", "Pigeoncheck"]
-pelt_categories_wng = [bird, tabbies]
-
-blue_colours_wng = ['OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE']
-brown_colours_wng = ['CINNAMON', 'BROWN', 'DARKBROWN']
-colour_categories_wng = [ginger_colours, black_colours, white_colours, brown_colours]
 
 # CHOOSING PELT
 def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, determined=False):
@@ -510,6 +513,22 @@ def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, 
             return Singlestripe(choice(pelt_colours), white, length)
         else:
             return Singlestripe(colour, white, length)
+    elif pelt == 'Pigeonbar':
+        if colour is None and white is None:
+            return Pigeonbar(choice(pigeon_colours), choice([False, True]),
+                                length)
+        elif colour is None:
+            return Pigeonbar(choice(pigeon_colours), white, length)
+        else:
+            return Pigeonbar(colour, white, length)
+    elif pelt == 'Pigeoncheck':
+        if colour is None and white is None:
+            return Pigeoncheck(choice(pigeon_colours), choice([False, True]),
+                                length)
+        elif colour is None:
+            return Pigeoncheck(choice(pigeon_colours), white, length)
+        else:
+            return Pigeoncheck(colour, white, length)
     elif pelt == 'Tortie':
         if white is None:
             return Tortie(colour, choice([False, True]), length)
@@ -517,39 +536,6 @@ def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, 
             return Tortie(colour, white, length)
     else:
         return Calico(colour, length)
-
-def choose_pelt_wng(colour=None, white=None, pelt=None, length=None, category=None, determined=False):
-    colour = colour
-    white = white
-    pelt = pelt
-    length = length
-    category = category
-    if pelt is None:
-        if category != None:
-            pelt = choice(category)
-    else:
-        pelt = pelt
-    if length is None:
-        length = choice(pelt_length)
-    if pelt == 'SingleColour':
-        if colour is None and not white:
-            return SingleColour(choice(pelt_colours_wng), length)
-        elif colour is None:
-            return SingleColour("WHITE", length)
-        else:
-            return SingleColour(colour, length)
-    elif pelt == 'TwoColour':
-        if colour is None:
-            return TwoColour(choice(pelt_c_no_white_wng), length)
-        else:
-            return TwoColour(colour, length)
-    elif pelt == 'Pigeonbar':
-        if colour is None and white is None:
-            return Pigeonbar(choice(pelt_colours_wng), choice([False, True]), length)
-        elif colour is None:
-            return Pigeonbar(choice(pelt_colours_wng), white, length)
-        else:
-            return Pigeonbar(colour, white, length)
     
 def describe_appearance(cat, short=False):
     
@@ -562,8 +548,7 @@ def describe_appearance(cat, short=False):
             "darkginger": "ginger",
             "lightbrown": "brown",
             "darkbrown": "brown",
-            "ghost": "black",
-            "pigeonbar": "pigeon"
+            "ghost": "black"
         }
     else:
         renamed_colors = {
@@ -573,8 +558,7 @@ def describe_appearance(cat, short=False):
             "darkginger": "dark ginger",
             "lightbrown": "light brown",
             "darkbrown": "dark brown",
-            "ghost": "black",
-            "pigeonbar": "pigeon"
+            "ghost": "black"
         }
 
     pattern_des = {
@@ -590,7 +574,8 @@ def describe_appearance(cat, short=False):
         "Singlestripe": "dorsal-striped c_n",
         "Rosette": "unusually spotted c_n",
         "Sokoke": "c_n tabby",
-        "Pigeonbar": "pigeon"
+        "Pigeonbar": "c_n pigeon",
+        "Pigeoncheck": "c_n pigeon"
     }
 
     # Start with determining the base color name. 
