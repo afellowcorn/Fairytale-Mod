@@ -321,9 +321,11 @@ tortiebases = ['single', 'tabby', 'bengal', 'marbled', 'ticked', 'smoke', 'roset
 
 pelt_length = ["short", "medium", "long"]
 eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD', 'PALEBLUE', 
-    'PALEYELLOW', 'GOLD', 'HEATHERBLUE', 'COPPER', 'SAGE', 'COBALT', 'SUNLITICE', 'GREENYELLOW', 'BRONZE', 'SILVER']
-yellow_eyes = ['YELLOW', 'AMBER', 'PALEYELLOW', 'GOLD', 'COPPER', 'GREENYELLOW', 'BRONZE', 'SILVER']
-blue_eyes = ['BLUE', 'DARKBLUE', 'CYAN', 'PALEBLUE', 'HEATHERBLUE', 'COBALT', 'SUNLITICE', 'GREY']
+    'PALEYELLOW', 'GOLD', 'HEATHERBLUE', 'COPPER', 'SAGE', 'COBALT', 'SUNLITICE', 'GREENYELLOW', 'BRONZE', 'SILVER',
+    'SUNSETICE', 'PURPLE', 'CHOCOLATE', 'RED', 'PINK', 'WARMGRAY', 'PANSY']
+red_eyes = ['COPPER', 'CHOCOLATE', 'RED', 'PINK', 'SUNSETICE']
+yellow_eyes = ['YELLOW', 'AMBER', 'PALEYELLOW', 'GOLD', 'GREENYELLOW', 'BRONZE', 'SILVER', 'WARMGRAY']
+blue_eyes = ['BLUE', 'DARKBLUE', 'CYAN', 'PALEBLUE', 'HEATHERBLUE', 'COBALT', 'SUNLITICE', 'GREY', 'PURPLE', 'PANSY']
 green_eyes = ['PALEGREEN', 'GREEN', 'EMERALD', 'SAGE', 'HAZEL']
 # scars1 is scars from other cats, other animals - scars2 is missing parts - scars3 is "special" scars that could only happen in a special event
 # bite scars by @wood pank on discord

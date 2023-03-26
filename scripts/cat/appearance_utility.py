@@ -29,6 +29,7 @@ from .pelts import (
     plant_accessories,
     point_markings,
     red_colours_wng,
+    red_eyes,
     scars1,
     scars3,
     skin_sprites,
@@ -87,13 +88,16 @@ def init_eyes(cat):
         hit = randint(0, num)
         if hit == 0:
             if cat.eye_colour in yellow_eyes:
-                eye_choice = choice([blue_eyes, green_eyes])
+                eye_choice = choice([blue_eyes, green_eyes, red_eyes])
                 cat.eye_colour2 = choice(eye_choice)
             elif cat.eye_colour in blue_eyes:
-                eye_choice = choice([yellow_eyes, green_eyes])
+                eye_choice = choice([yellow_eyes, green_eyes, red_eyes])
                 cat.eye_colour2 = choice(eye_choice)
             elif cat.eye_colour in green_eyes:
-                eye_choice = choice([yellow_eyes, blue_eyes])
+                eye_choice = choice([yellow_eyes, blue_eyes, red_eyes])
+                cat.eye_colour2 = choice(eye_choice)
+            elif cat.eye_colour in red_eyes:
+                eye_choice = choice([yellow_eyes, blue_eyes, green_eyes])
                 cat.eye_colour2 = choice(eye_choice)
 
 

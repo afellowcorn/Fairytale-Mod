@@ -185,7 +185,7 @@ sprites = Sprites(50)
 
 for x in [
     'lineart', 'lineartwng', 'lineartwurm', 'mainwng', 'singlecolours', 'speckledcolours', 'tabbycolours',
-    'whitepatches', 'eyes', 'eyes2', 'skin', 'scars', 'missingscars',
+    'whitepatches', 'eyes', 'skin', 'scars', 'missingscars',
     'collars', 'bellcollars', 'bowcollars', 'nyloncollars',
     'bengalcolours', 'marbledcolours', 'rosettecolours', 'smokecolours', 'tickedcolours', 
     'mackerelcolours', 'classiccolours', 'sokokecolours', 'agouticolours', 'singlestripecolours', 
@@ -215,15 +215,15 @@ for i in range(0, 3):
     sprites.make_group('fadedarkforest', (i, 0), f'fadedf{i}')
 
 for a, i in enumerate(
-        ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 
-        'DARKBLUE', 'GREY', 'CYAN', 'EMERALD', 'HEATHERBLUE', 'SUNLITICE']):
+        ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE','DARKBLUE',
+         'GREY', 'CYAN', 'EMERALD', 'HEATHERBLUE', 'SUNLITICE', 'SUNSETICE', 'PURPLE']):
     sprites.make_group('eyes', (a, 0), f'eyes{i}')
-    sprites.make_group('eyes2', (a, 0), f'eyes2{i}')
+    sprites.make_group('eyes', (a, 2), f'eyes2{i}')
 for a, i in enumerate(
-        ['COPPER', 'SAGE', 'COBALT', 'PALEBLUE', 'BRONZE', 'SILVER',
-        'PALEYELLOW', 'GOLD', 'GREENYELLOW']):
+        ['COPPER', 'SAGE', 'COBALT', 'PALEBLUE', 'BRONZE', 'SILVER', 'PALEYELLOW',
+         'GOLD', 'GREENYELLOW', 'CHOCOLATE', 'RED', 'PINK', 'WARMGRAY', 'PANSY']):
     sprites.make_group('eyes', (a, 1), f'eyes{i}')
-    sprites.make_group('eyes2', (a, 1), f'eyes2{i}')
+    sprites.make_group('eyes', (a, 3), f'eyes2{i}')
 
 # white patches
 for a, i in enumerate(['FULLWHITE', 'ANY', 'TUXEDO', 'LITTLE', 'COLOURPOINT', 'VAN', 'ANYTWO',
