@@ -1133,9 +1133,9 @@ def update_sprite(cat):
                 new_sprite.blit(sprites.sprites['white' + cat.vitiligo + cat_sprite], (0, 0))
 
             # draw eyes & scars1
-            new_sprite.blit(sprites.sprites['eyes' + cat.eye_colour + cat_sprite], (0, 0))
+            new_sprite.blit(sprites.sprites['eyes_wng' + cat.eye_colour + cat_sprite], (0, 0))
             if cat.eye_colour2 != None:
-                new_sprite.blit(sprites.sprites['eyes2' + cat.eye_colour2 + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['eyes2_wng' + cat.eye_colour2 + cat_sprite], (0, 0))
             for scar in cat.scars:
                 if scar in scars1:
                     new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
