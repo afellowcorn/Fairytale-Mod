@@ -24,7 +24,6 @@ class Game():
     # max_relation_events_displayed = 10
     # relation_scroll_ct = 0
 
-    ranks_changed_timeskip = False  # Flag for when a cat's status changes occurs during a timeskip.
     mediated = []  # Keep track of which couples have been mediated this moon.
 
     cur_events_list = []
@@ -54,8 +53,6 @@ class Game():
 
     # Sort-type
     sort_type = "rank"
-
-    sort_fav = False
 
     choose_cats = {}
     '''cat_buttons = {
@@ -186,6 +183,10 @@ class Game():
 
         with open(f"resources/game_config.json", 'r') as read_file:
             self.config = ujson.loads(read_file.read())
+
+        if self.config['fun']['april_fools']:
+            self.config['fun']['newborns_can_roam'] = True
+            self.config['fun']['newborns_can_patrol'] = True
 
     def update_game(self):
         if self.current_screen != self.switches['cur_screen']:
@@ -562,7 +563,7 @@ class Game():
                 "moons": inter_cat.moons,
                 "parent1": inter_cat.parent1,
                 "parent2": inter_cat.parent2,
-                "paralyzed": inter_cat.paralyzed,
+                "df": inter_cat.df,
                 "faded_offspring": inter_cat.faded_offspring
             }
             try:
