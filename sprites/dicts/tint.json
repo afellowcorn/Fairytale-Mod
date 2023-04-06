@@ -15,7 +15,27 @@
     "LIGHTBROWN": "warm",
     "DARKBROWN": "warm",
     "BROWN": "warm",
-    "BLACK": "monochrome"
+    "BLACK": "monochrome",
+
+    "SILVER": "white",
+    "OPAL": "white",
+    "GREY": "warm",
+    "DARKGREY": "warm",
+    "LIGHTBLUE": "cool",
+    "BLUE": "cool",
+    "DARKBLUE": "monochrome",
+    "CREAM": "white",
+    "FAWN": "warm",
+    "CINNAMON": "warm",
+    "LIGHTRED": "warm",
+    "RED": "warm",
+    "ICE": "cool",
+    "LARK": "warm",
+    "REDPEN": "white",
+    "BLUEPEN": "white",
+    "MOTTLEDLIGHT": "warm",
+    "MOTTLED": "warm",
+    "MOTTLEDDARK": "warm"
   },
   "possible_tints": {
     "basic": ["pink", "gray", "red", "black", "orange", "none"],

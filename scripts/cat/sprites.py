@@ -230,7 +230,7 @@ for a, i in enumerate(
         ['COPPER', 'SAGE', 'COBALT', 'PALEBLUE', 'BRONZE', 'SILVER', 'PALEYELLOW',
          'GOLD', 'GREENYELLOW', 'CHOCOLATE', 'RED', 'PINK', 'WARMGRAY', 'PANSY']):
     sprites.make_group('eyes', (a, 3), f'eyes2{i}')
-
+#wngd
 for a, i in enumerate(
         ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE','DARKBLUE',
          'GREY', 'CYAN', 'EMERALD', 'HEATHERBLUE', 'SUNLITICE', 'SUNSETICE', 'PURPLE']):
@@ -389,8 +389,17 @@ for a, i in enumerate(['CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 
     sprites.make_group('mainwng', (a, 1), f"pigeonbar{i}")
 
 for a, i in enumerate(['SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE']):
-   sprites.make_group('mainwng', (7+a, 0), f"pigeoncheck{i}")
+    sprites.make_group('mainwng', (7+a, 0), f"pigeoncheck{i}")
 for a, i in enumerate(['CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 'DARKBROWN']):
     sprites.make_group('mainwng', (7+a, 1), f"pigeoncheck{i}")
+
+for a, i in enumerate(['ICE', 'LARK', 'REDPEN', 'BLUEPEN', 'MOTTLEDLIGHT', 'MOTTLED', 'MOTTLEDDARK']):
+    sprites.make_group('mainwng', (7+a, 2), f"pigeonfancy{i}")
+
+# skins
+for a, i in enumerate(['BLACK', 'RED', 'PINK', 'DARKBROWN', 'BROWN', 'LIGHTBROWN', 'DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE', 'DARK', 'DARKGREY']):
+    sprites.make_group('extrawng', (a, 4), f"skin_wng{i}")
+for a, i in enumerate(['DARKSALMON', 'SALMON', 'PEACH', 'GREY']):
+    sprites.make_group('extrawng', (a, 5), f"skin_wng{i}")
 
 sprites.load_scars()

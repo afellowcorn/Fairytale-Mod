@@ -1155,7 +1155,7 @@ def update_sprite(cat):
                 new_sprite.blit(sprites.sprites['lineartdead' + cat_sprite], (0, 0))
             # draw skin and scars2
             blendmode = pygame.BLEND_RGBA_MIN
-            new_sprite.blit(sprites.sprites['skin' + cat.skin + cat_sprite], (0, 0))
+            new_sprite.blit(sprites.sprites['skin_wng' + cat.skin + cat_sprite], (0, 0))
             for scar in cat.scars:
                 if scar in scars2:
                     new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0), special_flags=blendmode)
