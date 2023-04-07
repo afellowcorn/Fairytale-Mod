@@ -3,10 +3,7 @@
 import random
 from random import choice, randint, choices
 
-try:
-    import ujson
-except ImportError:
-    import json as ujson
+import ujson
 
 from scripts.clan import HERBS, Clan
 from scripts.utility import (
@@ -14,7 +11,6 @@ from scripts.utility import (
     add_children_to_cat,
     event_text_adjust,
     change_clan_relations,
-    change_clan_reputation,
     change_relationship_values, create_new_cat,
     create_outside_cat
 )
@@ -791,7 +787,7 @@ class Patrol():
                 for tag in self.patrol_event.tags:
                     if "new_cat" in tag:
                         if antagonize:
-                            self.handle_reputation(-20)
+                            self.handle_reputation(-10)
                         else:
                             self.handle_reputation(10)
                         break
@@ -903,7 +899,7 @@ class Patrol():
                         self.handle_clan_relations(difference=int(-1), antagonize=False, outcome=outcome)
                 elif "new_cat" in self.patrol_event.tags:
                     if antagonize:
-                        self.handle_reputation(-10)
+                        self.handle_reputation(-5)
                     else:
                         self.handle_reputation(0)
             self.handle_mentor_app_pairing()
@@ -1031,7 +1027,7 @@ class Patrol():
                 new_name = choice([True, False])
                 chosen_backstory = Cat.backstory_categories["rogue_backstories"]
                 if "medcat" in attribute_list:
-                    backstory = ["medicine_cat", "disgraced"]
+                    chosen_backstory = ["medicine_cat", "disgraced"]
                 if not success:
                     outsider = create_outside_cat(Cat, loner, backstory=choice(chosen_backstory))
                     self.results_text.append(f"The Clan has met {outsider}.")
@@ -1047,7 +1043,7 @@ class Patrol():
             kit = True
             age = randint(1, 5)
             status = "kitten"
-            chosen_backstory = ['abandoned2', 'abandoned1', 'abandoned3']
+            chosen_kit_backstory = ['abandoned2', 'abandoned1', 'abandoned3']
         elif "apprentice" in attribute_list:
             status = "apprentice"
         elif "warrior" in attribute_list:
@@ -1105,10 +1101,10 @@ class Patrol():
             # make sure kittens get correct backstory
             if "dead" in attribute_list:
                 print('parent is dead')
-                kit_backstory = ['orphaned', 'orphaned2']
+                chosen_kit_backstory = ['orphaned', 'orphaned2']
             else:
                 print('parent is alive')
-                kit_backstory = ['outsider_roots2']
+                chosen_kit_backstory = ['outsider_roots2', 'outsider_roots2']
             # make sure kittens get right age
             if "litternewborn" in attribute_list:
                 print('litter is newborn')
@@ -1118,21 +1114,30 @@ class Patrol():
                 print('litter is not newborn')
                 kit_age = randint(1, 5)
 
-        # giving specified backstories if any were specified
-        possible_backstories = []
-        for backstory in Cat.backstories:
-            if backstory in attribute_list:
-                possible_backstories.append(backstory)
+            # giving specified backstories if any were specified
+            possible_backstories = []
+            for backstory in Cat.backstories:
+                if f'{backstory}{outcome}' in attribute_list:
+                    possible_backstories.append(backstory)
 
-        if possible_backstories:
-            if "dead" in attribute_list:
+            if possible_backstories:
                 kit_backstory = possible_backstories
             else:
-                backstory = possible_backstories
-            # if none of these tags are present, then it uses the chosen_backstory from before
+                kit_backstory = chosen_kit_backstory
+
+            backstory = chosen_backstory
         else:
-            if "dead" in attribute_list:
-                kit_backstory = chosen_backstory
+            # giving specified backstories if any were specified
+            possible_backstories = []
+            for backstory in Cat.backstories:
+                if backstory in attribute_list:
+                    possible_backstories.append(backstory)
+
+            if possible_backstories:
+                backstory = possible_backstories
+            elif kit:
+                backstory = chosen_kit_backstory
+                # if none of these tags are present, then it uses the chosen_backstory from before
             else:
                 backstory = chosen_backstory
 
@@ -1199,7 +1204,7 @@ class Patrol():
                                                new_name=new_name,
                                                loner=loner,
                                                kittypet=kittypet,
-                                               kit=False,
+                                               kit=False, #this is for singular kits, litters need this to be false
                                                litter=True,
                                                other_clan=other_clan,
                                                backstory=kit_backstory,
@@ -1853,7 +1858,7 @@ class Patrol():
         """
         if "no_change_fail_rep" in self.patrol_event.tags and not self.success:
             difference = 0
-        change_clan_reputation(difference)
+        game.clan.reputation += difference
         if difference > 0:
             insert = "improved"
         elif difference == 0:

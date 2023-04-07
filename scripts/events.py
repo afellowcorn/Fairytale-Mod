@@ -12,10 +12,7 @@ import traceback
 
 from scripts.patrol import Patrol
 
-try:
-    import ujson as json
-except ImportError:
-    import json
+import ujson
 
 from scripts.cat.names import names
 from scripts.cat.cats import Cat, cat_class
@@ -172,10 +169,10 @@ class Events():
             insert = adjust_list_text(ghost_names)
 
             if len(Cat.dead_cats) > 1:
-                event = f"In the past moon {insert} have taken their places in StarClan. {game.clan.name}Clan mourns their loss, and " \
-                        f"their friends and family shared the best, and sometimes the worse, moments of their lives " \
-                        f"in stories passed around the circle of mourners as the elders carried them to their final " \
-                        f"resting place."
+                event = f"The past moon, {insert} have taken their place in StarClan. {game.clan.name}Clan mourns their " \
+                        f"loss, and their Clanmates will miss where they had been in their lives. Moments of their " \
+                        f"lives are shared in stories around the circle of mourners as those that were closest to them " \
+                        f"take them to their final resting place."
 
                 if len(ghost_names) > 2:
                     alive_cats = list(
@@ -199,9 +196,9 @@ class Events():
 
             else:
                 event = f"The past moon, {insert} has taken their place in StarClan. {game.clan.name}Clan mourns their " \
-                        f"loss, and their friends and family shared the best, and sometimes the worse, moments of " \
-                        f"their lives in stories passed around the circle of mourners as the elders carried them to " \
-                        f"their final resting place."
+                        f"loss, and their Clanmates will miss the spot they took up in their lives. Moments of their " \
+                        f"life are shared in stories around the circle of mourners as those that were closest to them " \
+                        f"take them to their final resting place."
 
             game.cur_events_list.append(
                 Single_Event(event, ["birth_death"],
@@ -326,7 +323,6 @@ class Events():
             for herb in herbs:
                 adjust_by = random.choices([-2, -1, 0, 1, 2], [1, 2, 3, 2, 1],
                                            k=1)
-                # print(adjust_by)
                 game.clan.herbs[herb] += adjust_by[0]
                 if game.clan.herbs[herb] <= 0:
                     game.clan.herbs.pop(herb)
@@ -687,10 +683,9 @@ class Events():
 
         self.pregnancy_events.handle_having_kits(cat, clan=game.clan)
 
-        # killing exiled cats
-        if cat.exiled or cat.outside:
+        # killing outside cats
+        if cat.outside:
             if random.getrandbits(6) == 1 and not cat.dead:
-                # print("Cat Died: " + str(cat.name))
                 cat.dead = True
                 if cat.exiled:
                     text = f'Rumors reach your Clan that the exiled {cat.name} has died recently.'
@@ -768,6 +763,7 @@ class Events():
             cat.thoughts()
             return
 
+        self.handle_apprentice_EX(cat) # This must be before perform_ceremonies! 
         # this HAS TO be before the cat.is_disabled() so that disabled kits can choose a med cat or mediator position
         self.perform_ceremonies(cat)
 
@@ -779,7 +775,6 @@ class Events():
 
         self.coming_out(cat)
         self.pregnancy_events.handle_having_kits(cat, clan=game.clan)
-        self.handle_apprentice_EX(cat)
         cat.create_interaction()
 
         # this is the new interaction function, currently not active
@@ -1054,7 +1049,7 @@ class Events():
                             self.ceremony_accessory = True
                             self.gain_accessories(cat)
                         else:
-                            if cat.is_disabled():
+                            if cat.is_disabled() and not game.settings["retirement"]:
                                 for condition in cat.permanent_condition:
                                     if cat.permanent_condition[condition]["severity"] == "severe":
                                         cat.status = 'apprentice'
@@ -1114,7 +1109,7 @@ class Events():
         resource_dir = "resources/dicts/events/ceremonies/"
         with open(f"{resource_dir}ceremony-master.json",
                   encoding="ascii") as read_file:
-            self.CEREMONY_TXT = json.loads(read_file.read())
+            self.CEREMONY_TXT = ujson.loads(read_file.read())
 
         self.ceremony_id_by_tag = {}
         # Sorting.
@@ -1302,7 +1297,7 @@ class Events():
             resource_dir = "resources/dicts/events/ceremonies/"
             with open(f"{resource_dir}ceremony_traits.json",
                       encoding="ascii") as read_file:
-                TRAITS = json.loads(read_file.read())
+                TRAITS = ujson.loads(read_file.read())
             try:
                 random_honor = random.choice(TRAITS[cat.trait])
             except KeyError:

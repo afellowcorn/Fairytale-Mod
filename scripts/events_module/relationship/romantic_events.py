@@ -3,10 +3,7 @@ from copy import deepcopy
 from random import choice
 import random
 
-try:
-    import ujson
-except ImportError:
-    import json as ujson
+import ujson
 
 from scripts.utility import (
     get_highest_romantic_relation, 
@@ -43,7 +40,7 @@ class Romantic_Events():
             return False
 
         relevant_dict = deepcopy(ROMANTIC_INTERACTIONS)
-        if cat_from.mate == cat_to.ID:
+        if cat_from.mate == cat_to.ID and not cat_to.dead:
             relevant_dict = deepcopy(MATE_INTERACTIONS)
 
         # check if it should be a positive or negative interaction
@@ -167,7 +164,7 @@ class Romantic_Events():
                 # TODO: filter log to check if last interaction was a fight
                 had_fight = False
                 self.had_one_event = True
-                cat_from.unset_mate(breakup=True, fight=had_fight)
+                cat_from.unset_mate(cat_to, breakup=True, fight=had_fight)
                 text = f"{cat_from.name} and {cat_to.name} broke up."
                 # game.relation_events_list.insert(0, text)
                 game.cur_events_list.append(Single_Event(text, ["relation", "misc"], [cat_from.ID, cat_to.ID]))

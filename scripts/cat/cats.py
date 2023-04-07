@@ -8,10 +8,7 @@ import itertools
 from ..datadir import get_save_dir
 from ..events_module.generate_events import GenerateEvents
 
-try:
-    import ujson
-except ImportError:
-    import json as ujson
+import ujson
 
 from .pelts import describe_appearance
 from .names import Name
@@ -586,7 +583,7 @@ class Cat():
         if game.clan.game_mode != 'classic':
             self.grief(body)
 
-        if not self.outside or self.exiled:
+        if not self.outside:
             Cat.dead_cats.append(self)
 
         return text
@@ -756,21 +753,32 @@ class Cat():
 
         if self.status in ['leader', 'deputy']:
             self.status_change('warrior')
-            self.status = 'warrior'
         elif self.status == 'apprentice' and self.moons >= 15:
             self.status_change('warrior')
+            self.update_skill()
+            self.update_traits()
+            self.experience = max(self.experience_levels_range["prepared"][0], self.experience)
+            
             involved_cats = [self.ID]
             game.cur_events_list.append(Single_Event('A long overdue warrior ceremony is held for ' + str(
                 self.name.prefix) + 'paw. They smile as they finally become a warrior of the Clan and are now named ' + str(
                 self.name) + '.', "ceremony", involved_cats))
+            
         elif self.status == 'kitten' and self.moons >= 15:
             self.status_change('warrior')
+            self.update_skill()
+            self.update_traits()
+            self.experience = max(self.experience_levels_range["prepared"][0], self.experience)
+            
             involved_cats = [self.ID]
             game.cur_events_list.append(Single_Event('A long overdue warrior ceremony is held for ' + str(
                 self.name.prefix) + 'kit. They smile as they finally become a warrior of the Clan and are now named ' + str(
                 self.name) + '.', "ceremony", involved_cats))
         elif self.status == 'kitten' and self.moons >= 6:
             self.status_change('apprentice')
+            self.update_skill()
+            self.update_traits()
+            
             involved_cats = [self.ID]
             game.cur_events_list.append(Single_Event('A long overdue apprentice ceremony is held for ' + str(
                 self.name.prefix) + 'kit. They smile as they finally become a warrior of the Clan and are now named ' + str(
@@ -842,7 +850,6 @@ class Cat():
             self.update_mentor()
 
             if old_status == 'leader':
-                game.clan.leader_lives = 0
                 self.died_by = []  # Clear their deaths.
                 if game.clan.leader:
                     if game.clan.leader.ID == self.ID:
@@ -869,7 +876,6 @@ class Cat():
             self.retired = True
 
             if old_status == 'leader':
-                game.clan.leader_lives = 0
                 self.died_by = []  # Clear their deaths.
                 if game.clan.leader:
                     if game.clan.leader.ID == self.ID:
@@ -1063,20 +1069,49 @@ class Cat():
         except:
             season = None
 
+        # this figures out where the cat is
+        where_kitty = None
+        if not self.dead and not self.outside:
+            where_kitty = "inside"
+        elif self.dead and not self.df and not self.outside:
+            where_kitty = 'starclan'
+        elif self.dead and self.df:
+            where_kitty = 'hell'
+        elif self.dead and self.outside:
+            where_kitty = 'UR'
+        elif not self.dead and self.outside:
+            where_kitty = 'outside'
         # get other cat
         i = 0
-        # makes sure that a cat won't think about a cat that they don't know that's dead
-        while other_cat == self.ID and len(all_cats) > 1 \
-                or (all_cats.get(other_cat).status in ['kittypet', 'rogue', 'loner', 'former Clancat']) \
-                or (all_cats.get(other_cat).dead and self.dead and dead_chance > 1) \
-                or (other_cat not in self.relationships)\
-                or (self.status in ['kittypet', 'rogue', 'loner', 'former Clancat']
-                    and all_cats.get(other_cat).status not in ['kittypet', 'rogue', 'loner', 'former Clancat']):
-            other_cat = choice(list(all_cats.keys()))
-            i += 1
-            if i > 100:
-                other_cat = None
-                break
+        # for cats inside the clan
+        if where_kitty == 'inside':
+            while other_cat == self.ID and len(all_cats) > 1 \
+            or (all_cats.get(other_cat).dead and dead_chance != 1) \
+            or (other_cat not in self.relationships):
+                other_cat = choice(list(all_cats.keys()))
+                i += 1
+                if i > 100:
+                    other_cat = None
+                    break
+        # for dead cats
+        elif where_kitty in ['starclan', 'hell', 'UR']:
+            while other_cat == self.ID and len(all_cats) > 1:
+                other_cat = choice(list(all_cats.keys()))
+                i += 1
+                if i > 100:
+                    other_cat = None
+                    break
+        # for cats currently outside
+        # it appears as for now, kittypets and loners can only think about outsider cats
+        elif where_kitty == 'outside':
+            while other_cat == self.ID and len(all_cats) > 1\
+            or (other_cat not in self.relationships):
+                '''or (self.status in ['kittypet', 'loner'] and not all_cats.get(other_cat).outside):'''
+                other_cat = choice(list(all_cats.keys()))
+                i += 1
+                if i > 100:
+                    other_cat = None
+                    break
 
         other_cat = all_cats.get(other_cat)
 
@@ -2103,12 +2138,8 @@ class Cat():
         # if the cat has a mate, they are not open for a new mate
         if for_patrol:
             if self.mate or other_cat.mate:
-                if not for_love_interest:
+                if not for_love_interest or not affair:
                     return False
-                elif not affair:
-                    return False
-                else:
-                    return True
         else:
             if self.mate or other_cat.mate and not for_love_interest:
                 return False
