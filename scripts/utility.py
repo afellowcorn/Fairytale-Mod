@@ -1366,7 +1366,7 @@ def update_sprite(cat):
                     temp.blit(new_sprite, (0, 0))
                     new_sprite = temp
         else:
-            new_sprite.blit(image_cache.load_image(f"sprites/faded/faded_adult.png").convert_alpha(), (0, 0))
+            new_sprite.blit(image_cache.load_image(f"sprites/sprite_placeholder.png").convert_alpha(), (0, 0))
 
     except (TypeError, KeyError):
         logger.exception("Failed to load sprite")

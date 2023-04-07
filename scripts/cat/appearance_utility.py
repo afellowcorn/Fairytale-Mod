@@ -42,7 +42,105 @@ from scripts.game_structure.game_essentials import game
 # ---------------------------------------------------------------------------- #
 #                                init functions                                #
 # ---------------------------------------------------------------------------- #
+species_list = [
+        "regular cat", "feathered cat", "winged cat", "basilisk", "tatzelwurm", "egg"
+    ]
 
+def init_species(cat):
+    if cat.species is not None:
+        return cat.species
+    else:
+        # Grab Parents
+        par1 = None
+        par2 = None
+        if cat.parent1 in cat.all_cats:
+            par1 = cat.all_cats[cat.parent1]
+            par1_species = par1.species
+        if cat.parent2 in cat.all_cats:
+            par2 = cat.all_cats[cat.parent2]
+            par2_species = par2.species
+
+        if par1 or par2:
+            #If the cat has parents, use inheritance to decide species.
+            species_inheritance(cat, par1, par2, par1_species, par2_species)
+        else:
+            randomize_species(cat)
+
+def species_inheritance(cat, par1, par2, par1_species, par2_species):
+    # If this list is empty, something went wrong.
+    chosen_species = None
+
+    if par1 and par2 == None:
+        print("Error - no parents: species randomized")
+        randomize_species(cat)
+        return
+
+    if par2_species == None:
+        par2_species = choice(
+            random.choices(species_list, weights=(5, 1, 5, 1, 4, 1), k=1)
+            )
+
+    print("parent1 species " + par1_species)
+    print("parent2 species " + par2_species)
+
+    # Species list goes: (reg, fthrd, wngd, basilisk, wurm, egg)
+    if par1_species == "regular cat":
+        if par2_species == "regular cat":
+            cat.species = "regular cat"
+        elif par2_species == "feathered cat":
+            cat.species = choice("regular cat", "regular cat", "feathered cat")
+        elif par2_species == "winged cat":
+            cat.species = choice(
+                random.choices(species_list, weights=(3, 1, 2, 0, 0, 0), k=1)
+                )
+        elif par2_species == "basilisk":
+            cat.species = choice("regular cat", "regular cat", "feathered cat", "basilisk")
+        else:
+            cat.species = "reg placeholder"
+        return
+
+    elif par1_species == "winged cat":
+        if par2_species == "regular cat":
+            cat.species = choice(
+            random.choices(species_list, weights=(3, 1, 2, 0, 0, 0), k=1)
+                )
+        elif par2_species == "feathered cat":
+            cat.species = choice(
+            random.choices(species_list, weights=(1, 5, 10, 0, 0, 0), k=1)
+                )
+        elif par2_species == "winged cat":
+            cat.species = "winged cat"
+        elif par2_species == "basilisk":
+            cat.species = choice(
+            random.choices(species_list, weights=(0, 5, 10, 5, 0, 0), k=1)
+                )
+        elif par2_species == "tatzelwurm":
+            cat.species = "basilisk"
+        else:
+            cat.species = "wngd placeholder"
+        return
+
+    elif par1_species == "tatzelwurm":
+        if par2_species == "feathered cat":
+            cat.species = "basilisk"
+        elif par2_species == "winged cat":
+            cat.species = "basilisk"
+        elif par2_species == "basilisk":
+            cat.species = choice("tatzelwurm", "basilisk")
+        elif par2_species == "tatzelwurm":
+            cat.species = "tatzelwurm"
+        else:
+            cat.species = "wurm placeholder"
+        return
+    else:
+        cat.species = "placeholder"
+        return
+
+def randomize_species(cat):
+    cat.species = choice(
+        random.choices(species_list, weights=(40, 5, 33, 2, 17, 0), k=1)
+        )
+    return
 
 def init_eyes(cat):
     if cat.eye_colour:

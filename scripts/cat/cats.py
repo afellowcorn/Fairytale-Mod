@@ -13,6 +13,7 @@ import ujson
 from .pelts import describe_appearance
 from .names import Name
 from .appearance_utility import (
+    init_species,
     init_pelt,
     init_tint,
     init_sprite,
@@ -91,10 +92,6 @@ class Cat():
     ]
 
     gender_tags = {'female': 'F', 'male': 'M'}
-
-    species_list = [
-        "regular cat", "feathered cat", "winged cat", "basilisk", "tatzelwurm"
-    ]
 
     skills = [
         'good hunter', 'great hunter', 'fantastic hunter', 'smart',
@@ -203,6 +200,7 @@ class Cat():
             self.parent1 = None
             self.parent2 = None
             self.status = status
+            self.species = species
             self.moons = moons
             if "df" in kwargs:
                 self.df = kwargs["df"]
@@ -331,20 +329,10 @@ class Cat():
         else:
             self.ID = ID
 
-        if species is None:
-            wngd_chance = randint(0, 3)
-            wurm_chance = randint(0, 10)
-            fthr_chance = randint(0, 18)
-            if wngd_chance == 1:
-                self.species = "winged cat"
-            elif wurm_chance == 1:
-                self.species = "tatzelwurm"
-            elif fthr_chance == 1:
-                self.species = "feathered cat"
-            else:
-                self.species = "regular cat"
-        else:
-            self.species = species
+        #species
+        init_species(self)
+        print(self.species)
+        
                 
         # age and status
         if status is None and moons is None:
