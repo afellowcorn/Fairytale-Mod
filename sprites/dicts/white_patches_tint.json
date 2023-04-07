@@ -15,7 +15,27 @@
     "LIGHTBROWN": "brown",
     "DARKBROWN": "brown",
     "BROWN": "brown",
-    "BLACK": "black"
+    "BLACK": "black",
+
+    "SILVER": "white",
+    "OPAL": "white",
+    "GREY": "gray",
+    "DARKGREY": "black",
+    "LIGHTBLUE": "gray",
+    "BLUE": "gray",
+    "DARKBLUE": "black",
+    "CREAM": "white",
+    "FAWN": "white",
+    "CINNAMON": "brown",
+    "LIGHTRED": "ginger",
+    "RED": "ginger",
+    "ICE": "gray",
+    "LARK": "black",
+    "REDPEN": "white",
+    "BLUEPEN": "white",
+    "MOTTLEDLIGHT": "brown",
+    "MOTTLED": "brown",
+    "MOTTLEDDARK": "brown"
   },
   "possible_tints": {
     "basic": ["none", "offwhite", "offwhite"],
