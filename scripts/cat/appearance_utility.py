@@ -77,7 +77,7 @@ def species_inheritance(cat, par1, par2, par1_species, par2_species):
 
     if par2_species == None:
         par2_species = choice(
-            random.choices(species_list, weights=(5, 1, 5, 1, 4, 1), k=1)
+            random.choices(species_list, weights=(5, 1, 5, 1, 4, 0), k=1)
             )
 
     print("parent1 species " + par1_species)
@@ -137,8 +137,15 @@ def species_inheritance(cat, par1, par2, par1_species, par2_species):
         return
 
 def randomize_species(cat):
+    weights = []
+    weights.insert(0, game.config["species_generation"]["regular_cat"])
+    weights.insert(1, game.config["species_generation"]["feathered_cat"])
+    weights.insert(2, game.config["species_generation"]["winged_cat"])
+    weights.insert(3, game.config["species_generation"]["basilisk"])
+    weights.insert(4, game.config["species_generation"]["tatzelwurm"])
+
     cat.species = choice(
-        random.choices(species_list, weights=(40, 5, 33, 2, 17, 0), k=1)
+        random.choices(species_list, weights=(weights) + [0], k=1) #extra 0 for egg
         )
     return
 

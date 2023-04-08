@@ -168,6 +168,17 @@
 		"vit_chance": 10,
 		"random_point_chance": 6
 	},
+	"species_generation": {
+        "regular_cat": 40,
+        "feathered_cat": 5,
+        "winged_cat": 33,
+        "basilisk": 2,
+        "tatzelwurm": 17,
+        "comment": [
+			"Unlike most other chances, here the HIGHER the NUMBER, the HIGHER the CHANCE.",
+			"Setting a species value to 0 will make it not generate for new cats (you can still get it when having kits)."
+		]
+    },
 	"accessory_generation": {
 		"base_acc_chance": 150,
 		"med_modifier": -80,
