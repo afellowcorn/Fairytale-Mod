@@ -3,13 +3,23 @@ from random import choice, randint
 
 # Alphabetical !! yea !!
 from .pelts import (
+    bird,
     black_colours,
+    blue_colours_wng,
+    blue_colours_wurm,
     blue_eyes,
     brown_colours,
+    brown_colours_wng,
+    brown_colours_wurm,
     choose_pelt,
     colour_categories,
+    colour_categories_wng,
+    colour_categories_wurm,
     exotic,
     eye_colours,
+    garter,
+    garter_colours,
+    garterexotic_colours,
     ginger_colours,
     green_eyes,
     high_white,
@@ -17,10 +27,17 @@ from .pelts import (
     mid_white,
     mostly_white,
     pelt_categories,
+    pelt_categories_reg,
+    pelt_categories_wng,
+    pelt_categories_wurm,
     pelt_length,
+    pigeon_colours,
     plain,
     plant_accessories,
     point_markings,
+    red_colours_wng,
+    red_colours_wurm,
+    red_eyes,
     scars1,
     scars3,
     skin_sprites,
@@ -30,6 +47,7 @@ from .pelts import (
     torties,
     vit,
     white_colours,
+    white_colours_wurm,
     wild_accessories,
     yellow_eyes,
     pelt_colours,
@@ -184,13 +202,16 @@ def init_eyes(cat):
         hit = randint(0, num)
         if hit == 0:
             if cat.eye_colour in yellow_eyes:
-                eye_choice = choice([blue_eyes, green_eyes])
+                eye_choice = choice([blue_eyes, green_eyes, red_eyes])
                 cat.eye_colour2 = choice(eye_choice)
             elif cat.eye_colour in blue_eyes:
-                eye_choice = choice([yellow_eyes, green_eyes])
+                eye_choice = choice([yellow_eyes, green_eyes, red_eyes])
                 cat.eye_colour2 = choice(eye_choice)
             elif cat.eye_colour in green_eyes:
-                eye_choice = choice([yellow_eyes, blue_eyes])
+                eye_choice = choice([yellow_eyes, blue_eyes, red_eyes])
+                cat.eye_colour2 = choice(eye_choice)
+            elif cat.eye_colour in red_eyes:
+                eye_choice = choice([yellow_eyes, blue_eyes, green_eyes])
                 cat.eye_colour2 = choice(eye_choice)
 
 
@@ -393,9 +414,28 @@ def randomize_pelt(cat):
     # ------------------------------------------------------------------------------------------------------------#
 
     # Determine pelt.
-    chosen_pelt = choice(
-        random.choices(pelt_categories, weights=(35, 20, 30, 15, 0), k=1)[0]
-    )
+    if cat.species == "regular cat":
+        print("reg cat")
+        chosen_pelt = choice(
+                random.choices(pelt_categories_reg, weights=(35, 20, 30, 15, 0), k=1)[0]
+            )
+        print(chosen_pelt)
+    elif cat.species == "winged cat":
+        print("wng cat")
+        chosen_pelt = choice(
+                random.choices(pelt_categories_wng, weights=(35, 10), k=1)[0]
+            )
+        print(chosen_pelt)
+    elif cat.species == "tatzelwurm":
+        print("wurm cat")
+        chosen_pelt = choice(
+                random.choices(pelt_categories_wurm, weights=(35, 10), k=1)[0]
+            )
+        print(chosen_pelt)
+    else:
+        chosen_pelt = choice(
+                random.choices(pelt_categories_reg, weights=(35, 20, 30, 15, 0), k=1)[0]
+            )
 
     # Tortie chance
     # There is a default chance for female tortie, slightly increased for completely random generation.
@@ -418,11 +458,16 @@ def randomize_pelt(cat):
     # ------------------------------------------------------------------------------------------------------------#
     #   PELT COLOUR
     # ------------------------------------------------------------------------------------------------------------#
-
-    chosen_pelt_color = choice(
-        random.choices(colour_categories, k=1)[0]
-    )
-
+    if chosen_pelt not in bird:
+        chosen_pelt_color = choice(
+            random.choices(colour_categories, k=1)[0]
+        )
+        print(chosen_pelt_color)
+    else:
+        chosen_pelt_color = choice(
+            random.choices(colour_categories_wng, k=1)[0]
+        )
+        print(chosen_pelt_color)
     # ------------------------------------------------------------------------------------------------------------#
     #   PELT LENGTH
     # ------------------------------------------------------------------------------------------------------------#

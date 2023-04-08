@@ -1191,9 +1191,9 @@ def update_sprite(cat):
                 new_sprite.blit(sprites.sprites['white' + cat.vitiligo + cat_sprite], (0, 0))
 
             # draw eyes & scars1
-            new_sprite.blit(sprites.sprites['eyes' + cat.eye_colour + cat_sprite], (0, 0))
+            new_sprite.blit(sprites.sprites['eyes_wng' + cat.eye_colour + cat_sprite], (0, 0))
             if cat.eye_colour2 != None:
-                new_sprite.blit(sprites.sprites['eyes2' + cat.eye_colour2 + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['eyes2_wng' + cat.eye_colour2 + cat_sprite], (0, 0))
             for scar in cat.scars:
                 if scar in scars1:
                     new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
@@ -1213,7 +1213,7 @@ def update_sprite(cat):
                 new_sprite.blit(sprites.sprites['lineartdead' + cat_sprite], (0, 0))
             # draw skin and scars2
             blendmode = pygame.BLEND_RGBA_MIN
-            new_sprite.blit(sprites.sprites['skin' + cat.skin + cat_sprite], (0, 0))
+            new_sprite.blit(sprites.sprites['skin_wng' + cat.skin + cat_sprite], (0, 0))
             for scar in cat.scars:
                 if scar in scars2:
                     new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0), special_flags=blendmode)
@@ -1282,7 +1282,7 @@ def update_sprite(cat):
 
             # draw white patches
             if cat.white_patches is not None:
-                white_patches = sprites.sprites['white' + cat.white_patches + cat_sprite].copy()
+                white_patches = sprites.sprites['white_wurm' + cat.white_patches + cat_sprite].copy()
 
                 # Apply tint to white patches.
                 if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
@@ -1296,7 +1296,7 @@ def update_sprite(cat):
             # draw vit & points
 
             if cat.points:
-                points = sprites.sprites['white' + cat.points + cat_sprite].copy()
+                points = sprites.sprites['white_wurm' + cat.points + cat_sprite].copy()
                 if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
                      "tint_colours"]:
                     tint = pygame.Surface((50, 50)).convert_alpha()
@@ -1306,12 +1306,12 @@ def update_sprite(cat):
 
 
             if cat.vitiligo:
-                new_sprite.blit(sprites.sprites['white' + cat.vitiligo + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['white_wurm' + cat.vitiligo + cat_sprite], (0, 0))
 
             # draw eyes & scars1
-            new_sprite.blit(sprites.sprites['eyes' + cat.eye_colour + cat_sprite], (0, 0))
+            new_sprite.blit(sprites.sprites['eyes_wurm' + cat.eye_colour + cat_sprite], (0, 0))
             if cat.eye_colour2 != None:
-                new_sprite.blit(sprites.sprites['eyes2' + cat.eye_colour2 + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['eyes2_wurm' + cat.eye_colour2 + cat_sprite], (0, 0))
             for scar in cat.scars:
                 if scar in scars1:
                     new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
@@ -1331,7 +1331,7 @@ def update_sprite(cat):
                 new_sprite.blit(sprites.sprites['lineartdead' + cat_sprite], (0, 0))
             # draw skin and scars2
             blendmode = pygame.BLEND_RGBA_MIN
-            new_sprite.blit(sprites.sprites['skin' + cat.skin + cat_sprite], (0, 0))
+            new_sprite.blit(sprites.sprites['skin_wurm' + cat.skin + cat_sprite], (0, 0))
             for scar in cat.scars:
                 if scar in scars2:
                     new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0), special_flags=blendmode)

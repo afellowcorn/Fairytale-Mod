@@ -248,6 +248,135 @@ class Calico():
     def __repr__(self):
         return f"calico{self.length}"
 
+# WINGED
+
+class Pigeonbar():
+    name = "Pigeonbar"
+    sprites = {1: 'pigeonbar', 2: 'white'}
+
+    def __init__(self, colour, white, length):
+        self.white = white  # boolean; does cat have white on it or no
+        self.colour = colour
+        self.length = length
+
+    def __repr__(self):
+        if self.white:
+            return f"white and {self.colour} pigeon{self.length}"
+        else:
+            return f"{self.colour} pigeon{self.length}"
+
+class Pigeoncheck():
+    name = "Pigeoncheck"
+    sprites = {1: 'pigeoncheck', 2: 'white'}
+
+    def __init__(self, colour, white, length):
+        self.white = white  # boolean; does cat have white on it or no
+        self.colour = colour
+        self.length = length
+
+    def __repr__(self):
+        if self.white:
+            return f"white and {self.colour} pigeon{self.length}"
+        else:
+            return f"{self.colour} pigeon{self.length}"
+
+class Pigeonfancy():
+    name = "Pigeonfancy"
+    sprites = {1: 'pigeonfancy', 2: 'white'}
+
+    def __init__(self, colour, white, length):
+        self.white = white  # boolean; does cat have white on it or no
+        self.colour = colour
+        self.length = length
+
+    def __repr__(self):
+        if self.white:
+            return f"white and {self.colour} pigeon{self.length}"
+        else:
+            return f"{self.colour} pigeon{self.length}"
+
+# WURM
+
+class Garter():
+    name = "Garter"
+    sprites = {1: 'garter', 2: 'white'}
+
+    def __init__(self, colour, white, length):
+        self.white = white  # boolean; does cat have white on it or no
+        self.colour = colour
+        self.length = length
+
+    def __repr__(self):
+        if self.white:
+            return f"white and {self.colour} garter{self.length}"
+        else:
+            return f"{self.colour} garter{self.length}"
+
+class Gartercheck():
+    name = "Gartercheck"
+    sprites = {1: 'gartercheck', 2: 'white'}
+
+    def __init__(self, colour, white, length):
+        self.white = white  # boolean; does cat have white on it or no
+        self.colour = colour
+        self.length = length
+
+    def __repr__(self):
+        if self.white:
+            return f"white and {self.colour} garter{self.length}"
+        else:
+            return f"{self.colour} garter{self.length}"
+
+class Garterexotic():
+    name = "Garterexotic"
+    sprites = {1: 'garterexotic', 2: 'white'}
+
+    def __init__(self, colour, white, length):
+        self.white = white  # boolean; does cat have white on it or no
+        self.colour = colour
+        self.length = length
+
+    def __repr__(self):
+        if self.white:
+            return f"white and {self.colour} garter{self.length}"
+        else:
+            return f"{self.colour} garter{self.length}"
+
+# WINGED ATTRIBUTES
+pigeon_colours = [
+    'SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE',
+    'CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 'DARKBROWN'
+]
+pigeonfancy_colours = [
+    'ICE', 'LARK', 'REDPEN', 'BLUEPEN', 'MOTTLEDLIGHT', 'MOTTLED', 'MOTTLEDDARK']
+
+blue_colours_wng = ['SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE', 'ICE', 'BLUEPEN']
+brown_colours_wng = ['CINNAMON', 'BROWN', 'DARKBROWN', 'LARK', 'MOTTLEDLIGHT', 'MOTTLED', 'MOTTLEDDARK']
+red_colours_wng = ['CREAM', 'FAWN', 'LIGHTRED', 'RED', 'REDPEN']
+other_colours_wng = ['']
+colour_categories_wng = [blue_colours_wng, brown_colours_wng, red_colours_wng]
+
+bird = ["Pigeonbar", "Pigeoncheck", "Pigeonfancy"]
+
+pelt_categories_wng = [bird, bird]
+
+# WURM ATTRIBUTES
+garter_colours = [
+    'BLUE', 'COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN', 'PASTEL'
+]
+garterexotic_colours = [
+    'NEONBLUE', 'FLAME', 'SPECKFLAME', 'RED', 'DALMATIAN'
+]
+
+blue_colours_wurm = ['BLUE', 'NEONBLUE']
+brown_colours_wurm = ['COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN']
+red_colours_wurm = ['RED', 'FLAME']
+white_colours_wurm = ['PASTEL', 'SPECKFLAME', 'DALMATIAN']
+colour_categories_wurm = [blue_colours_wurm, brown_colours_wurm, red_colours_wurm, white_colours_wurm]
+
+garter = ["Garter", "Gartercheck", "Garterexotic"]
+
+pelt_categories_wurm = [garter, garter]
 
 # ATTRIBUTES, including non-pelt related
 pelt_colours = [
@@ -272,9 +401,11 @@ tortiebases = ['single', 'tabby', 'bengal', 'marbled', 'ticked', 'smoke', 'roset
 
 pelt_length = ["short", "medium", "long"]
 eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD', 'PALEBLUE', 
-    'PALEYELLOW', 'GOLD', 'HEATHERBLUE', 'COPPER', 'SAGE', 'COBALT', 'SUNLITICE', 'GREENYELLOW', 'BRONZE', 'SILVER']
-yellow_eyes = ['YELLOW', 'AMBER', 'PALEYELLOW', 'GOLD', 'COPPER', 'GREENYELLOW', 'BRONZE', 'SILVER']
-blue_eyes = ['BLUE', 'DARKBLUE', 'CYAN', 'PALEBLUE', 'HEATHERBLUE', 'COBALT', 'SUNLITICE', 'GREY']
+    'PALEYELLOW', 'GOLD', 'HEATHERBLUE', 'COPPER', 'SAGE', 'COBALT', 'SUNLITICE', 'GREENYELLOW', 'BRONZE', 'SILVER',
+    'SUNSETICE', 'PURPLE', 'CHOCOLATE', 'RED', 'PINK', 'WARMGRAY', 'PANSY']
+red_eyes = ['AMBER', 'COPPER', 'CHOCOLATE', 'RED', 'PINK', 'SUNSETICE']
+yellow_eyes = ['YELLOW', 'AMBER', 'PALEYELLOW', 'GOLD', 'GREENYELLOW', 'BRONZE', 'SILVER', 'WARMGRAY']
+blue_eyes = ['BLUE', 'DARKBLUE', 'CYAN', 'PALEBLUE', 'HEATHERBLUE', 'COBALT', 'SUNLITICE', 'GREY', 'PURPLE', 'PANSY']
 green_eyes = ['PALEGREEN', 'GREEN', 'EMERALD', 'SAGE', 'HAZEL']
 # scars1 is scars from other cats, other animals - scars2 is missing parts - scars3 is "special" scars that could only happen in a special event
 # bite scars by @wood pank on discord
@@ -310,7 +441,9 @@ spotted = ["Speckled", "Rosette"]
 plain = ["SingleColour", "TwoColour", "Smoke", "Singlestripe"]
 exotic = ["Bengal", "Marbled"]
 torties = ["Tortie", "Calico"]
-pelt_categories = [tabbies, spotted, plain, exotic, torties]
+pelt_categories_reg = [tabbies, spotted, plain, exotic, torties]
+
+pelt_categories = [tabbies, spotted, plain, exotic, torties, bird]
 
 # SPRITE NAMES
 single_colours = [
@@ -344,7 +477,6 @@ white_sprites = [
 
 skin_sprites = ['BLACK', 'RED', 'PINK', 'DARKBROWN', 'BROWN', 'LIGHTBROWN', 'DARK', 'DARKGREY', 'GREY', 'DARKSALMON',
                 'SALMON', 'PEACH', 'DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE']
-
 
 # CHOOSING PELT
 def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, determined=False):
@@ -463,6 +595,72 @@ def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, 
             return Singlestripe(choice(pelt_colours), white, length)
         else:
             return Singlestripe(colour, white, length)
+    elif pelt == 'Pigeonbar':
+        if colour is None and white is None:
+            return Pigeonbar(choice(pigeon_colours), choice([False, True]),
+                                length)
+        elif colour is None:
+            return Pigeonbar(choice(pigeon_colours), white, length)
+        else:
+            if colour in pigeon_colours:
+                return Pigeonbar(colour, white, length)
+            else:
+                return Pigeonbar(choice(pigeon_colours), white, length)
+    elif pelt == 'Pigeoncheck':
+        if colour is None and white is None:
+            return Pigeoncheck(choice(pigeon_colours), choice([False, True]),
+                                length)
+        elif colour is None:
+            return Pigeoncheck(choice(pigeon_colours), white, length)
+        else:
+            if colour in pigeon_colours:
+                return Pigeoncheck(colour, white, length)
+            else:
+                return Pigeoncheck(choice(pigeon_colours), white, length)
+    elif pelt == 'Pigeonfancy':
+        if colour is None and white is None:
+            return Pigeonfancy(choice(pigeonfancy_colours), choice([False, True]),
+                                length)
+        elif colour is None:
+            return Pigeonfancy(choice(pigeonfancy_colours), white, length)
+        else:
+            if colour in pigeonfancy_colours:
+                return Pigeonfancy(colour, white, length)
+            else:
+                return Pigeonfancy(choice(pigeonfancy_colours), white, length)
+    elif pelt == 'Garter':
+        if colour is None and white is None:
+            return Garter(choice(garter_colours), choice([False, True]),
+                                length)
+        elif colour is None:
+            return Garter(choice(garter_colours), white, length)
+        else:
+            if colour in garter_colours:
+                return Garter(colour, white, length)
+            else:
+                return Garter(choice(garter_colours), white, length)
+    elif pelt == 'Gartercheck':
+        if colour is None and white is None:
+            return Gartercheck(choice(garter_colours), choice([False, True]),
+                                length)
+        elif colour is None:
+            return Gartercheck(choice(garter_colours), white, length)
+        else:
+            if colour in garter_colours:
+                return Gartercheck(colour, white, length)
+            else:
+                return Gartercheck(choice(garter_colours), white, length)
+    elif pelt == 'Garterexotic':
+        if colour is None and white is None:
+            return Garterexotic(choice(garterexotic_colours), choice([False, True]),
+                                length)
+        elif colour is None:
+            return Garterexotic(choice(garterexotic_colours), white, length)
+        else:
+            if colour in garterexotic_colours:
+                return Garterexotic(colour, white, length)
+            else:
+                return Garterexotic(choice(garterexotic_colours), white, length)
     elif pelt == 'Tortie':
         if white is None:
             return Tortie(colour, choice([False, True]), length)
@@ -476,23 +674,31 @@ def describe_appearance(cat, short=False):
     # Define look-up dictionaries
     if short:
         renamed_colors = {
+            "grey": "gray",
             "palegrey": "gray",
             "darkgrey": "gray",
             "paleginger": "ginger",
             "darkginger": "ginger",
             "lightbrown": "brown",
             "darkbrown": "brown",
-            "ghost": "black"
+            "ghost": "black",
+            "lightblue": "blue",
+            "darkblue": "blue",
+            "lightred": "red"
         }
     else:
         renamed_colors = {
+            "grey": "gray",
             "palegrey": "pale gray",
             "darkgrey": "dark gray",
             "paleginger": "pale ginger",
             "darkginger": "dark ginger",
             "lightbrown": "light brown",
             "darkbrown": "dark brown",
-            "ghost": "black"
+            "ghost": "black",
+            "lightblue": "light blue",
+            "darkblue": "dark blue",
+            "lightred": "light red"
         }
 
     pattern_des = {
@@ -507,7 +713,10 @@ def describe_appearance(cat, short=False):
         "Agouti": "c_n tabby",
         "Singlestripe": "dorsal-striped c_n",
         "Rosette": "unusually spotted c_n",
-        "Sokoke": "c_n tabby"
+        "Sokoke": "c_n tabby",
+        "Pigeonbar": "c_n pigeon",
+        "Pigeoncheck": "c_n pigeon",
+        "Pigeonfancy": "c_n pigeon"
     }
 
     # Start with determining the base color name. 

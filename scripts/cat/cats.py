@@ -329,10 +329,8 @@ class Cat():
         else:
             self.ID = ID
 
-        #species
         init_species(self)
-        print(self.species)
-        
+        print(self.species)  
                 
         # age and status
         if status is None and moons is None:
