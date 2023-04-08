@@ -35,7 +35,17 @@
     "BLUEPEN": "white",
     "MOTTLEDLIGHT": "brown",
     "MOTTLED": "brown",
-    "MOTTLEDDARK": "brown"
+    "MOTTLEDDARK": "brown",
+
+    "COFFEE": "brown",
+    "DARKBROWN": "black",
+    "SNICKERS": "brown",
+    "BROWN": "brown",
+    "PASTEL": "white",
+    "NEONBLUE": "brown",
+    "FLAME": "ginger",
+    "SPECKFLAME": "white",
+    "DALMATIAN": "gray"
   },
   "possible_tints": {
     "basic": ["none", "offwhite", "offwhite"],

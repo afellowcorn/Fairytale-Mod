@@ -35,7 +35,17 @@
     "BLUEPEN": "white",
     "MOTTLEDLIGHT": "warm",
     "MOTTLED": "warm",
-    "MOTTLEDDARK": "warm"
+    "MOTTLEDDARK": "warm",
+
+    "COFFEE": "warm",
+    "DARKBROWN": "warm",
+    "SNICKERS": "warm",
+    "BROWN": "white",
+    "PASTEL": "warm",
+    "NEONBLUE": "warm",
+    "FLAME": "warm",
+    "SPECKFLAME": "white",
+    "DALMATIAN": "white"
   },
   "possible_tints": {
     "basic": ["pink", "gray", "red", "black", "orange", "none"],

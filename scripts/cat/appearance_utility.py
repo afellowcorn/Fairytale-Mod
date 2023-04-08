@@ -6,14 +6,20 @@ from .pelts import (
     bird,
     black_colours,
     blue_colours_wng,
+    blue_colours_wurm,
     blue_eyes,
     brown_colours,
     brown_colours_wng,
+    brown_colours_wurm,
     choose_pelt,
     colour_categories,
     colour_categories_wng,
+    colour_categories_wurm,
     exotic,
     eye_colours,
+    garter,
+    garter_colours,
+    garterexotic_colours,
     ginger_colours,
     green_eyes,
     high_white,
@@ -23,12 +29,14 @@ from .pelts import (
     pelt_categories,
     pelt_categories_reg,
     pelt_categories_wng,
+    pelt_categories_wurm,
     pelt_length,
     pigeon_colours,
     plain,
     plant_accessories,
     point_markings,
     red_colours_wng,
+    red_colours_wurm,
     red_eyes,
     scars1,
     scars3,
@@ -39,6 +47,7 @@ from .pelts import (
     torties,
     vit,
     white_colours,
+    white_colours_wurm,
     wild_accessories,
     yellow_eyes,
     pelt_colours,
@@ -310,6 +319,12 @@ def randomize_pelt(cat):
         print("wng cat")
         chosen_pelt = choice(
                 random.choices(pelt_categories_wng, weights=(35, 10), k=1)[0]
+            )
+        print(chosen_pelt)
+    elif cat.species == "tatzelwurm":
+        print("wurm cat")
+        chosen_pelt = choice(
+                random.choices(pelt_categories_wurm, weights=(35, 10), k=1)[0]
             )
         print(chosen_pelt)
     else:

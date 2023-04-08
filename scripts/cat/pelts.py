@@ -295,6 +295,53 @@ class Pigeonfancy():
         else:
             return f"{self.colour} pigeon{self.length}"
 
+# WURM
+
+class Garter():
+    name = "Garter"
+    sprites = {1: 'garter', 2: 'white'}
+
+    def __init__(self, colour, white, length):
+        self.white = white  # boolean; does cat have white on it or no
+        self.colour = colour
+        self.length = length
+
+    def __repr__(self):
+        if self.white:
+            return f"white and {self.colour} garter{self.length}"
+        else:
+            return f"{self.colour} garter{self.length}"
+
+class Gartercheck():
+    name = "Gartercheck"
+    sprites = {1: 'gartercheck', 2: 'white'}
+
+    def __init__(self, colour, white, length):
+        self.white = white  # boolean; does cat have white on it or no
+        self.colour = colour
+        self.length = length
+
+    def __repr__(self):
+        if self.white:
+            return f"white and {self.colour} garter{self.length}"
+        else:
+            return f"{self.colour} garter{self.length}"
+
+class Garterexotic():
+    name = "Garterexotic"
+    sprites = {1: 'garterexotic', 2: 'white'}
+
+    def __init__(self, colour, white, length):
+        self.white = white  # boolean; does cat have white on it or no
+        self.colour = colour
+        self.length = length
+
+    def __repr__(self):
+        if self.white:
+            return f"white and {self.colour} garter{self.length}"
+        else:
+            return f"{self.colour} garter{self.length}"
+
 # WINGED ATTRIBUTES
 pigeon_colours = [
     'SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE',
@@ -303,15 +350,33 @@ pigeon_colours = [
 pigeonfancy_colours = [
     'ICE', 'LARK', 'REDPEN', 'BLUEPEN', 'MOTTLEDLIGHT', 'MOTTLED', 'MOTTLEDDARK']
 
-bird = ["Pigeonbar", "Pigeoncheck", "Pigeonfancy"]
-
 blue_colours_wng = ['SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE', 'ICE', 'BLUEPEN']
 brown_colours_wng = ['CINNAMON', 'BROWN', 'DARKBROWN', 'LARK', 'MOTTLEDLIGHT', 'MOTTLED', 'MOTTLEDDARK']
 red_colours_wng = ['CREAM', 'FAWN', 'LIGHTRED', 'RED', 'REDPEN']
 other_colours_wng = ['']
 colour_categories_wng = [blue_colours_wng, brown_colours_wng, red_colours_wng]
 
+bird = ["Pigeonbar", "Pigeoncheck", "Pigeonfancy"]
+
 pelt_categories_wng = [bird, bird]
+
+# WURM ATTRIBUTES
+garter_colours = [
+    'BLUE', 'COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN', 'PASTEL'
+]
+garterexotic_colours = [
+    'NEONBLUE', 'FLAME', 'SPECKFLAME', 'RED', 'DALMATIAN'
+]
+
+blue_colours_wurm = ['BLUE', 'NEONBLUE']
+brown_colours_wurm = ['COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN']
+red_colours_wurm = ['RED', 'FLAME']
+white_colours_wurm = ['PASTEL', 'SPECKFLAME', 'DALMATIAN']
+colour_categories_wurm = [blue_colours_wurm, brown_colours_wurm, red_colours_wurm, white_colours_wurm]
+
+garter = ["Garter", "Gartercheck", "Garterexotic"]
+
+pelt_categories_wurm = [garter, garter]
 
 # ATTRIBUTES, including non-pelt related
 pelt_colours = [
@@ -563,6 +628,39 @@ def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, 
                 return Pigeonfancy(colour, white, length)
             else:
                 return Pigeonfancy(choice(pigeonfancy_colours), white, length)
+    elif pelt == 'Garter':
+        if colour is None and white is None:
+            return Garter(choice(garter_colours), choice([False, True]),
+                                length)
+        elif colour is None:
+            return Garter(choice(garter_colours), white, length)
+        else:
+            if colour in garter_colours:
+                return Garter(colour, white, length)
+            else:
+                return Garter(choice(garter_colours), white, length)
+    elif pelt == 'Gartercheck':
+        if colour is None and white is None:
+            return Gartercheck(choice(garter_colours), choice([False, True]),
+                                length)
+        elif colour is None:
+            return Gartercheck(choice(garter_colours), white, length)
+        else:
+            if colour in garter_colours:
+                return Gartercheck(colour, white, length)
+            else:
+                return Gartercheck(choice(garter_colours), white, length)
+    elif pelt == 'Garterexotic':
+        if colour is None and white is None:
+            return Garterexotic(choice(garterexotic_colours), choice([False, True]),
+                                length)
+        elif colour is None:
+            return Garterexotic(choice(garterexotic_colours), white, length)
+        else:
+            if colour in garterexotic_colours:
+                return Garterexotic(colour, white, length)
+            else:
+                return Garterexotic(choice(garterexotic_colours), white, length)
     elif pelt == 'Tortie':
         if white is None:
             return Tortie(colour, choice([False, True]), length)

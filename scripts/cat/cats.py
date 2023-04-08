@@ -325,8 +325,8 @@ class Cat():
             self.ID = ID
 
         if species is None:
-            wngd_chance = randint(0, 3)
-            wurm_chance = randint(0, 10)
+            wngd_chance = randint(0, 4)
+            wurm_chance = randint(1, 1)
             fthr_chance = randint(0, 18)
             if wngd_chance == 1:
                 self.species = "winged cat"
