@@ -443,7 +443,7 @@ exotic = ["Bengal", "Marbled"]
 torties = ["Tortie", "Calico"]
 pelt_categories_reg = [tabbies, spotted, plain, exotic, torties]
 
-pelt_categories = [tabbies, spotted, plain, exotic, torties, bird]
+pelt_categories = [tabbies, spotted, plain, exotic, torties, bird, garter]
 
 # SPRITE NAMES
 single_colours = [

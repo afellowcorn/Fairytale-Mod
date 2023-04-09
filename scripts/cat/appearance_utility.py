@@ -86,8 +86,6 @@ def init_species(cat):
 
 def species_inheritance(cat, par1, par2, par1_species, par2_species):
     # If this list is empty, something went wrong.
-    chosen_species = None
-
     if par1 and par2 == None:
         print("Error - no parents: species randomized")
         randomize_species(cat)
@@ -262,41 +260,82 @@ def pelt_inheritance(cat, parents: tuple):
     # There is a 1/10 chance for kits to have the exact same pelt as one of their parents
     if not randint(0, game.config["cat_generation"]["direct_inheritance"]):  # 1/10 chance
         selected = choice(par_pelts)
-        cat.pelt = choose_pelt(selected.colour, selected.white, selected.name,
-                               selected.length)
-        return
+        if selected in pelt_categories_wng:
+            if cat.species == "winged cat":
+                cat.pelt = choose_pelt(selected.colour, selected.white, selected.name,
+                                       selected.length)
+                return
+            else:
+                selected = []
+                pass
+        elif selected in pelt_categories_wurm:
+            if cat.species == "tatzelwurm":
+                cat.pelt = choose_pelt(selected.colour, selected.white, selected.name,
+                                       selected.length)
+                return
+            else:
+                selected = []
+                pass
+        else:
+            selected = []
+            pass
 
     # ------------------------------------------------------------------------------------------------------------#
     #   PELT
     # ------------------------------------------------------------------------------------------------------------#
 
     # Determine pelt.
-    weights = [0, 0, 0, 0]  #Weights for each pelt group. It goes: (tabbies, spotted, plain, exotic)
+    weights = [0, 0, 0, 0, 0, 0]  #Weights for each pelt group. It goes: (tabbies, spotted, plain, exotic, bird, garter)
     for p_ in par_peltnames:
         if p_ in tabbies:
-            add_weight = (50, 10, 5, 7)
+            add_weight = (50, 10, 5, 7, 1, 0)
         elif p_ in spotted:
-            add_weight = (10, 50, 5, 5)
+            add_weight = (10, 50, 5, 5, 0, 0)
         elif p_ in plain:
-            add_weight = (5, 5, 50, 0)
+            add_weight = (5, 5, 50, 0, 0, 0)
         elif p_ in exotic:
-            add_weight = (15, 15, 1, 45)
+            add_weight = (15, 15, 1, 45, 5, 0)
+        elif p_ in bird:
+            add_weight = (20, 10, 1, 20, 45, 0)
+        elif p_ in garter:
+            add_weight = (0, 0, 10, 0, 0, 35)
         elif p_ is None:  # If there is at least one unknown parent, a None will be added to the set.
-            add_weight = (35, 20, 30, 15)
+            add_weight = (35, 20, 30, 15, 10, 15)
         else:
-            add_weight = (0, 0, 0, 0)
+            add_weight = (0, 0, 0, 0, 0, 0)
 
         for x in range(0, len(weights)):
             weights[x] += add_weight[x]
 
     #A quick check to make sure all the weights aren't 0
     if all([x == 0 for x in weights]):
-        weights = [1, 1, 1, 1]
+        weights = [1, 1, 1, 1, 1, 1]
 
-    # Now, choose the pelt category and pelt. The extra 0 is for the tortie pelts,
+    # Now, choose the pelt category and pelt. The extra 0 is for the tortie pelts
+    # Also check for improper species pelts
     chosen_pelt = choice(
         random.choices(pelt_categories, weights=weights + [0], k = 1)[0]
-    )
+        )
+    if cat.species == "regular cat":
+        if chosen_pelt not in pelt_categories_reg:
+            del weights[4:6]
+            chosen_pelt = choice(
+                random.choices(pelt_categories_reg, weights=weights + [0], k = 1)[0]
+                )        
+    elif cat.species == "winged cat":
+        if chosen_pelt not in pelt_categories_wng:
+            del weights[0:4]
+            weights.pop(1)
+            chosen_pelt = choice(
+                random.choices(pelt_categories_wng, weights=weights + [0], k = 1)[0]
+                )  
+    elif cat.species == "tatzelwurm":
+        if chosen_pelt not in pelt_categories_wurm:
+            del weights[0:5]
+            chosen_pelt = choice(
+                random.choices(pelt_categories_wurm, weights=weights + [0], k = 1)[0]
+                )  
+    print(chosen_pelt)
 
     # Tortie chance
     tortie_chance_f = game.config["cat_generation"]["base_female_tortie"]  # There is a default chance for female tortie
@@ -326,31 +365,114 @@ def pelt_inheritance(cat, parents: tuple):
     #   PELT COLOUR
     # ------------------------------------------------------------------------------------------------------------#
     # Weights for each colour group. It goes: (ginger_colours, black_colours, white_colours, brown_colours)
-    weights = [0, 0, 0, 0]
-    for p_ in par_peltcolours:
-        if p_ in ginger_colours:
-            add_weight = (40, 0, 0, 10)
-        elif p_ in black_colours:
-            add_weight = (0, 40, 2, 5)
-        elif p_ in white_colours:
-            add_weight = (0, 5, 40, 0)
-        elif p_ in brown_colours:
-            add_weight = (10, 5, 0, 35)
-        elif p_ is None:
-            add_weight = (40, 40, 40, 40)
-        else:
-            add_weight = (0, 0, 0, 0)
+    if cat.species == "regular_cat":
+        weights = [0, 0, 0, 0]
+        for p_ in par_peltcolours:
+            if p_ in ginger_colours:
+                add_weight = (40, 0, 0, 10)
+            elif p_ in black_colours:
+                add_weight = (0, 40, 2, 5)
+            elif p_ in white_colours:
+                add_weight = (0, 5, 40, 0)
+            elif p_ in brown_colours:
+                add_weight = (10, 5, 0, 35)
+            elif p_ in blue_colours_wng: #wng
+                add_weight = (0, 40, 2, 5)
+            elif p_ in brown_colours_wng:
+                add_weight = (10, 5, 0, 35)
+            elif p_ in red_colours_wng:
+                add_weight = (30, 0, 10, 10)
+            elif p_ is None:
+                add_weight = (40, 40, 40, 40)
+            else:
+                add_weight = (0, 0, 0, 0)
 
-        for x in range(0, len(weights)):
-            weights[x] += add_weight[x]
+            for x in range(0, len(weights)):
+                weights[x] += add_weight[x]
 
-        # A quick check to make sure all the weights aren't 0
-        if all([x == 0 for x in weights]):
-            weights = [1, 1, 1, 1]
+            # A quick check to make sure all the weights aren't 0
+            if all([x == 0 for x in weights]):
+                weights = [1, 1, 1, 1]
+        chosen_pelt_color = choice(
+            random.choices(colour_categories, weights=weights, k=1)[0]
+        )
 
-    chosen_pelt_color = choice(
-        random.choices(colour_categories, weights=weights, k=1)[0]
-    )
+    elif cat.species == "winged cat":
+        weights = [0, 0, 0]
+        for p_ in par_peltcolours:
+            if p_ in ginger_colours:
+                add_weight = (0, 5, 30)
+            elif p_ in black_colours:
+                add_weight = (45, 5, 0)
+            elif p_ in white_colours:
+                add_weight = (5, 0, 25)
+            elif p_ in brown_colours:
+                add_weight = (5, 45, 15)
+            elif p_ in blue_colours_wng: #wng
+                add_weight = (45, 10, 0)
+            elif p_ in brown_colours_wng:
+                add_weight = (5, 40, 10)
+            elif p_ in red_colours_wng:
+                add_weight = (0, 10, 35)
+            elif p_ is None:
+                add_weight = (40, 40, 40)
+            else:
+                add_weight = (0, 0, 0)
+
+            for x in range(0, len(weights)):
+                weights[x] += add_weight[x]
+
+            # A quick check to make sure all the weights aren't 0
+            if all([x == 0 for x in weights]):
+                weights = [1, 1, 1]
+        chosen_pelt_color = choice(
+            random.choices(colour_categories_wng, weights=weights, k=1)[0]
+        )
+
+    elif cat.species == "tatelwurm":
+        weights = [0, 0, 0, 0]
+        for p_ in par_peltcolours:
+            if p_ in ginger_colours:
+                add_weight = (0, 5, 35, 15)
+            elif p_ in black_colours:
+                add_weight = (35, 25, 15, 2)
+            elif p_ in white_colours:
+                add_weight = (0, 0, 0, 30)
+            elif p_ in brown_colours:
+                add_weight = (0, 45, 10, 5)
+            elif p_ in blue_colours_wng: #wng
+                add_weight = (0, 0, 0, 0)
+            elif p_ in brown_colours_wng:
+                add_weight = (0, 0, 0, 0)
+            elif p_ in red_colours_wng:
+                add_weight = (0, 0, 0, 0)
+            elif p_ in blue_colours_wurm: #wurm
+                add_weight = (20, 5, 0, 0)
+            elif p_ in brown_colours_wurm:
+                add_weight = (0, 45, 0, 5)
+            elif p_ in red_colours_wurm:
+                add_weight = (0, 5, 30, 15)
+            elif p_ in white_colours_wurm:
+                add_weight = (0, 0, 0, 30)
+            elif p_ is None:
+                add_weight = (40, 40, 40, 40)
+            else:
+                add_weight = (0, 0, 0, 0)
+
+            for x in range(0, len(weights)):
+                weights[x] += add_weight[x]
+
+            # A quick check to make sure all the weights aren't 0
+            if all([x == 0 for x in weights]):
+                weights = [1, 1, 1, 1]
+        chosen_pelt_color = choice(
+            random.choices(colour_categories_wurm, weights=weights, k=1)[0]
+        )
+    else:
+        weights = [1, 1, 1, 1]
+        chosen_pelt_color = choice(
+            random.choices(colour_categories, weights=weights, k=1)[0]
+        )
 
     # ------------------------------------------------------------------------------------------------------------#
     #   PELT LENGTH
