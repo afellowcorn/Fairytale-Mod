@@ -427,6 +427,9 @@ for a, i in enumerate(['SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE'
 for a, i in enumerate(['CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 'DARKBROWN']):
     sprites.make_group('mainwng', (7+a, 1), f"pigeoncheck{i}")
 
+for a, i in enumerate(['SILVER', 'FAWN', 'CINNAMON', 'BROWN', 'BLUE', 'DARKBLUE', 'BLACK']):
+    sprites.make_group('mainwng', (a, 2), f"pigeonspread{i}")
+
 for a, i in enumerate(['ICE', 'LARK', 'REDPEN', 'BLUEPEN', 'MOTTLEDLIGHT', 'MOTTLED', 'MOTTLEDDARK']):
     sprites.make_group('mainwng', (7+a, 2), f"pigeonfancy{i}")
 
