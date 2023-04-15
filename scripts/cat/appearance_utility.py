@@ -104,13 +104,17 @@ def species_inheritance(cat, par1, par2, par1_species, par2_species):
         if par2_species == "regular cat":
             cat.species = "regular cat"
         elif par2_species == "feathered cat":
-            cat.species = choice("regular cat", "regular cat", "feathered cat")
+            cat.species = cat.species = choice(
+                random.choices(species_list, weights=(3, 1, 0, 0, 0, 0), k=1)
+                )
         elif par2_species == "winged cat":
             cat.species = choice(
                 random.choices(species_list, weights=(3, 1, 2, 0, 0, 0), k=1)
                 )
         elif par2_species == "basilisk":
-            cat.species = choice("regular cat", "regular cat", "feathered cat", "basilisk")
+            cat.species = choice(
+                random.choices(species_list, weights=(2, 1, 0, 1, 0, 0), k=1)
+                )
         else:
             cat.species = "reg placeholder"
         return
