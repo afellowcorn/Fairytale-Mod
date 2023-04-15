@@ -146,7 +146,7 @@ def species_inheritance(cat, par1, par2, par1_species, par2_species):
         elif par2_species == "winged cat":
             cat.species = "basilisk"
         elif par2_species == "basilisk":
-            cat.species = hoice(
+            cat.species = choice(
             random.choices(species_list, weights=(0, 0, 0, 1, 1, 0), k=1)
                 )
         elif par2_species == "tatzelwurm":

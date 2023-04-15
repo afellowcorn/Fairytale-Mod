@@ -170,9 +170,9 @@
 	},
 	"species_generation": {
         "regular_cat": 40,
-        "feathered_cat": 5,
+        "feathered_cat": 0,
         "winged_cat": 33,
-        "basilisk": 2,
+        "basilisk": 0,
         "tatzelwurm": 17,
         "comment": [
 			"Unlike most other chances, here the HIGHER the NUMBER, the HIGHER the CHANCE.",
