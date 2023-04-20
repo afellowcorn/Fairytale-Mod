@@ -33,6 +33,7 @@ from .pelts import (
     pelt_length,
     pigeon_colours,
     plain,
+    plain_wng,
     plant_accessories,
     point_markings,
     red_colours_wng,

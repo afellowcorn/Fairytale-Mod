@@ -249,6 +249,31 @@ class Calico():
         return f"calico{self.length}"
 
 # WINGED
+class SingleColour_wng():
+    name = "SingleColour_wng"
+    sprites = {1: 'single_wng'}
+    white_patches = None
+
+    def __init__(self, colour, length):
+        self.colour = colour
+        self.length = length
+        self.white = self.colour == "white"
+
+    def __repr__(self):
+        return self.colour + self.length
+
+
+class TwoColour_wng():
+    name = "TwoColour_wng"
+    sprites = {1: 'single_wng', 2: 'white'}
+
+    def __init__(self, colour, length):
+        self.colour = colour
+        self.length = length
+        self.white = True
+
+    def __repr__(self):
+        return f"white and {self.colour}{self.length}"
 
 class Pigeonbar():
     name = "Pigeonbar"
@@ -375,9 +400,10 @@ red_colours_wng = ['CREAM', 'FAWN', 'LIGHTRED', 'RED', 'REDPEN']
 other_colours_wng = ['']
 colour_categories_wng = [blue_colours_wng, brown_colours_wng, red_colours_wng]
 
+plain_wng = ["SingleColour_wng"]
 bird = ["Pigeonbar", "Pigeoncheck", "Pigeonspread", "Pigeonfancy"]
 
-pelt_categories_wng = [bird, bird]
+pelt_categories_wng = [plain_wng, bird]
 
 # WURM ATTRIBUTES
 garter_colours = [
@@ -614,6 +640,18 @@ def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, 
             return Singlestripe(choice(pelt_colours), white, length)
         else:
             return Singlestripe(colour, white, length)
+    elif pelt == 'SingleColour_wng':
+        if colour is None and not white:
+            return SingleColour_wng(choice(pelt_colours), length)
+        elif colour is None:
+            return SingleColour_wng("WHITE", length)
+        else:
+            return SingleColour_wng(colour, length)
+    elif pelt == 'TwoColour_wng':
+        if colour is None:
+            return TwoColour_wng(choice(pelt_c_no_white), length)
+        else:
+            return TwoColour_wng(colour, length)
     elif pelt == 'Pigeonbar':
         if colour is None and white is None:
             return Pigeonbar(choice(pigeon_colours), choice([False, True]),
@@ -660,6 +698,7 @@ def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, 
                     colour = "BROWN"
                 elif colour == "DARKBROWN":
                     colour = "BLACK"
+                return Pigeonspread(colour, white, length)
     elif pelt == 'Pigeonfancy':
         if colour is None and white is None:
             return Pigeonfancy(choice(pigeonfancy_colours), choice([False, True]),

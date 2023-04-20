@@ -1164,7 +1164,7 @@ def update_sprite(cat):
 
             # draw white patches
             if cat.white_patches is not None:
-                white_patches = sprites.sprites['white' + cat.white_patches + cat_sprite].copy()
+                white_patches = sprites.sprites['white_wng' + cat.white_patches + cat_sprite].copy()
 
                 # Apply tint to white patches.
                 if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
@@ -1178,7 +1178,7 @@ def update_sprite(cat):
             # draw vit & points
 
             if cat.points:
-                points = sprites.sprites['white' + cat.points + cat_sprite].copy()
+                points = sprites.sprites['white_wng' + cat.points + cat_sprite].copy()
                 if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
                      "tint_colours"]:
                     tint = pygame.Surface((50, 50)).convert_alpha()
@@ -1188,7 +1188,7 @@ def update_sprite(cat):
 
 
             if cat.vitiligo:
-                new_sprite.blit(sprites.sprites['white' + cat.vitiligo + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['white_wng' + cat.vitiligo + cat_sprite], (0, 0))
 
             # draw eyes & scars1
             new_sprite.blit(sprites.sprites['eyes_wng' + cat.eye_colour + cat_sprite], (0, 0))
