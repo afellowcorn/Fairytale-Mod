@@ -1208,9 +1208,9 @@ def update_sprite(cat):
             if not cat.dead:
                 new_sprite.blit(sprites.sprites['lineswng' + cat_sprite], (0, 0))
             elif cat.df:
-                new_sprite.blit(sprites.sprites['lineartdf' + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['lineswngdf' + cat_sprite], (0, 0))
             elif cat.dead:
-                new_sprite.blit(sprites.sprites['lineartdead' + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['lineswngdead' + cat_sprite], (0, 0))
             # draw skin and scars2
             blendmode = pygame.BLEND_RGBA_MIN
             new_sprite.blit(sprites.sprites['skin_wng' + cat.skin + cat_sprite], (0, 0))

@@ -238,6 +238,9 @@ sprites.make_group('lineartdf', (0, 0), 'lineartdf')
 
 sprites.make_group('lineartwng', (0, 0), 'lineswng')
 
+sprites.make_group('lineartwng', (1, 0), 'lineswngdead')
+sprites.make_group('lineartwng', (2, 0), 'lineswngdf')
+
 sprites.make_group('lineartwurm', (0, 0), 'lineswurm')
 
 # Fading Fog
