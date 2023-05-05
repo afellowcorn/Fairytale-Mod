@@ -32,6 +32,8 @@ from .pelts import (
     pelt_categories_wurm,
     pelt_length,
     pigeon_colours,
+    pigeonspread_colours,
+    pigeonfancy_colours,
     plain,
     plain_wng,
     plant_accessories,
@@ -45,9 +47,11 @@ from .pelts import (
     spotted,
     tabbies,
     tortiebases,
+    tortiebases_wng,
     torties,
     vit,
     white_colours,
+    white_colours_wng,
     white_colours_wurm,
     wild_accessories,
     yellow_eyes,
@@ -336,7 +340,7 @@ def pelt_inheritance(cat, parents: tuple):
             chosen_pelt = choice(
                 random.choices(pelt_categories_wurm, weights=weights + [0], k = 1)[0]
                 )  
-    print(chosen_pelt)
+    
 
     # Tortie chance
     tortie_chance_f = game.config["cat_generation"]["base_female_tortie"]  # There is a default chance for female tortie
@@ -359,6 +363,8 @@ def pelt_inheritance(cat, parents: tuple):
         chosen_tortie_base = chosen_pelt
         if chosen_tortie_base in ["TwoColour", "SingleColour"]:
             chosen_tortie_base = "Single"
+        elif chosen_tortie_base in ["TwoColour_wng", "SingleColour_wng"]:
+            chosen_tortie_base = "Single_wng"
         chosen_tortie_base = chosen_tortie_base.lower()
         chosen_pelt = random.choice(torties)
 
@@ -538,23 +544,17 @@ def randomize_pelt(cat):
 
     # Determine pelt.
     if cat.species == "regular cat":
-        print("reg cat")
         chosen_pelt = choice(
                 random.choices(pelt_categories_reg, weights=(35, 20, 30, 15, 0), k=1)[0]
             )
-        print(chosen_pelt)
     elif cat.species == "winged cat":
-        print("wng cat")
         chosen_pelt = choice(
                 random.choices(pelt_categories_wng, weights=(35, 10), k=1)[0]
             )
-        print(chosen_pelt)
     elif cat.species == "tatzelwurm":
-        print("wurm cat")
         chosen_pelt = choice(
                 random.choices(pelt_categories_wurm, weights=(35, 10), k=1)[0]
             )
-        print(chosen_pelt)
     else:
         chosen_pelt = choice(
                 random.choices(pelt_categories_reg, weights=(35, 20, 30, 15, 0), k=1)[0]
@@ -575,26 +575,29 @@ def randomize_pelt(cat):
         chosen_tortie_base = chosen_pelt
         if chosen_tortie_base in ["TwoColour", "SingleColour"]:
             chosen_tortie_base = "Single"
+        elif chosen_tortie_base in ["TwoColour_wng", "SingleColour_wng"]:
+            chosen_tortie_base = "Single_wng"
         chosen_tortie_base = chosen_tortie_base.lower()
         chosen_pelt = random.choice(torties)
 
     # ------------------------------------------------------------------------------------------------------------#
     #   PELT COLOUR
     # ------------------------------------------------------------------------------------------------------------#
-    if chosen_pelt not in bird:
-        chosen_pelt_color = choice(
-            random.choices(colour_categories, k=1)[0]
-        )
-        print(chosen_pelt_color)
-    else:
+    if cat.species == "winged cat":
         chosen_pelt_color = choice(
             random.choices(colour_categories_wng, k=1)[0]
         )
-        print(chosen_pelt_color)
+    elif cat.species == "tatzelwurm":
+        chosen_pelt_color = choice(
+            random.choices(colour_categories_wurm, k=1)[0]
+        )
+    else:
+        chosen_pelt_color = choice(
+            random.choices(colour_categories, k=1)[0]
+        )
     # ------------------------------------------------------------------------------------------------------------#
     #   PELT LENGTH
     # ------------------------------------------------------------------------------------------------------------#
-
 
     chosen_pelt_length = random.choice(pelt_length)
 
@@ -618,11 +621,45 @@ def randomize_pelt(cat):
     cat.pelt = choose_pelt(chosen_pelt_color, chosen_white, chosen_pelt, chosen_pelt_length)
     cat.tortiebase = chosen_tortie_base   # This will be none if the cat isn't a tortie.
 
+def valid_pelt(cat):
+    print(("ID #")+(cat.ID))
+    if cat.pelt is None:
+        valid = False
+    if cat.species == "regular cat":
+        if cat.pelt.name in (game.valid["reg"]):
+            print("cat pelt in reg - valid")
+            if cat.pelt.name in ["Tortie", "Calico"]:
+                valid = True
+            elif cat.pelt.colour in (game.valid[cat.pelt.name]):
+                valid = True
+            else:
+                print("reg - invalid colour")
+                valid = False
+        else:
+            print("cat pelt not in reg - invalid")
+            valid = False
+    elif cat.species == "winged cat":
+        if cat.pelt.name in (game.valid["wng"]):
+            print("cat pelt in wng - valid")
+            if cat.pelt.name in ["Tortie", "Calico"]:
+                valid = True
+            elif cat.pelt.colour in (game.valid[cat.pelt.name]):
+                print("wng - valid colour")
+                valid = True
+            else:
+                print("wng - invalid colour")
+                valid = False
+        else:
+            print("cat pelt not in wng - invalid")
+            valid = False
+    else:
+        print("species has no valid_pelt json - placeholder")
+        valid = True
+        pass
+    return valid
 
 def init_pelt(cat):
-    if cat.pelt is not None:
-        return cat.pelt
-    else:
+    while(True):
         # Grab Parents
         par1 = None
         par2 = None
@@ -636,6 +673,10 @@ def init_pelt(cat):
             pelt_inheritance(cat, (par1, par2))
         else:
             randomize_pelt(cat)
+        valid = valid_pelt(cat)
+        if valid is True:
+            return cat.pelt
+            break
 
 
 def init_sprite(cat):
@@ -697,13 +738,20 @@ def init_accessories(cat):
     else:
         cat.acc_display = None
 
+def list_diff(li1, li2):
+    #returns list1 items that are in list 2
+    difference = [x for x in li1 if x in li2]
+    return difference
 
 def init_pattern(cat):
     if cat.pelt is None:
         init_pelt(cat)
     if cat.pelt.name in torties:
         if not cat.tortiebase:
-            cat.tortiebase = choice(tortiebases)
+            if cat.species == "regular cat":
+                cat.tortiebase = choice(tortiebases)
+            elif cat.species == "winged cat":
+                cat.tortiebase = choice(tortiebases_wng)
         if not cat.pattern:
             cat.pattern = choice(tortiepatterns)
 
@@ -714,40 +762,129 @@ def init_pattern(cat):
             if not wildcard_chance or random.getrandbits(wildcard_chance) == 1:
                 # This is the "wildcard" chance, where you can get funky combinations.
 
-                # Allow any pattern:
-                cat.tortiepattern = choice(tortiebases)
+                if cat.species == "regular cat":
+                    # Allow any pattern:
+                    cat.tortiepattern = choice(tortiebases)
 
-                # Allow any colors that aren't the base color.
-                possible_colors = pelt_colours.copy()
-                possible_colors.remove(cat.pelt.colour)
-                cat.tortiecolour = choice(possible_colors)
+                    # Allow any colors that aren't the base color.
+                    possible_colors = pelt_colours.copy()
+                    possible_colors.remove(cat.pelt.colour)
+                    cat.tortiecolour = choice(possible_colors)
+                elif cat.species == "winged cat":
+                    cat.tortiepattern = choice(tortiebases_wng)
+                    print("tortie pattern" + (cat.tortiepattern))
+
+                    # Allow any colors that aren't the base color.
+                    possible_colors = white_colours_wng.copy()
+                    possible_colors = blue_colours_wng.copy()
+                    possible_colors = brown_colours_wng.copy()
+                    possible_colors = red_colours_wng.copy()
+                    print(possible_colors)
+                    print(cat.pelt.colour)
+                    possible_colors.remove(cat.pelt.colour)
+                    cat.tortiecolour = choice(possible_colors)
 
             else:
-                # Normal generation
-                if cat.tortiebase in ["singlestripe", "smoke", "single"]:
-                    cat.tortiepattern = choice(['tabby', 'mackerel', 'classic', 'single', 'smoke', 'agouti',
-                                                'ticked'])
+                if cat.species == "regular cat":
+                    # Normal generation
+                    if cat.tortiebase in ["singlestripe", "smoke", "single"]:
+                        cat.tortiepattern = choice(['tabby', 'mackerel', 'classic', 'single', 'smoke', 'agouti',
+                                                    'ticked'])
+                    else:
+                        cat.tortiepattern = random.choices([cat.tortiebase, 'single'], weights=[97, 3], k=1)[0]
+
+                    if cat.pelt.colour == "WHITE":
+                        possible_colors = white_colours.copy()
+                        possible_colors.remove("WHITE")
+                        cat.pelt.colour = choice(possible_colors)
+
+                    # Ginger is often duplicated to increase its chances
+                    if (cat.pelt.colour in black_colours) or (cat.pelt.colour in white_colours):
+                        cat.tortiecolour = choice((ginger_colours * 2) + brown_colours)
+                    elif cat.pelt.colour in ginger_colours:
+                        cat.tortiecolour = choice(brown_colours + black_colours * 2)
+                    elif cat.pelt.colour in brown_colours:
+                        possible_colors = brown_colours.copy()
+                        possible_colors.remove(cat.pelt.colour)
+                        possible_colors.extend(black_colours + (ginger_colours * 2))
+                        cat.tortiecolour = choice(possible_colors)
+                    else:
+                        cat.tortiecolour = "GOLDEN"
+                elif cat.species == "winged cat":
+                    print("winged cat tortie")
+                    if cat.tortiebase in ["single_wng"]:
+                        cat.tortiepattern = choice(['single_wng', 'pigeonspread'])
+                    else:
+                        cat.tortiepattern = random.choices([cat.tortiebase, 'single_wng'], weights=[97, 3], k=1)[0]
+
+                    possible_colors = []
+                    if (cat.pelt.colour in blue_colours_wng) or (cat.pelt.colour in white_colours_wng):
+                        possible_colors.extend((red_colours_wng * 2) + brown_colours_wng)
+                        if cat.tortiepattern == 'single_wng':
+                            possible_colors = list_diff(possible_colors, pelt_colours)
+                            print("possible colours: " + str(possible_colors))
+                        elif cat.tortiepattern == 'pigeonbar':
+                            possible_colors = list_diff(possible_colors, pigeon_colours)
+                            print("possible colours: " + str(possible_colors))
+                        elif cat.tortiepattern == 'pigeoncheck':
+                            possible_colors = list_diff(possible_colors, pigeon_colours)
+                            print("possible colours: " + str(possible_colors))
+                        elif cat.tortiepattern == 'pigeonspread':
+                            possible_colors = list_diff(possible_colors, pigeonspread_colours)
+                            print("possible colours: " + str(possible_colors))
+                        elif cat.tortiepattern == 'pigeonfancy':
+                            possible_colors = list_diff(possible_colors, pigeonfancy_colours)
+                            print("possible colours: " + str(possible_colors))
+                        cat.tortiecolour = choice(possible_colors)
+
+                    elif cat.pelt.colour in red_colours_wng:
+                        possible_colors.extend(brown_colours_wng + blue_colours_wng * 2)
+                        if cat.tortiepattern == 'single_wng':
+                            possible_colors = list_diff(possible_colors, pelt_colours)
+                            print("possible colours: " + str(possible_colors))
+                        elif cat.tortiepattern == 'pigeonbar':
+                            possible_colors = list_diff(possible_colors, pigeon_colours)
+                            print("possible colours: " + str(possible_colors))
+                        elif cat.tortiepattern == 'pigeoncheck':
+                            possible_colors = list_diff(possible_colors, pigeon_colours)
+                            print("possible colours: " + str(possible_colors))
+                        elif cat.tortiepattern == 'pigeonspread':
+                            possible_colors = list_diff(possible_colors, pigeonspread_colours)
+                            print("possible colours: " + str(possible_colors))
+                        elif cat.tortiepattern == 'pigeonfancy':
+                            possible_colors = list_diff(possible_colors, pigeonfancy_colours)
+                            print("possible colours: " + str(possible_colors))
+                        cat.tortiecolour = choice(possible_colors)
+
+                    elif cat.pelt.colour in brown_colours_wng:
+                        possible_colors = brown_colours.copy()
+                        possible_colors.extend(brown_colours_wng)
+                        possible_colors.extend(blue_colours_wng + (red_colours_wng * 2))
+                        possible_colors.remove(cat.pelt.colour)
+                        if cat.tortiepattern == 'single_wng':
+                            possible_colors = list_diff(possible_colors, pelt_colours)
+                            print("possible colours: " + str(possible_colors))
+                        elif cat.tortiepattern == 'pigeonbar':
+                            possible_colors = list_diff(possible_colors, pigeon_colours)
+                            print("possible colours: " + str(possible_colors))
+                        elif cat.tortiepattern == 'pigeoncheck':
+                            possible_colors = list_diff(possible_colors, pigeon_colours)
+                            print("possible colours: " + str(possible_colors))
+                        elif cat.tortiepattern == 'pigeonspread':
+                            possible_colors = list_diff(possible_colors, pigeonspread_colours)
+                            print("possible colours: " + str(possible_colors))
+                        elif cat.tortiepattern == 'pigeonfancy':
+                            possible_colors = list_diff(possible_colors, pigeonfancy_colours)
+                            print("possible colours: " + str(possible_colors))
+                        cat.tortiecolour = choice(possible_colors)
+
+                    print((cat.tortiebase)+ " " +(cat.pelt.colour)+ " " +(cat.tortiepattern)+ " " +(cat.tortiecolour))
+                    print("--------------------------------")
                 else:
-                    cat.tortiepattern = random.choices([cat.tortiebase, 'single'], weights=[97, 3], k=1)[0]
-
-                if cat.pelt.colour == "WHITE":
-                    possible_colors = white_colours.copy()
-                    possible_colors.remove("WHITE")
-                    cat.pelt.colour = choice(possible_colors)
-
-                # Ginger is often duplicated to increase its chances
-                if (cat.pelt.colour in black_colours) or (cat.pelt.colour in white_colours):
-                    cat.tortiecolour = choice((ginger_colours * 2) + brown_colours)
-                elif cat.pelt.colour in ginger_colours:
-                    cat.tortiecolour = choice(brown_colours + black_colours * 2)
-                elif cat.pelt.colour in brown_colours:
-                    possible_colors = brown_colours.copy()
-                    possible_colors.remove(cat.pelt.colour)
-                    possible_colors.extend(black_colours + (ginger_colours * 2))
-                    cat.tortiecolour = choice(possible_colors)
-                else:
-                    cat.tortiecolour = "GOLDEN"
-
+                    cat.tortiebase = "single"
+                    cat.tortiepattern = "single"
+                    cat.tortiecolour = "GREY"
+                    cat.pattern = "ONE"  
         else:
             cat.tortiecolour = "GOLDEN"
     else:

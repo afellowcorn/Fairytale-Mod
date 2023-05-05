@@ -167,6 +167,8 @@ class Game():
     cat_class = None
     config = {}
 
+    valid = {}
+
     rpc = None
 
     is_close_menu_open = False
@@ -183,6 +185,9 @@ class Game():
         if self.config['fun']['april_fools']:
             self.config['fun']['newborns_can_roam'] = True
             self.config['fun']['newborns_can_patrol'] = True
+
+        with open(f"sprites/dicts/valid_pelt.json", 'r') as read_file:
+            self.valid = ujson.loads(read_file.read())
 
     def update_game(self):
         if self.current_screen != self.switches['cur_screen']:

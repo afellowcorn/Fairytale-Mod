@@ -1140,14 +1140,14 @@ def update_sprite(cat):
                         (0, 0))
 
                     # Create the patch image
-                    if cat.tortiepattern == "Single":
-                        tortie_pattern = "SingleColour"
+                    if cat.tortiepattern == "Single_wng":
+                        tortie_pattern = "SingleColour_wng"
                     else:
                         tortie_pattern = cat.tortiepattern
 
                     patches = sprites.sprites[
                         tortie_pattern + cat.tortiecolour + cat_sprite].copy()
-                    patches.blit(sprites.sprites["tortiemask" + cat.pattern + cat_sprite], (0, 0),
+                    patches.blit(sprites.sprites["tortiemask_wng" + cat.pattern + cat_sprite], (0, 0),
                                  special_flags=pygame.BLEND_RGBA_MULT)
 
                     # Add patches onto cat.
@@ -1216,7 +1216,7 @@ def update_sprite(cat):
             new_sprite.blit(sprites.sprites['skin_wng' + cat.skin + cat_sprite], (0, 0))
             for scar in cat.scars:
                 if scar in scars2:
-                    new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0), special_flags=blendmode)
+                    new_sprite.blit(sprites.sprites['scars_wng' + scar + cat_sprite], (0, 0), special_flags=blendmode)
 
             # draw accessories        
             if cat.accessory in plant_accessories:

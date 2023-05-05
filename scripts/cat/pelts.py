@@ -388,17 +388,20 @@ pigeon_colours = [
     'CREAM', 'FAWN', 'CINNAMON', 'LIGHTRED', 'RED', 'BROWN', 'DARKBROWN'
 ]
 pigeonspread_colours = [
-    'SILVER', "FAWN", "CINNAMON", "BROWN", "BLUE", "DARKBLUE", "BLACK"
+    'SILVER', 'FAWN', 'CINNAMON', 'BROWN', 'BLUE', 'DARKBLUE', 'BLACK'
 ]
 pigeonfancy_colours = [
     'ICE', 'LARK', 'REDPEN', 'BLUEPEN', 'MOTTLEDLIGHT', 'MOTTLED', 'MOTTLEDDARK'
 ]
 
-blue_colours_wng = ['SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE', 'ICE', 'BLUEPEN']
+white_colours_wng = ['WHITE', 'PALEGREY', 'SILVER', 'OPAL']
+blue_colours_wng = ['GHOST', 'BLACK', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE', 'ICE', 'BLUEPEN']
 brown_colours_wng = ['CINNAMON', 'BROWN', 'DARKBROWN', 'LARK', 'MOTTLEDLIGHT', 'MOTTLED', 'MOTTLEDDARK']
-red_colours_wng = ['CREAM', 'FAWN', 'LIGHTRED', 'RED', 'REDPEN']
+red_colours_wng = ['PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'CREAM', 'FAWN', 'LIGHTRED', 'RED', 'REDPEN']
 other_colours_wng = ['']
 colour_categories_wng = [blue_colours_wng, brown_colours_wng, red_colours_wng]
+
+tortiebases_wng = ['Single_wng', 'Pigeonbar', 'Pigeoncheck', 'Pigeonspread']
 
 plain_wng = ["SingleColour_wng"]
 bird = ["Pigeonbar", "Pigeoncheck", "Pigeonspread", "Pigeonfancy"]
@@ -659,10 +662,7 @@ def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, 
         elif colour is None:
             return Pigeonbar(choice(pigeon_colours), white, length)
         else:
-            if colour in pigeon_colours:
-                return Pigeonbar(colour, white, length)
-            else:
-                return Pigeonbar(choice(pigeon_colours), white, length)
+            return Pigeonbar(colour, white, length)
     elif pelt == 'Pigeoncheck':
         if colour is None and white is None:
             return Pigeoncheck(choice(pigeon_colours), choice([False, True]),
@@ -670,10 +670,7 @@ def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, 
         elif colour is None:
             return Pigeoncheck(choice(pigeon_colours), white, length)
         else:
-            if colour in pigeon_colours:
-                return Pigeoncheck(colour, white, length)
-            else:
-                return Pigeoncheck(choice(pigeon_colours), white, length)
+            return Pigeoncheck(colour, white, length)
     elif pelt == 'Pigeonspread':
         if colour is None and white is None:
             return Pigeonspread(choice(pigeonspread_colours), choice([False, True]),
@@ -681,24 +678,7 @@ def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, 
         elif colour is None:
             return Pigeonspread(choice(pigeonspread_colours), white, length)
         else:
-            if colour in pigeonspread_colours:
-                return Pigeonspread(colour, white, length)
-            elif colour in pigeonfancy_colours:
-                return Pigeonspread(choice(pigeonspread_colours), white, length)
-            else:
-                if colour == "OPAL":
-                    colour = "SILVER"
-                elif colour == "GREY" or "DARKGREY" or "LIGHTBLUE":
-                    colour = "BLUE"
-                elif colour == "CREAM":
-                    colour = "FAWN"
-                elif colour == "LIGHTRED":
-                    colour = "CINNAMON"
-                elif colour == "RED":
-                    colour = "BROWN"
-                elif colour == "DARKBROWN":
-                    colour = "BLACK"
-                return Pigeonspread(colour, white, length)
+            return Pigeonspread(colour, white, length)
     elif pelt == 'Pigeonfancy':
         if colour is None and white is None:
             return Pigeonfancy(choice(pigeonfancy_colours), choice([False, True]),
@@ -706,10 +686,7 @@ def choose_pelt(colour=None, white=None, pelt=None, length=None, category=None, 
         elif colour is None:
             return Pigeonfancy(choice(pigeonfancy_colours), white, length)
         else:
-            if colour in pigeonfancy_colours:
-                return Pigeonfancy(colour, white, length)
-            else:
-                return Pigeonfancy(choice(pigeonfancy_colours), white, length)
+            return Pigeonfancy(colour, white, length)
     elif pelt == 'Garter':
         if colour is None and white is None:
             return Garter(choice(garter_colours), choice([False, True]),
