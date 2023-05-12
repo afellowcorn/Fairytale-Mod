@@ -1456,14 +1456,14 @@ def update_sprite(cat):
                         (0, 0))
 
                     # Create the patch image
-                    if cat.tortiepattern == "Single":
-                        tortie_pattern = "SingleColour"
+                    if cat.tortiepattern == "Single_wng":
+                        tortie_pattern = "SingleColour_wng"
                     else:
                         tortie_pattern = cat.tortiepattern
 
                     patches = sprites.sprites[
                         tortie_pattern + cat.tortiecolour + cat_sprite].copy()
-                    patches.blit(sprites.sprites["tortiemask" + cat.pattern + cat_sprite], (0, 0),
+                    patches.blit(sprites.sprites["tortiemask_wng" + cat.pattern + cat_sprite], (0, 0),
                                  special_flags=pygame.BLEND_RGBA_MULT)
 
                     # Add patches onto cat.
@@ -1480,7 +1480,7 @@ def update_sprite(cat):
 
             # draw white patches
             if cat.white_patches is not None:
-                white_patches = sprites.sprites['white' + cat.white_patches + cat_sprite].copy()
+                white_patches = sprites.sprites['white_wng' + cat.white_patches + cat_sprite].copy()
 
                 # Apply tint to white patches.
                 if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
@@ -1494,7 +1494,7 @@ def update_sprite(cat):
             # draw vit & points
 
             if cat.points:
-                points = sprites.sprites['white' + cat.points + cat_sprite].copy()
+                points = sprites.sprites['white_wng' + cat.points + cat_sprite].copy()
                 if cat.white_patches_tint != "none" and cat.white_patches_tint in Sprites.white_patches_tints[
                      "tint_colours"]:
                     tint = pygame.Surface((50, 50)).convert_alpha()
@@ -1504,7 +1504,7 @@ def update_sprite(cat):
 
 
             if cat.vitiligo:
-                new_sprite.blit(sprites.sprites['white' + cat.vitiligo + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['white_wng' + cat.vitiligo + cat_sprite], (0, 0))
 
             # draw eyes & scars1
             new_sprite.blit(sprites.sprites['eyes_wng' + cat.eye_colour + cat_sprite], (0, 0))
@@ -1524,15 +1524,15 @@ def update_sprite(cat):
             if not cat.dead:
                 new_sprite.blit(sprites.sprites['lineswng' + cat_sprite], (0, 0))
             elif cat.df:
-                new_sprite.blit(sprites.sprites['lineartdf' + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['lineswngdf' + cat_sprite], (0, 0))
             elif cat.dead:
-                new_sprite.blit(sprites.sprites['lineartdead' + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['lineswngdead' + cat_sprite], (0, 0))
             # draw skin and scars2
             blendmode = pygame.BLEND_RGBA_MIN
             new_sprite.blit(sprites.sprites['skin_wng' + cat.skin + cat_sprite], (0, 0))
             for scar in cat.scars:
                 if scar in scars2:
-                    new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0), special_flags=blendmode)
+                    new_sprite.blit(sprites.sprites['scars_wng' + scar + cat_sprite], (0, 0), special_flags=blendmode)
 
             # draw accessories        
             if cat.accessory in plant_accessories:
