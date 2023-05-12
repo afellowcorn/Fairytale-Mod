@@ -101,9 +101,6 @@ def species_inheritance(cat, par1, par2, par1_species, par2_species):
             random.choices(species_list, weights=(5, 1, 5, 1, 4, 0), k=1)
             )
 
-    print("parent1 species " + par1_species)
-    print("parent2 species " + par2_species)
-
     # Species list goes: (reg, fthrd, wngd, basilisk, wurm, egg)
     if par1_species == "regular cat":
         if par2_species == "regular cat":
@@ -622,6 +619,7 @@ def randomize_pelt(cat):
     cat.tortiebase = chosen_tortie_base   # This will be none if the cat isn't a tortie.
 
 def valid_pelt(cat):
+    print("--------------------------------")
     print(("ID #")+(cat.ID))
     if cat.pelt is None:
         valid = False
@@ -657,6 +655,31 @@ def valid_pelt(cat):
         valid = True
         pass
     return valid
+ 
+def valid_calico(species = None, tortiebase = None, colour = None, tortiepattern = None, tortiecolour = None):
+    species = species
+    tortiebase = tortiebase
+    colour = colour
+    tortiepattern = tortiepattern
+    tortiecolour = tortiecolour
+    if tortiebase is None:
+        pass
+    elif species == "regular cat":
+        pass
+    elif species == "winged cat":
+        if tortiebase.capitalize() not in (game.valid["wng"]):
+            tortiebase = choice(tortiebases_wng)
+            print("changed tortie base")
+        if colour not in (game.valid[tortiebase.capitalize()]):
+            colour = choice(game.valid[tortiebase.capitalize()])
+            print("changed tortie base colour")
+        if tortiepattern.capitalize() not in (game.valid["wng"]):
+            tortiebase = choice(tortiebases_wng)
+            print("changed tortie pattern")
+        if tortiecolour not in (game.valid[tortiepattern.capitalize()]):
+            tortiecolour = choice(game.valid[tortiepattern.capitalize()])
+            print("changed tortie pattern colour")
+    return species, tortiebase, colour, tortiepattern, tortiecolour
 
 def init_pelt(cat):
     while(True):
@@ -673,11 +696,14 @@ def init_pelt(cat):
             pelt_inheritance(cat, (par1, par2))
         else:
             randomize_pelt(cat)
-        valid = valid_pelt(cat)
-        if valid is True:
+        if cat.pelt.name in ['Tortie', 'Calico']:
             return cat.pelt
             break
-
+        else:
+            valid = valid_pelt(cat)
+            if valid is True:
+                return cat.pelt
+                break
 
 def init_sprite(cat):
     if cat.pelt is None:
@@ -879,6 +905,9 @@ def init_pattern(cat):
                         cat.tortiecolour = choice(possible_colors)
 
                     print((cat.tortiebase)+ " " +(cat.pelt.colour)+ " " +(cat.tortiepattern)+ " " +(cat.tortiecolour))
+                    print("validity check...")
+                    cat.species, cat.tortiebase, cat.pelt.colour, cat.tortiepattern, cat.tortiecolour = valid_calico(cat.species, cat.tortiebase, cat.pelt.colour, cat.tortiepattern, cat.tortiecolour)
+                    print(("Final: "+cat.tortiebase)+ " " +(cat.pelt.colour)+ " " +(cat.tortiepattern)+ " " +(cat.tortiecolour))
                     print("--------------------------------")
                 else:
                     cat.tortiebase = "single"
