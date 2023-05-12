@@ -401,7 +401,7 @@ red_colours_wng = ['PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'CREAM', 'FAW
 other_colours_wng = ['']
 colour_categories_wng = [blue_colours_wng, brown_colours_wng, red_colours_wng]
 
-tortiebases_wng = ['Single_wng', 'Pigeonbar', 'Pigeoncheck', 'Pigeonspread']
+tortiebases_wng = ['single_wng', 'pigeonbar', 'pigeoncheck', 'pigeonspread']
 
 plain_wng = ["SingleColour_wng"]
 bird = ["Pigeonbar", "Pigeoncheck", "Pigeonspread", "Pigeonfancy"]
@@ -410,14 +410,14 @@ pelt_categories_wng = [plain_wng, bird]
 
 # WURM ATTRIBUTES
 garter_colours = [
-    'BLUE', 'COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN', 'PASTEL'
+    'BLUE', 'GREY', 'PALEGREY', 'COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN', 'PASTEL'
 ]
 garterexotic_colours = [
     'NEONBLUE', 'FLAME', 'SPECKFLAME', 'RED', 'DALMATIAN'
 ]
 
-blue_colours_wurm = ['BLUE', 'NEONBLUE']
-brown_colours_wurm = ['COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN']
+blue_colours_wurm = ['BLUE', 'GREY', 'PALEGREY', 'NEONBLUE']
+brown_colours_wurm = ['COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN']
 red_colours_wurm = ['RED', 'FLAME']
 white_colours_wurm = ['PASTEL', 'SPECKFLAME', 'DALMATIAN']
 colour_categories_wurm = [blue_colours_wurm, brown_colours_wurm, red_colours_wurm, white_colours_wurm]

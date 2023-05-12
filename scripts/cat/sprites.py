@@ -529,10 +529,10 @@ for a, i in enumerate(['HEART', 'LILTWO', 'GLASS', 'MOORISH', 'SEPIAPOINT', 'MIN
     sprites.make_group('extrawurmplaceholder', (a, 5), 'white_wurm' + i)
 
 #garter
-for a, i in enumerate(['BLUE', 'GREY', 'PALEGREY' 'COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN', 'PASTEL']):
+for a, i in enumerate(['BLUE', 'GREY', 'PALEGREY', 'COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN', 'PASTEL']):
    sprites.make_group('mainwurm', (a, 0), f"garter{i}")
 
-for a, i in enumerate(['BLUE', 'GREY', 'PALEGREY' 'COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN', 'PASTEL']):
+for a, i in enumerate(['BLUE', 'GREY', 'PALEGREY', 'COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN', 'PASTEL']):
    sprites.make_group('mainwurm', (a, 1), f"gartercheck{i}")
 
 for a, i in enumerate(['NEONBLUE', 'FLAME', 'SPECKFLAME', 'RED', 'DALMATIAN']):
