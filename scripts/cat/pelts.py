@@ -771,7 +771,7 @@ def describe_appearance(cat, short=False):
             "ghost": "black",
             "lightblue": "light blue",
             "darkblue": "dark blue",
-            "lightred": "light red"
+            "lightred": "light red",
             "chocolate": "dark brown",
             "ghost": "black"
         }

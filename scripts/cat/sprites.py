@@ -1,4 +1,4 @@
-żimport pygame
+import pygame
 
 import ujson
 
