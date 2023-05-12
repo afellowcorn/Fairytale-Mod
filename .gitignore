@@ -1,7 +1,4 @@
 ### Python template
-*.kra
-*.kra~
-*.png~
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -100,6 +97,10 @@ saves\settings.txt
 # Logs
 logs/
 
+# Temp
+~temp/
+~temp\
+
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is
 #   intended to run in multiple environments; otherwise, check them in:
@@ -162,11 +163,21 @@ scripts/__pycache__/**
 /__pycache__/
 .vscode/**
 
+*.kra
+*.kra~
+
 .vscode/launch.json
-.idea/clan_gen_working.iml
-.idea/misc.xml
+.idea/
 
 
 saves/currentclan.txt
 
 tests/testSaves
+
+cache/
+
+# Update system
+
+download.tmp
+version.ini
+*.xml

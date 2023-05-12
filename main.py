@@ -9,25 +9,35 @@
 
 This file is the main file for the game.
 It also contains the main pygame loop
-It first sets up logging, then loads the version hash from commit.txt (if it exists), then loads the cats and clan.
+It first sets up logging, then loads the version hash from version.ini (if it exists), then loads the cats and clan.
 It then loads the settings, and then loads the start screen.
 
 
 
 
 """ # pylint: enable=line-too-long
+import shutil
 import sys
 import time
 import os
 
 from scripts.housekeeping.log_cleanup import prune_logs
-from scripts.stream_duplexer import UnbufferedStreamDuplexer
-from scripts.datadir import get_log_dir, setup_data_dir
-from scripts.version import get_version_info, VERSION_NAME
+from scripts.housekeeping.stream_duplexer import UnbufferedStreamDuplexer
+from scripts.housekeeping.datadir import get_log_dir, setup_data_dir
+from scripts.housekeeping.version import get_version_info, VERSION_NAME
+
 
 directory = os.path.dirname(__file__)
 if directory:
     os.chdir(directory)
+
+
+if os.path.exists("auto-updated"):
+    print("Clangen starting, deleting auto-updated file")
+    os.remove("auto-updated")
+    shutil.rmtree("Downloads", ignore_errors=True)
+    print("Update Complete!")
+    print("New version: " + get_version_info().version_number)
 
 
 setup_data_dir()
@@ -48,6 +58,7 @@ formatter = logging.Formatter(
 
 
 # Logging for file
+timestr = time.strftime("%Y%m%d_%H%M%S")
 log_file_name = get_log_dir() + f"/clangen_{timestr}.log"
 file_handler = logging.FileHandler(log_file_name)
 file_handler.setFormatter(formatter)
@@ -60,7 +71,7 @@ logging.root.addHandler(file_handler)
 logging.root.addHandler(stream_handler)
 
 
-prune_logs(logs_to_keep=5, retain_empty_logs=False)
+prune_logs(logs_to_keep=10, retain_empty_logs=False)
 
 
 def log_crash(logtype, value, tb):
@@ -107,6 +118,7 @@ from scripts.game_structure.discord_rpc import _DiscordRPC
 from scripts.cat.sprites import sprites
 from scripts.clan import clan_class
 from scripts.utility import get_text_box_theme, quit, scale  # pylint: disable=redefined-builtin
+from scripts.debugmode import debugmode
 import pygame_gui
 import pygame
 
@@ -159,7 +171,7 @@ else:
         (800 - version_number.get_relative_rect()[2] - 8,
         700 - version_number.get_relative_rect()[3]))
 
-if get_version_info().is_source_build:
+if get_version_info().is_source_build or get_version_info().is_dev():
     dev_watermark = pygame_gui.elements.UILabel(
         scale(pygame.Rect((1050, 1321), (600, 100))),
         "Dev Build:",
@@ -176,8 +188,11 @@ cursor = pygame.cursors.Cursor((9,0), cursor_img)
 disabled_cursor = pygame.cursors.Cursor(pygame.SYSTEM_CURSOR_ARROW)
 
 
+
+
+
 while True:
-    time_delta = clock.tick(30) / 1000.0
+    time_delta = clock.tick(game.switches['fps']) / 1000.0
     if game.switches['cur_screen'] not in ['start screen']:
         if game.settings['dark mode']:
             screen.fill((57, 50, 36))
@@ -214,15 +229,21 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN:
             game.clicked = True
 
+            if MANAGER.visual_debug_active:
+                _ = pygame.mouse.get_pos()
+                if game.settings['fullscreen']:
+                    print(f"(x: {_[0]}, y: {_[1]})")
+                else:
+                    print(f"(x: {_[0]*2}, y: {_[1]*2})")
+                del _
+
         # F2 turns toggles visual debug mode for pygame_gui, allowed for easier bug fixes.
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_F2:
-                if not MANAGER.visual_debug_active:
-                    MANAGER.set_visual_debug_mode(True)
-                else:
-                    MANAGER.set_visual_debug_mode(False)
+                debugmode.toggle_console()
 
         MANAGER.process_events(event)
+    
 
     MANAGER.update(time_delta)
 
@@ -234,7 +255,10 @@ while True:
         game.switch_screens = False
 
 
+    debugmode.update1(clock)
     # END FRAME
     MANAGER.draw_ui(screen)
+    debugmode.update2(screen)
+
 
     pygame.display.update()

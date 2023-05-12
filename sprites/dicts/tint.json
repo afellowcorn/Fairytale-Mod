@@ -1,20 +1,25 @@
 {
   "colour_groups":
   {
-    "DARKGINGER": "warm",
     "WHITE": "white",
     "PALEGREY": "cool",
     "SILVER": "cool",
     "GREY": "monochrome",
     "DARKGREY": "monochrome",
     "GHOST": "monochrome",
+    "BLACK": "monochrome",
+    "CREAM": "warm",
     "PALEGINGER": "warm",
     "GOLDEN": "warm",
     "GINGER": "warm",
-    "CREAM": "warm",
+    "DARKGINGER": "warm",
+    "SIENNA": "warm",
     "LIGHTBROWN": "warm",
-    "DARKBROWN": "warm",
+    "LILAC": "warm",
     "BROWN": "warm",
+    "GOLDEN-BROWN": "warm",
+    "DARKBROWN": "warm",
+    "CHOCOLATE": "warm",
     "BLACK": "monochrome",
 
     "SILVER": "white",
@@ -46,6 +51,7 @@
     "FLAME": "warm",
     "SPECKFLAME": "white",
     "DALMATIAN": "white"
+
   },
   "possible_tints": {
     "basic": ["pink", "gray", "red", "black", "orange", "none"],
