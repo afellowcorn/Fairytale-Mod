@@ -396,8 +396,8 @@ pigeonfancy_colours = [
 
 white_colours_wng = ['WHITE', 'PALEGREY', 'SILVER', 'OPAL']
 blue_colours_wng = ['GHOST', 'BLACK', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE', 'ICE', 'BLUEPEN']
-brown_colours_wng = ['CINNAMON', 'BROWN', 'DARKBROWN', 'LARK', 'MOTTLEDLIGHT', 'MOTTLED', 'MOTTLEDDARK']
-red_colours_wng = ['PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'CREAM', 'FAWN', 'LIGHTRED', 'RED', 'REDPEN']
+brown_colours_wng = ['LILAC', 'LIGHTBROWN', 'GOLDEN-BROWN', 'CHOCOLATE', 'CINNAMON', 'BROWN', 'DARKBROWN', 'LARK', 'MOTTLEDLIGHT', 'MOTTLED', 'MOTTLEDDARK']
+red_colours_wng = ['PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'CREAM', 'FAWN', 'LIGHTRED', 'RED', 'REDPEN']
 other_colours_wng = ['']
 colour_categories_wng = [blue_colours_wng, brown_colours_wng, red_colours_wng]
 
