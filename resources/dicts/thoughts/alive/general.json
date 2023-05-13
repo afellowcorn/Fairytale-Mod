@@ -446,6 +446,49 @@
         ]
     },
     {
+        "id": "wng_gen",
+        "thoughts": [
+            "Is spending a considerable amount of time preening",
+            "Is wondering if {PRONOUN/m_c/poss} molt is coming soon",
+            "Hasn't been taking care of {PRONOUN/m_c/poss} feathers recently",
+            "Is stretching out their wings"
+        ],
+        "main_status_constraint": [
+            "apprentice",
+            "medicine cat apprentice",
+            "mediator apprentice",
+            "warrior",
+            "medicine cat",
+            "mediator",
+            "deputy",
+            "leader",
+            "elder"
+        ],
+        "main_species_constraint": [
+            "winged cat"
+        ]
+    },
+    {
+        "id": "wurm_gen",
+        "thoughts": [
+            "Is wondering if {PRONOUN/m_c/poss} molt is coming soon"
+        ],
+        "main_status_constraint": [
+            "apprentice",
+            "medicine cat apprentice",
+            "mediator apprentice",
+            "warrior",
+            "medicine cat",
+            "mediator",
+            "deputy",
+            "leader",
+            "elder"
+        ],
+        "main_species_constraint": [
+            "tatzelwurm"
+        ]
+    },
+    {
         "id": "gen_to_alive_gen",
         "thoughts": [
             "Is eavesdropping on r_c",
@@ -505,6 +548,25 @@
             "apprentice",
             "mediator apprentice",
             "medicine cat apprentice"
+        ]
+    },
+    {
+        "id": "general_apprentices_thoughts_wng",
+        "thoughts": [
+            "Is wondering how good of a flyer {PRONOUN/m_c/subject} will be in the future",
+            "Is daydreaming about going on flights out of camp on {PRONOUN/m_c/poss} own",
+            "Is practicing {PRONOUN/m_c/poss} flight",
+            "Is grumpily preening {PRONOUN/m_c/poss} feathers",
+            "Recently fell into a bush while trying to make a quick turn in the air",
+            "Recently fell into mud while trying to make a quick turn in the air"
+        ],
+        "main_status_constraint": [
+            "apprentice",
+            "mediator apprentice",
+            "medicine cat apprentice"
+        ],
+        "main_species_constraint": [
+            "winged cat"
         ]
     },
     {
@@ -603,6 +665,26 @@
             "apprentice",
             "medicine cat apprentice",
             "mediator apprentice"
+        ],
+        "random_status_constraint": [
+            "kitten"
+        ],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "apprentice_wng_alive_kits",
+        "thoughts": [
+            "Is showing off their flight skills to the kits"
+        ],
+        "main_status_constraint": [
+            "apprentice",
+            "medicine cat apprentice",
+            "mediator apprentice"
+        ],
+        "main_species_constraint": [
+            "winged cat"
         ],
         "random_status_constraint": [
             "kitten"
