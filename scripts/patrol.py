@@ -45,6 +45,7 @@ class Patrol():
         self.patrol_apprentices = []
         self.possible_patrol_leaders = []
         self.patrol_leader_name = None
+        self.patrol_species = []
         self.patrol_skills = []
         self.patrol_statuses = []
         self.patrol_traits = []
@@ -85,6 +86,7 @@ class Patrol():
         self.patrol_cats.clear()
         self.patrol_names.clear()
         self.possible_patrol_leaders.clear()
+        self.patrol_species.clear()
         self.patrol_skills.clear()
         self.patrol_statuses.clear()
         self.patrol_traits.clear()
@@ -98,6 +100,7 @@ class Patrol():
             self.patrol_names.append(str(cat.name))
             if cat.status != 'apprentice':
                 self.possible_patrol_leaders.append(cat)
+            self.patrol_species.append(cat.species)
             self.patrol_skills.append(cat.skill)
             self.patrol_statuses.append(cat.status)
             self.patrol_traits.append(cat.trait)
