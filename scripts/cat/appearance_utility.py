@@ -98,7 +98,7 @@ def species_inheritance(cat, par1, par2, par1_species, par2_species):
 
     if par2_species == None:
         par2_species = choice(
-            random.choices(species_list, weights=(5, 1, 5, 1, 4, 0), k=1)
+            random.choices(species_list, weights=(4, 0, 5, 0, 3, 0), k=1)
             )
 
     # Species list goes: (reg, fthrd, wngd, basilisk, wurm, egg)
@@ -111,7 +111,7 @@ def species_inheritance(cat, par1, par2, par1_species, par2_species):
                 )
         elif par2_species == "winged cat":
             cat.species = choice(
-                random.choices(species_list, weights=(3, 1, 2, 0, 0, 0), k=1)
+                random.choices(species_list, weights=(3, 0, 2, 0, 0, 0), k=1)#weights=(3, 1, 2, 0, 0, 0), k=1)
                 )
         elif par2_species == "basilisk":
             cat.species = choice(
@@ -124,7 +124,7 @@ def species_inheritance(cat, par1, par2, par1_species, par2_species):
     elif par1_species == "winged cat":
         if par2_species == "regular cat":
             cat.species = choice(
-            random.choices(species_list, weights=(3, 1, 2, 0, 0, 0), k=1)
+            random.choices(species_list, weights=(3, 0, 2, 0, 0, 0), k=1)
                 )
         elif par2_species == "feathered cat":
             cat.species = choice(
@@ -137,7 +137,7 @@ def species_inheritance(cat, par1, par2, par1_species, par2_species):
             random.choices(species_list, weights=(0, 5, 10, 5, 0, 0), k=1)
                 )
         elif par2_species == "tatzelwurm":
-            cat.species = "basilisk"
+            cat.species = "tatzelwurm"#cat.species = "basilisk"
         else:
             cat.species = "wngd placeholder"
         return
@@ -146,7 +146,7 @@ def species_inheritance(cat, par1, par2, par1_species, par2_species):
         if par2_species == "feathered cat":
             cat.species = "basilisk"
         elif par2_species == "winged cat":
-            cat.species = "basilisk"
+            cat.species = "tatzelwurm"
         elif par2_species == "basilisk":
             cat.species = choice(
             random.choices(species_list, weights=(0, 0, 0, 1, 1, 0), k=1)
@@ -154,7 +154,7 @@ def species_inheritance(cat, par1, par2, par1_species, par2_species):
         elif par2_species == "tatzelwurm":
             cat.species = "tatzelwurm"
         else:
-            cat.species = "wurm placeholder"
+            cat.species = "tatzelwurm"
         return
     else:
         cat.species = "placeholder"
@@ -656,6 +656,20 @@ def valid_pelt(cat):
         else:
             print("cat pelt not in wng - invalid")
             valid = False
+    elif cat.species == "tatzelwurm":
+        if cat.pelt.name in (game.valid["wurm"]):
+            print("cat pelt in wurm - valid")
+            if cat.pelt.name in ["Tortie", "Calico"]:
+                valid = False
+            elif cat.pelt.colour in (game.valid[cat.pelt.name]):
+                print("wurm - valid colour")
+                valid = True
+            else:
+                print("wurm - invalid colour")
+                valid = False
+        else:
+            print("cat pelt not in wurm - invalid")
+            valid = False
     else:
         print("species has no valid_pelt json - placeholder")
         valid = True
@@ -671,7 +685,19 @@ def valid_calico(species = None, tortiebase = None, colour = None, tortiepattern
     if tortiebase is None:
         pass
     elif species == "regular cat":
-        pass
+        if tortiebase.capitalize() not in (game.valid["reg"]):
+            tortiebase = choice(tortiebases)
+            print("changed tortie base")
+        if colour not in (game.valid[tortiebase.capitalize()]):
+            colour = choice(game.valid[tortiebase.capitalize()])
+            print("changed tortie base colour")
+        if tortiepattern.capitalize() not in (game.valid["reg"]):
+            tortiebase = choice(tortiebases)
+            print("changed tortie pattern")
+        if tortiecolour not in (game.valid[tortiepattern.capitalize()]):
+            tortiecolour = choice(game.valid[tortiepattern.capitalize()])
+            print("changed tortie pattern colour")
+
     elif species == "winged cat":
         if tortiebase.capitalize() not in (game.valid["wng"]):
             tortiebase = choice(tortiebases_wng)
@@ -703,8 +729,11 @@ def init_pelt(cat):
         else:
             randomize_pelt(cat)
         if cat.pelt.name in ['Tortie', 'Calico']:
-            return cat.pelt
-            break
+            if cat.species == "tatzelwurm":
+                pass
+            else:
+                return cat.pelt
+                break
         else:
             valid = valid_pelt(cat)
             if valid is True:
@@ -804,8 +833,6 @@ def init_pattern(cat):
                     cat.tortiecolour = choice(possible_colors)
                 elif cat.species == "winged cat":
                     cat.tortiepattern = choice(tortiebases_wng)
-                    print("tortie pattern" + (cat.tortiepattern))
-
                     # Allow any colors that aren't the base color.
                     possible_colors = white_colours_wng.copy()
                     possible_colors = blue_colours_wng.copy()
