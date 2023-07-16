@@ -14,14 +14,13 @@ from scripts.event_class import Single_Event
 # ---------------------------------------------------------------------------- #
 
 class Death_Events():
-    """All events with a connection to conditions."""
+    """All events with a connection to death."""
 
     def __init__(self) -> None:
         self.event_sums = 0
         self.had_one_event = False
         self.generate_events = GenerateEvents()
         self.history = History()
-        pass
 
     def handle_deaths(self, cat, other_cat, war, enemy_clan, alive_kits, murder=False):
         """ 
@@ -40,7 +39,7 @@ class Death_Events():
             other_clan_name = f'{other_clan.name}Clan'
 
         possible_short_events = self.generate_events.possible_short_events(cat.status, cat.age, "death")
-        print('death event', cat.ID)
+
         final_events = self.generate_events.filter_possible_short_events(possible_short_events, cat, other_cat, war,
                                                                          enemy_clan,
                                                                          other_clan, alive_kits, murder=murder)
@@ -54,7 +53,6 @@ class Death_Events():
             print('WARNING: no death events found for', cat.name)
             return
         death_text = event_text_adjust(Cat, death_cause.event_text, cat, other_cat, other_clan_name)
-        print(death_text)
         additional_event_text = ""
 
         # assign default history
@@ -101,7 +99,7 @@ class Death_Events():
             body = True
 
         # handle other cat
-        if "other_cat" and other_cat:
+        if other_cat and "other_cat" in death_cause.tags:
             # if at least one cat survives, change relationships
             if "multi_death" not in death_cause.tags:
                 self.handle_relationship_changes(cat, death_cause, other_cat)
@@ -130,7 +128,7 @@ class Death_Events():
                 additional_event_text += cat.die(body)
                 death_history = history_text_adjust(death_history, other_clan_name, game.clan)
 
-            self.history.add_death_or_scars(cat, other_cat, death_history, murder_unrevealed_history, death=True)
+            self.history.add_death(cat, death_history, other_cat=other_cat, extra_text=murder_unrevealed_history)
 
         # give death history to other cat and kill them if they die
         if "other_cat_death" in death_cause.tags or "multi_death" in death_cause.tags:
@@ -150,14 +148,14 @@ class Death_Events():
                 additional_event_text += other_cat.die(body)
                 other_death_history = history_text_adjust(death_cause.history_text.get('reg_death'), other_clan_name, game.clan)
 
-            self.history.add_death_or_scars(other_cat, cat, other_death_history, death=True)
+            self.history.add_death(other_cat, other_death_history, other_cat=cat)
 
         # give injuries to other cat if tagged as such
         if "other_cat_injured" in death_cause.tags:
             for tag in death_cause.tags:
                 if tag in INJURIES:
                     other_cat.get_injured(tag)
-                    # TODO: consider how best to handle history for this (aka fix it later cus i don't wanna rn ;-;
+                    #TODO: consider how best to handle history for this (aka fix it later cus i don't wanna rn ;-;
                     #  and it's not being used by any events yet anyways)
 
         # handle relationships with other clans
@@ -177,7 +175,7 @@ class Death_Events():
         """
         on hold until personality rework because i'd rather not have to figure this out a second time
         tentative plan is to have capability for a cat to witness the murder and then have a reaction based off trait
-        and perhaps reveal it to other clan members
+        and perhaps reveal it to other Clan members
         """
         witness = None
         # choose the witness

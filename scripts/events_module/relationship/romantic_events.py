@@ -7,9 +7,10 @@ import ujson
 
 from scripts.cat.history import History
 from scripts.utility import (
-    get_highest_romantic_relation, 
-    event_text_adjust, 
+    get_highest_romantic_relation,
+    event_text_adjust,
     get_personality_compatibility,
+    process_text
 
 )
 from scripts.game_structure.game_essentials import game
@@ -17,15 +18,14 @@ from scripts.event_class import Single_Event
 from scripts.cat.cats import Cat
 from scripts.cat_relations.relationship import (
     INTERACTION_MASTER_DICT,
-    Relationship,
     rel_fulfill_rel_constraints,
-    cats_fulfill_single_interaction_constraints,
+    cats_fulfill_single_interaction_constraints
 )
 
 
 class Romantic_Events():
     """All events which are related to mate's such as becoming mates and breakups, but also for possible mates and romantic interactions."""
-    
+
     def __init__(self) -> None:
         self.history = History()
         self.had_one_event = False
@@ -72,7 +72,7 @@ class Romantic_Events():
                 continue
 
             filtered_interactions.append(interaction)
-        
+
         if len(filtered_interactions) < 1:
             print(f"There were no romantic interactions for: {cat_from.name} to {cat_to.name}")
             return False
@@ -117,35 +117,47 @@ class Romantic_Events():
                 possible_death = injury_dict["death_text"] if "death_text" in injury_dict else None
                 if injured_cat.status == "leader":
                     possible_death = injury_dict["death_leader_text"] if "death_leader_text" in injury_dict else None
-                if possible_scar:
+                
+                if possible_scar or possible_death:
                     for condition in injuries:
-                        self.history.add_possible_death_or_scars(injured_cat, condition, possible_scar, scar=True)
-                if possible_death:
-                    for condition in injuries:
-                        self.history.add_possible_death_or_scars(injured_cat, condition, possible_scar, death=True)
+                        self.history.add_possible_history(injured_cat, condition, death_text=possible_death, scar_text=possible_scar)
 
         # get any possible interaction string out of this interaction
         interaction_str = choice(chosen_interaction.interactions)
 
         # prepare string for display
-        interaction_str = interaction_str.replace("m_c", str(cat_from.name))
-        interaction_str = interaction_str.replace("r_c", str(cat_to.name))
+        cat_dict = {
+            "m_c": (str(cat_from.name), choice(cat_from.pronouns)),
+            "r_c": (str(cat_to.name), choice(cat_to.pronouns))
+        }
+        interaction_str = process_text(interaction_str, cat_dict)
+        
+        # extract intensity from the interaction
+        intensity = getattr(chosen_interaction, 'intensity', 'neutral')
 
-        # display the interaction in the moon events
-        effect = " (positive effect)" if positive else " (negative effect)"
+        effect = " (neutral effect)"
+        if in_de_crease != "neutral" and positive:
+            effect = f" ({intensity} positive effect)"
+        if in_de_crease != "neutral" and not positive:
+            effect = f" ({intensity} negative effect)"
+
         interaction_str = interaction_str + effect
 
-        relationship.log.append(interaction_str)
-        if not relationship.opposite_relationship and cat_from.ID != cat_to.ID:
-            relationship.link_relationship()
-            relationship.opposite_relationship.log.append(interaction_str)
-
+        # send string to current moon relationship events before adding age of cats
         relevant_event_tabs = ["relation", "interaction"]
         if len(chosen_interaction.get_injuries) > 0:
             relevant_event_tabs.append("health")
         game.cur_events_list.append(Single_Event(
             interaction_str, relevant_event_tabs, [cat_to.ID, cat_from.ID]
         ))
+
+        # now add the age of the cats before the string is sent to the cats' relationship logs
+        relationship.log.append(interaction_str + f" - {cat_from.name} was {cat_from.moons} moon(s) old")
+
+        if not relationship.opposite_relationship and cat_from.ID != cat_to.ID:
+            relationship.link_relationship()
+            relationship.opposite_relationship.log.append(interaction_str)
+
         #print(f"ROMANTIC! {cat_from.name} to {cat_to.name}")
         return True
 
@@ -164,6 +176,7 @@ class Romantic_Events():
             game.cur_events_list.append(Single_Event(mate_string, ["relation", "misc"], [cat_from.ID, cat_to.ID]))
 
     def handle_breakup(self, relationship_from, relationship_to, cat_from, cat_to):
+        ''' Handles cats breaking up their relationship '''
         from_mate_in_clan = False
         if cat_to.ID in cat_from.mate:
             from_mate_in_clan = cat_to.is_alive() and not cat_to.outside
@@ -177,7 +190,6 @@ class Romantic_Events():
                 self.had_one_event = True
                 cat_from.unset_mate(cat_to, breakup=True, fight=had_fight)
                 text = f"{cat_from.name} and {cat_to.name} broke up."
-                # game.relation_events_list.insert(0, text)
                 game.cur_events_list.append(Single_Event(text, ["relation", "misc"], [cat_from.ID, cat_to.ID]))
 
     def handle_confession(self, cat_from):
@@ -210,11 +222,22 @@ class Romantic_Events():
 
         become_mate = False
         condition = game.config["mates"]["confession"]["accept_confession"]
-        if self.relationship_fulfill_condition(highest_romantic_relation, condition):
+        rel_to_check = highest_romantic_relation.opposite_relationship
+        if not rel_to_check:
+            highest_romantic_relation.link_relationship()
+            rel_to_check = highest_romantic_relation.opposite_relationship
+        if self.relationship_fulfill_condition(rel_to_check, condition):
+            become_mate = True
+            mate_string = self.get_mate_string("high_romantic", poly, cat_from, cat_to)
+        # second acceptance chance if the romantic is high enough
+        elif "romantic" in condition and condition["romantic"] != 0 and\
+            condition["romantic"] > 0 and rel_to_check.romantic_love >= condition["romantic"] * 1.5:
             become_mate = True
             mate_string = self.get_mate_string("high_romantic", poly, cat_from, cat_to)
         else:
             mate_string = self.get_mate_string("rejected", poly, cat_from, cat_to)
+            cat_from.relationships[cat_to.ID].romantic_love -= 8
+            cat_to.relationships[cat_from.ID].comfortable -= 8
 
         mate_string = self.prepare_relationship_string(mate_string, cat_from, cat_to)
         game.cur_events_list.append(Single_Event(mate_string, ["relation", "misc"], [cat_from.ID, cat_to.ID]))
@@ -222,7 +245,7 @@ class Romantic_Events():
         if become_mate:
             cat_from.set_mate(cat_to)
 
-        return become_mate
+        return True
 
     # ---------------------------------------------------------------------------- #
     #                          check if event is triggered                         #
@@ -355,6 +378,8 @@ class Romantic_Events():
             - negative number: value has to be lower than number
         
         """
+        if not relationship:
+            return False
         if "romantic" in condition and condition["romantic"] != 0:
             if condition["romantic"] > 0 and relationship.romantic_love < condition["romantic"]:
                 return False
@@ -464,6 +489,18 @@ class Romantic_Events():
                 mate_name_string = ", ".join(mate_names[:-1]) + ", and " + mate_names[-1]
             mate_string = mate_string.replace("[r_c_mates]", mate_name_string)
 
+        if "(m_c_mate/mates)":
+            insert = "mate"
+            if len(cat_from.mate) > 1:
+                insert = "mates"
+            mate_string = mate_string.replace("(m_c_mate/mates)", insert)
+
+        if "(r_c_mate/mates)":
+            insert = "mate"
+            if len(cat_to.mate) > 1:
+                insert = "mates"
+            mate_string = mate_string.replace("(r_c_mate/mates)", insert)
+
         mate_string = event_text_adjust(Cat, mate_string, cat_from, cat_to)
         return mate_string
 
@@ -528,21 +565,34 @@ class Romantic_Events():
         # change the chance based on the last interactions
         if len(relationship_from.log) > 0:
             # check last interaction
-            last_log = relationship_from.log[len(relationship_from.log) - 1]
+            last_log1 = relationship_from.log[len(relationship_from.log) - 1]
 
-            if 'negative' in last_log:
+            if 'negative' in last_log1:
                 chance_number -= 30
-                if 'fight' in last_log:
+                if 'fight' in last_log1:
                     chance_number -= 20
+                if 'argument' in last_log1:
+                    chance_number -= 10
+                if 'different view' in last_log1:
+                    chance_number -= 5
+            
+            # also look at the last 3 interactions if there are more than that
+            if len(relationship_from.log) > 2:
+                last_log2 = relationship_from.log[len(relationship_from.log) - 2]
+                if 'negative' in last_log2:
+                    chance_number -= 15
+                last_log3 = relationship_from.log[len(relationship_from.log) - 3]
+                if 'negative' in last_log3:
+                    chance_number -= 10
 
-            # check all interactions - the logs are still buggy
-            # negative_interactions = list(filter(lambda inter: 'negative' in inter, relationship_from.log))
-            # chance_number -= len(negative_interactions)
-            # positive_interactions = list(filter(lambda inter: 'positive' in inter, relationship_from.log))
-            # chance_number += len(positive_interactions)
+            # check all interactions - positive and negative will "balance" each other out
+            negative_interactions = list(filter(lambda inter: 'negative' in inter, relationship_from.log))
+            chance_number -= len(negative_interactions)
+            positive_interactions = list(filter(lambda inter: 'positive' in inter, relationship_from.log))
+            chance_number += len(positive_interactions)
 
-            # if len(negative_interactions) > len(positive_interactions) and len(relationship_from.log) > 5 :
-            #    chance_number -= 20
+            if len(negative_interactions) * 2 > len(positive_interactions) and len(relationship_from.log) > 5 :
+                chance_number -= 20
 
         # this should be nearly impossible, that chance is lower than 0
         if chance_number <= 0:
