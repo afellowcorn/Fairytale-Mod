@@ -238,8 +238,6 @@ class Cat():
             self.ID = potential_id
         else:
             self.ID = ID
-
-        init_species(self) 
                 
         # age and status
         if status is None and moons is None:
@@ -308,6 +306,7 @@ class Cat():
                 self.pronouns = [self.default_pronouns[2].copy()]"""
 
             # APPEARANCE
+            self.species = Pelt.init_species(self)
             self.pelt = Pelt.generate_new_pelt(self.species, self.gender, [Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i], self.age)
             
             #Personality

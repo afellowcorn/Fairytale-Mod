@@ -167,6 +167,10 @@ class Pelt():
 
     pelt_categories_wurm = [garter, garter]
 
+    species_list = [
+        "regular cat", "feathered cat", "winged cat", "basilisk", "tatzelwurm", "egg"
+    ]
+
     #Holds all appearence information for a cat.
     def __init__(self,
                  name:str="SingleColour",
@@ -230,21 +234,118 @@ class Pelt():
         self.reverse = reverse
         self.skin = skin
 
+    def init_species(cat):
+        if cat.species is not None:
+            return cat.species
+        else:
+            # Grab Parents
+            par1 = None
+            par2 = None
+            if cat.parent1 in cat.all_cats:
+                par1 = cat.all_cats[cat.parent1]
+                par1_species = par1.species
+            if cat.parent2 in cat.all_cats:
+                par2 = cat.all_cats[cat.parent2]
+                par2_species = par2.species
+
+            if par1 or par2:
+                #If the cat has parents, use inheritance to decide species.
+                species_inheritance(cat, par1, par2, par1_species, par2_species)
+            else:
+                randomize_species(cat)
+
+    def species_inheritance(cat, par1, par2, par1_species, par2_species):
+    # If this list is empty, something went wrong.
+    if par1 and par2 == None:
+        print("Error - no parents: species randomized")
+        randomize_species(cat)
+        return
+
+    if par2_species == None:
+        par2_species = choice(
+            random.choices(species_list, weights=(5, 1, 5, 1, 4, 0), k=1)
+            )
+
+    # Species list goes: (reg, fthrd, wngd, basilisk, wurm, egg)
+    if par1_species == "regular cat":
+        if par2_species == "regular cat":
+            cat.species = "regular cat"
+        elif par2_species == "feathered cat":
+            cat.species = choice("regular cat", "regular cat", "feathered cat")
+        elif par2_species == "winged cat":
+            cat.species = choice(
+                random.choices(species_list, weights=(3, 1, 2, 0, 0, 0), k=1)
+                )
+        elif par2_species == "basilisk":
+            cat.species = choice("regular cat", "regular cat", "feathered cat", "basilisk")
+        else:
+            cat.species = "reg placeholder"
+        return
+
+    elif par1_species == "winged cat":
+        if par2_species == "regular cat":
+            cat.species = choice(
+            random.choices(species_list, weights=(3, 1, 2, 0, 0, 0), k=1)
+                )
+        elif par2_species == "feathered cat":
+            cat.species = choice(
+            random.choices(species_list, weights=(1, 5, 10, 0, 0, 0), k=1)
+                )
+        elif par2_species == "winged cat":
+            cat.species = "winged cat"
+        elif par2_species == "basilisk":
+            cat.species = choice(
+            random.choices(species_list, weights=(0, 5, 10, 5, 0, 0), k=1)
+                )
+        elif par2_species == "tatzelwurm":
+            cat.species = "basilisk"
+        else:
+            cat.species = "wngd placeholder"
+        return
+
+    elif par1_species == "tatzelwurm":
+        if par2_species == "feathered cat":
+            cat.species = "basilisk"
+        elif par2_species == "winged cat":
+            cat.species = "basilisk"
+        elif par2_species == "basilisk":
+            cat.species = choice("tatzelwurm", "basilisk")
+        elif par2_species == "tatzelwurm":
+            cat.species = "tatzelwurm"
+        else:
+            cat.species = "wurm placeholder"
+        return
+    else:
+        cat.species = "placeholder"
+        return
+
+def randomize_species(cat):
+    weights = []
+    weights.insert(0, game.config["species_generation"]["regular_cat"])
+    weights.insert(1, game.config["species_generation"]["feathered_cat"])
+    weights.insert(2, game.config["species_generation"]["winged_cat"])
+    weights.insert(3, game.config["species_generation"]["basilisk"])
+    weights.insert(4, game.config["species_generation"]["tatzelwurm"])
+
+    cat.species = choice(
+        random.choices(species_list, weights=(weights) + [0], k=1) #extra 0 for egg
+        )
+    return
+
+
     @staticmethod
     def generate_new_pelt(species:str, gender:str, parents:tuple=(), age:str="adult"):
         new_pelt = Pelt()
         while(True):
             pelt_white = new_pelt.init_pattern_color(parents, species, gender)
             if pelt.name in ['Tortie', 'Calico']:
+                valid_calico(species)
             if species == "tatzelwurm":
                 pass
             else:
-                pass
-        else:
-            valid = valid_pelt(species)
+                valid = valid_pelt(species)
             if valid is True:
                 break
-        #valid_calico(species)
 
         new_pelt.init_white_patches(pelt_white, parents)
         new_pelt.init_sprite()
@@ -353,42 +454,34 @@ class Pelt():
         if self.name is None:
             valid = False
         if species == "regular cat":
-            if self.name in (game.valid["reg"]):
-                print("cat pelt in reg - valid")
+            if self.name in (game.valid["reg"]["pelt"]):
                 if self.name in ["Tortie", "Calico"]:
                     valid = True
                 elif self.colour in (game.valid[self.name]):
                     valid = True
                 else:
-                    print("reg - invalid colour")
                     valid = False
             else:
                 print("cat pelt not in reg - invalid")
                 valid = False
         elif species == "winged cat":
-            if self.name in (game.valid["wng"]):
-                print("cat pelt in wng - valid")
+            if self.name in (game.valid["wng"]["pelt"]):
                 if self.name in ["Tortie", "Calico"]:
                     valid = True
                 elif self.colour in (game.valid[self.name]):
-                    print("wng - valid colour")
                     valid = True
                 else:
-                    print("wng - invalid colour")
                     valid = False
             else:
                 print("cat pelt not in wng - invalid")
                 valid = False
         elif species == "tatzelwurm":
-            if self.name in (game.valid["wurm"]):
-                print("cat pelt in wurm - valid")
+            if self.name in (game.valid["wurm"]["pelt"]):
                 if self.name in ["Tortie", "Calico"]:
                     valid = False
                 elif self.colour in (game.valid[self.name]):
-                    print("wurm - valid colour")
                     valid = True
                 else:
-                    print("wurm - invalid colour")
                     valid = False
             else:
                 print("cat pelt not in wurm - invalid")
@@ -399,7 +492,7 @@ class Pelt():
             pass
         return valid
      
-    """def valid_calico(self, species):
+    def valid_calico(self, species):
         species = species
         tortiebase = tortiebase
         colour = colour
@@ -408,34 +501,25 @@ class Pelt():
         if tortiebase is None:
             pass
         elif species == "regular cat":
-            if tortiebase.capitalize() not in (game.valid["reg"]):
-                tortiebase = choice(tortiebases)
-                print("changed tortie base")
-            if colour not in (game.valid[tortiebase.capitalize()]):
-                colour = choice(game.valid[tortiebase.capitalize()])
-                print("changed tortie base colour")
-            if tortiepattern.capitalize() not in (game.valid["reg"]):
-                tortiebase = choice(tortiebases)
-                print("changed tortie pattern")
-            if tortiecolour not in (game.valid[tortiepattern.capitalize()]):
-                tortiecolour = choice(game.valid[tortiepattern.capitalize()])
-                print("changed tortie pattern colour")
+            if self.tortiebase.capitalize() not in (game.valid["reg"]):
+                self.tortiebase = choice(tortiebases)
+            if self.colour not in (game.valid[self.tortiebase.capitalize()]):
+                self.colour = choice(game.valid[self.tortiebase.capitalize()])
+            if self.tortiepattern.capitalize() not in (game.valid["reg"]):
+                self.tortiebase = choice(tortiebases)
+            if self.tortiecolour not in (game.valid[self.tortiepattern.capitalize()]):
+                tortiecolour = choice(game.valid[self.tortiepattern.capitalize()])
 
         elif species == "winged cat":
-            if tortiebase.capitalize() not in (game.valid["wng"]):
-                tortiebase = choice(tortiebases_wng)
-                print("changed tortie base")
-            if colour not in (game.valid[tortiebase.capitalize()]):
-                colour = choice(game.valid[tortiebase.capitalize()])
-                print("changed tortie base colour")
-            if tortiepattern.capitalize() not in (game.valid["wng"]):
-                tortiebase = choice(tortiebases_wng)
-                print("changed tortie pattern")
-            if tortiecolour not in (game.valid[tortiepattern.capitalize()]):
-                tortiecolour = choice(game.valid[tortiepattern.capitalize()])
-                print("changed tortie pattern colour")
-        return species, tortiebase, colour, tortiepattern, tortiecolour"""
-        
+            if self.tortiebase.capitalize() not in (game.valid["wng"]):
+                self.tortiebase = choice(tortiebases_wng)
+            if self.colour not in (game.valid[self.tortiebase.capitalize()]):
+                self.colour = choice(game.valid[self.tortiebase.capitalize()])
+            if self.tortiepattern.capitalize() not in (game.valid["wng"]):
+                self.tortiebase = choice(tortiebases_wng)
+            if self.tortiecolour not in (game.valid[self.tortiepattern.capitalize()]):
+                self.tortiecolour = choice(game.valid[self.tortiepattern.capitalize()])
+
     def init_eyes(self, parents):
         if not parents:
             self.eye_colour = choice(Pelt.eye_colours)
