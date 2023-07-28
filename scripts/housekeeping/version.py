@@ -9,6 +9,7 @@ from platformdirs import user_data_dir
 logger = logging.getLogger(__name__)
 
 VERSION_NAME = "0.9.0"
+MOD_VERSION = "a0.1.0"
 SAVE_VERSION_NUMBER = 2  # This is saved in the Clan save-file, and is used for save-file converstion.
 
 
@@ -16,6 +17,7 @@ def get_version_info():
     if get_version_info.instance is None:
         is_source_build = False
         version_number = VERSION_NAME
+        mod_version = MOD_VERSION
         release_channel = False
         upstream = ""
         is_itch = False
@@ -42,7 +44,7 @@ def get_version_info():
         if "itch-player" in user_data_dir().lower():
             is_sandboxed = True
 
-        get_version_info.instance = VersionInfo(is_source_build, release_channel, version_number, upstream, is_itch, is_sandboxed)
+        get_version_info.instance = VersionInfo(is_source_build, release_channel, version_number, mod_version, upstream, is_itch, is_sandboxed)
     return get_version_info.instance
 
 
@@ -50,10 +52,11 @@ get_version_info.instance = None
 
 
 class VersionInfo:
-    def __init__(self, is_source_build: bool, release_channel: str, version_number: str, upstream: str, is_itch: bool, is_sandboxed: bool):
+    def __init__(self, is_source_build: bool, release_channel: str, version_number: str, mod_version: str, upstream: str, is_itch: bool, is_sandboxed: bool):
         self.is_source_build = is_source_build
         self.release_channel = release_channel
         self.version_number = version_number
+        self.mod_version = mod_version
         self.upstream = upstream
         self.is_itch = is_itch
         self.is_sandboxed = is_sandboxed
