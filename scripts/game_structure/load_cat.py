@@ -288,6 +288,7 @@ def csv_load(all_cats):
                               pelt=the_pelt,
                               parent1=attr[6],
                               parent2=attr[7],
+                              species=attr[41]
                             )
                 
                 
@@ -384,6 +385,9 @@ def csv_load(all_cats):
                     the_cat.genderalign = attr[40]
                 if len(attr) > 41:
                     the_cat.species = attr[41]
+                game.switches[
+                    'error_message'] = '16There was an error loading cat # ' + str(
+                    attr[0])
                 if len(attr) > 42 and attr[42] is not None:  #KEEP THIS AT THE END
                     the_cat.former_apprentices = attr[42].split(';')
         game.switches[

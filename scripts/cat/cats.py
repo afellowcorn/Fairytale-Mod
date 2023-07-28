@@ -278,6 +278,9 @@ class Cat():
             self.gender = choice(["female", "male"])
         self.g_tag = self.gender_tags[self.gender]
 
+        if self.species is None:
+            self.species = Pelt.init_species(self, parents=[Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i])
+
         # These things should only run when generating a new cat, rather than loading one in.
         if not loading_cat:
             # trans cat chances
@@ -306,7 +309,6 @@ class Cat():
                 self.pronouns = [self.default_pronouns[2].copy()]"""
 
             # APPEARANCE
-            self.species = Pelt.init_species(self)
             self.pelt = Pelt.generate_new_pelt(self.species, self.gender, [Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i], self.age)
             
             #Personality
@@ -2772,6 +2774,7 @@ class Cat():
                 "ID": self.ID,
                 "name_prefix": self.name.prefix,
                 "name_suffix": self.name.suffix,
+                "species": self.species,
                 "status": self.status,
                 "moons": self.moons,
                 "dead_for": self.dead_for,
@@ -2791,6 +2794,7 @@ class Cat():
                 "gender_align": self.genderalign,
                 #"pronouns": self.pronouns,
                 "birth_cooldown": self.birth_cooldown,
+                "species": self.species,
                 "status": self.status,
                 "backstory": self.backstory if self.backstory else None,
                 "moons": self.moons,

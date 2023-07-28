@@ -255,7 +255,7 @@
         "tatzelwurm": 17,
         "comment": [
 			"Unlike most other chances, here the HIGHER the NUMBER, the HIGHER the CHANCE.",
-			"Setting a species value to 0 will make it not generate for new cats (you can still get it when having kits)."
+			"Setting a species value to 0 will make new cats never generate as it (you can still get it when having kits)."
 		]
     },
 	"cat_name_controls": {
@@ -346,7 +346,7 @@
 		"war_injury_modifier": 100
 	},
 	"clan_creation": {
-		"rerolls": 3,
+		"rerolls": -1,
 		"comment": "Set this to -1 for it to be infinite"
 	},
 	"graduation": {

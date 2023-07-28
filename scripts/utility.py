@@ -295,27 +295,6 @@ def create_new_cat(Cat,
         else:
             _gender = gender
 
-        # setting species TBW
-        if not species:
-            if choice([1, 2, 3]) == 1:
-                fthr_chance = randint(0, 10)
-                basilisk_chance = randint(0, 20)
-                if fthr_chance == 1:
-                    species = "feathered cat"
-                elif basilisk_chance == 1:
-                    species = "basilisk"
-                else:
-                    species = "regular cat"
-            else:
-                wngd_chance = randint(0, 3)
-                wurm_chance = randint(0, 10)
-                if wngd_chance == 1:
-                    species = "winged cat"
-                elif wurm_chance == 1:
-                    species = "tatzelwurm"
-                else:
-                    species = "regular cat"
-
         # other Clan cats, apps, and kittens (kittens and apps get indoctrinated lmao no old names for them)
         if other_clan or kit or litter or age < 12:
             new_cat = Cat(moons=age,
@@ -1517,14 +1496,14 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
                 new_sprite.blit(sprites.sprites['lighting' + cat_sprite], (0, 0))
 
             if not dead:
-                new_sprite.blit(sprites.sprites['lines_wng' + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['lineswng' + cat_sprite], (0, 0))
             elif cat.df:
-                new_sprite.blit(sprites.sprites['lineartdf' + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['lineswngdf' + cat_sprite], (0, 0))
             elif dead:
-                new_sprite.blit(sprites.sprites['lineartdead' + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['lineswngdead' + cat_sprite], (0, 0))
             # draw skin and scars2
             blendmode = pygame.BLEND_RGBA_MIN
-            new_sprite.blit(sprites.sprites['skin' + cat.pelt.skin + cat_sprite], (0, 0))
+            new_sprite.blit(sprites.sprites['skin_wng' + cat.pelt.skin + cat_sprite], (0, 0))
             
             if not scars_hidden:
                 for scar in cat.pelt.scars:
