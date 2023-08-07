@@ -49,9 +49,10 @@
     "PASTEL": "white",
     "NEONBLUE": "warm",
     "FLAME": "warm",
-    "SPECKFLAME": "white",
-    "DALMATIAN": "white"
-
+    "SPECKRED": "white",
+    "DALMATIAN": "white",
+    "HYPOCOAST": "warm",
+    "COAST": "warm"
   },
   "possible_tints": {
     "basic": ["pink", "gray", "red", "orange", "none"],

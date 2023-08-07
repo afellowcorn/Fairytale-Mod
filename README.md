@@ -2,7 +2,12 @@
 
 ### [Discord Server Thread](https://discord.com/channels/1003759225522110524/1079478795490304100)
 
-This mod integrates many features of real folklore and mythology as well as imagined fantasy elements with the intent to blend with ClanGen's original style, including new critters to recruit to your clan such as winged cats, tatzelwurm, ball-tailed cats and more, new accessories, new clan backgrounds, and a few more minor additions!
+This mod aims to blend well with ClanGen's original style, and is a fantasy mod "taken seriously" with the subtle atmosphere of mystery and intrigue present in old stories about creatures that lurk in the wilds.
+
+It adds a plethora of new fantastical species, some based on real folklore, which you can meet and recruit to your clan!
+It also expands all features of the game to accommodate these critters, such as new patrols and events. Maybe you'll even find places of legend on your next adventure...
+
+Creator: https://afellowcorn.tumblr.com/
 
 # clangen
 

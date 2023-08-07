@@ -1623,7 +1623,7 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
                 new_sprite.blit(sprites.sprites['lineartdead' + cat_sprite], (0, 0))
             # draw skin and scars2
             blendmode = pygame.BLEND_RGBA_MIN
-            new_sprite.blit(sprites.sprites['skin' + cat.pelt.skin + cat_sprite], (0, 0))
+            new_sprite.blit(sprites.sprites['skin_wurm' + cat.pelt.skin + cat_sprite], (0, 0))
             
             if not scars_hidden:
                 for scar in cat.pelt.scars:

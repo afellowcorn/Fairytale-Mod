@@ -25,6 +25,7 @@ class Pelt():
         'Calico': None,
         'SingleColour_wng': 'single_wng',
         'Singlestripe_wng': 'singlestripe_wng',
+        'Smoke_wng': 'smoke_wng',
         'Pigeonbar': 'pigeonbar',
         'Pigeoncheck': 'pigeoncheck',
         'Pigeonspread': 'pigeonspread',
@@ -152,24 +153,24 @@ class Pelt():
     other_colours_wng = ['']
     colour_categories_wng = [white_colours_wng, blue_colours_wng, brown_colours_wng, red_colours_wng]
 
-    tortiebases_wng = ['single_wng', 'pigeonbar', 'pigeoncheck', 'pigeonspread']
+    tortiebases_wng = ['single_wng', 'smoke_wng', 'pigeonbar', 'pigeoncheck', 'pigeonspread']
 
-    plain_wng = ["SingleColour_wng", "Singlestripe_wng"]
+    plain_wng = ["SingleColour_wng", "Singlestripe_wng", "Smoke_wng"]
     bird = ["Pigeonbar", "Pigeoncheck", "Pigeonspread", "Pigeonfancy"]
     pelt_categories_wng = [plain_wng, bird]
 
     # WURM ATTRIBUTES
     garter_colours = [
-        'BLUE', 'GREY', 'PALEGREY', 'COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN', 'PASTEL'
+        'BLUE', 'GREY', 'PALEGREY', 'COFFEE', 'DARKBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN', 'PASTEL'
     ]
     garterexotic_colours = [
-        'NEONBLUE', 'FLAME', 'SPECKFLAME', 'RED', 'DALMATIAN'
+        'NEONBLUE', 'FLAME', 'SPECKRED', 'RED', 'DALMATIAN', 'HYPOCOAST', 'COAST'
     ]
 
     blue_colours_wurm = ['BLUE', 'GREY', 'PALEGREY', 'NEONBLUE']
-    brown_colours_wurm = ['COFFEE', 'DAKRBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN']
-    red_colours_wurm = ['RED', 'FLAME']
-    white_colours_wurm = ['PASTEL', 'SPECKFLAME', 'DALMATIAN']
+    brown_colours_wurm = ['COFFEE', 'DARKBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN']
+    red_colours_wurm = ['RED', 'FLAME', 'HYPOCOAST', 'COAST']
+    white_colours_wurm = ['PASTEL', 'SPECKRED', 'DALMATIAN']
     colour_categories_wurm = [blue_colours_wurm, brown_colours_wurm, red_colours_wurm, white_colours_wurm]
 
     garter = ["Garter", "Gartercheck", "Garterexotic"]
@@ -290,15 +291,19 @@ class Pelt():
             if par2_species == "regular cat":
                 chosen_species = "regular cat"
             elif par2_species == "feathered cat":
-                chosen_species = choice("regular cat", "regular cat", "feathered cat")
+                chosen_species = choice("regular cat", "feathered cat")
             elif par2_species == "winged cat":
                 chosen_species = choice(
                     random.choices(species_list, weights=(3, 0, 2, 0, 0, 0), k=1)
                     )
             elif par2_species == "basilisk":
-                chosen_species = choice("regular cat", "regular cat", "feathered cat", "basilisk")
+                chosen_species = choice(
+                    random.choices(species_list, weights=(2, 0, 0, 0, 1, 0), k=1)
+                    )
             elif par2_species == "tatzelwurm":
-                chosen_species = choice(["regular cat", "regular cat", "tatzelwurm"])
+                chosen_species = choice(
+                    random.choices(species_list, weights=(2, 0, 0, 0, 1, 0), k=1)
+                    )
             else:
                 chosen_species = "reg placeholder"
 
@@ -325,7 +330,9 @@ class Pelt():
                 
         elif par1.species == "tatzelwurm":
             if par2_species == "regular cat":
-                chosen_species = choice(["regular cat", "regular cat", "tatzelwurm"])
+                chosen_species = choice(
+                    random.choices(species_list, weights=(2, 0, 0, 0, 1, 0), k=1)
+                    )
             elif par2_species == "feathered cat":
                 chosen_species = "basilisk"
             elif par2_species == "winged cat":
@@ -337,7 +344,9 @@ class Pelt():
             else:
                 chosen_species = "wurm placeholder"
         else:
-            chosen_species = "placeholder"
+            chosen_species = "This should not appear!"
+        print("par species: "+ par1.species+ " " +par2_species)
+        print("chosen: " + chosen_species)
         return str(chosen_species)
 
     def init_species(cat, parents):
@@ -449,8 +458,7 @@ class Pelt():
             self.pattern = "MINIMALFOUR"
 
     def valid_pelt(self, species):
-        if self.name is None:
-            valid = False
+        valid = False
         if species == "regular cat":
             if self.name in (game.valid["reg"]["pelt"]):
                 if self.name in ["Tortie", "Calico"]:
@@ -460,7 +468,6 @@ class Pelt():
                 else:
                     valid = False
             else:
-                print("cat pelt not in reg - invalid")
                 valid = False
         elif species == "winged cat":
             if self.name in (game.valid["wng"]["pelt"]):
@@ -471,12 +478,10 @@ class Pelt():
                 elif self.name in (game.valid["convert"]):
                     chosen_colour = (game.valid["convert"][self.name][self.colour])
                     self.colour = chosen_colour
-                    print("converted colours")
                     valid = True
                 else:
                     valid = False
             else:
-                print("cat pelt not in wng - invalid")
                 valid = False
         elif species == "tatzelwurm":
             if self.name in (game.valid["wurm"]["pelt"]):
@@ -484,13 +489,15 @@ class Pelt():
                     valid = False
                 elif self.colour in (game.valid["wurm"][self.name]):
                     valid = True
+                elif self.name in (game.valid["convert"]):
+                    chosen_colour = (game.valid["convert"][self.name][self.colour])
+                    self.colour = chosen_colour
                 else:
                     valid = False
             else:
-                print("cat pelt not in wurm - invalid")
                 valid = False
         else:
-            print("species has no valid_pelt json - placeholder")
+            print("species has no valid_pelt json section")
             valid = True
             pass
         return valid
@@ -511,11 +518,19 @@ class Pelt():
         elif species == "winged cat":
             if self.tortiebase.capitalize() not in (game.valid["wng"]["pelt"]):
                 self.tortiebase = choice(self.tortiebases_wng)
-                if self.colour not in (game.valid["wng"][self.tortiebase.capitalize()]):
+            if self.colour not in (game.valid["wng"][self.tortiebase.capitalize()]):
+                if self.tortiebase.capitalize() in (game.valid["convert"]):
+                    chosen_colour = (game.valid["convert"][self.tortiebase.capitalize()][self.colour])
+                    self.colour = chosen_colour
+                else:
                     self.colour = choice(game.valid["wng"][self.tortiebase.capitalize()])
             if self.tortiepattern.capitalize() not in (game.valid["wng"]["pelt"]):
                 self.tortiebase = choice(self.tortiebases_wng)
-                if self.tortiecolour not in (game.valid["wng"][self.tortiepattern.capitalize()]):
+            if self.tortiecolour not in (game.valid["wng"][self.tortiepattern.capitalize()]):
+                if self.tortiepattern.capitalize() in (game.valid["convert"]):
+                    chosen_colour = (game.valid["convert"][self.tortiepattern.capitalize()][self.tortiecolour])
+                    self.tortiecolour = chosen_colour
+                else:
                     self.tortiecolour = choice(game.valid["wng"][self.tortiepattern.capitalize()])
 
     def init_eyes(self, parents):
@@ -653,7 +668,7 @@ class Pelt():
 
         #A quick check to make sure all the weights aren't 0
         if all([x == 0 for x in weights]):
-            weights = [1, 1, 1, 1, 1, 1, 1]
+            weights = [1, 1, 1, 1, 1, 1, 1, 1]
 
         chosen_pelt = None
         # Now, choose the pelt category and pelt. The extra 0 is for the tortie pelts,
@@ -709,7 +724,7 @@ class Pelt():
             if p_ in Pelt.ginger_colours:
                 add_weight = (40, 0, 0, 10, 0, 0, 10, 30, 0, 10, 35, 15)
             elif p_ in Pelt.black_colours:
-                add_weight = (0, 40, 2, 5, 2, 45, 5, 1, 35, 25, 5, 2)
+                add_weight = (0, 40, 2, 5, 2, 45, 5, 1, 15, 25, 5, 2)
             elif p_ in Pelt.white_colours:
                 add_weight = (0, 5, 40, 0, 30, 5, 0, 15, 0, 0, 0, 30)
             elif p_ in Pelt.brown_colours:
@@ -717,19 +732,19 @@ class Pelt():
             elif p_ in Pelt.white_colours_wng: #wng
                 add_weight = (1, 5, 40, 0, 30, 2, 1, 15, 0, 0, 0, 30)
             elif p_ in Pelt.blue_colours_wng:
-                add_weight = (0, 45, 1, 5, 1, 45, 10, 1, 35, 10, 0, 0)
+                add_weight = (0, 45, 1, 5, 1, 45, 10, 1, 25, 15, 0, 0)
             elif p_ in Pelt.brown_colours_wng:
                 add_weight = (10, 5, 1, 40, 1, 5, 40, 10, 1, 45, 10, 5)
             elif p_ in Pelt.red_colours_wng:
                 add_weight = (40, 0, 10, 10, 10, 1, 10, 35, 0, 15, 35, 15)
             elif p_ in Pelt.blue_colours_wurm: #wurm
-                add_weight = (0, 0, 0, 0, 0, 0, 0, 0, 20, 5, 0, 0) #placeholder zeroes
+                add_weight = (0, 0, 0, 0, 0, 0, 0, 0, 20, 10, 2, 2) #placeholder zeroes
             elif p_ in Pelt.brown_colours_wurm:
                 add_weight = (0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 5, 5)
             elif p_ in Pelt.red_colours_wurm:
                 add_weight = (0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 30, 15)
             elif p_ in Pelt.white_colours_wurm:
-                add_weight = (0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 30)
+                add_weight = (0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 30)
             elif p_ is None:
                 add_weight = (40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40)
             else:
@@ -1041,8 +1056,8 @@ class Pelt():
                             self.tortiecolour = "GOLDEN"
                     if species == "winged cat":
                         # Normal generation
-                        if self.tortiebase in ["single_wng"]:
-                            self.tortiepattern = choice(['single_wng', 'pigeonspread'])
+                        if self.tortiebase in ["singlestripe_wng", "smoke_wng", "single_wng", "pigeonspread"]:
+                            self.tortiepattern = choice(['single_wng', 'smoke_wng', 'pigeonspread'])
                         else:
                             self.tortiepattern = random.choices([self.tortiebase, 'single_wng'], weights=[97, 3], k=1)[0]
 
@@ -1317,7 +1332,23 @@ class Pelt():
                 "golden-brown": "brown",
                 "darkbrown": "brown",
                 "chocolate": "brown",
-                "ghost": "black"
+                "ghost": "black",
+                "lightblue": "blue",
+                "darkblue": "blue",
+                "cinnamon": "brown",
+                "lightred": "red",
+                "ice": "gray",
+                "lark": "brown",
+                "redpen": "red",
+                "bluepen": "blue",
+                "mottledlight": "brown",
+                "mottled": "brown",
+                "mottleddark": "brown",
+                "coffee": "brown",
+                "snickers": "brown",
+                "neonblue": "blue",
+                "speckflame": "pale",
+                "dalmatian": "pale"
             }
         else:
             renamed_colors = {
@@ -1333,7 +1364,23 @@ class Pelt():
                 "golden-brown": "golden brown",
                 "darkbrown": "dark brown",
                 "chocolate": "dark brown",
-                "ghost": "black"
+                "ghost": "black",
+                "lightblue": "light blue",
+                "darkblue": "dark blue",
+                "cinnamon": "light brown",
+                "lightred": "light red",
+                "ice": "gray",
+                "lark": "light brown",
+                "redpen": "unusual red",
+                "bluepen": "unusual blue",
+                "mottledlight": "light brown",
+                "mottled": "brown",
+                "mottleddark": "dark brown",
+                "coffee": "dark brown",
+                "snickers": "brown",
+                "neonblue": "bright blue",
+                "speckflame": "speckled red",
+                "dalmatian": "pale"
             }
 
         pattern_des = {
@@ -1348,7 +1395,22 @@ class Pelt():
             "Agouti": "c_n tabby",
             "Singlestripe": "dorsal-striped c_n",
             "Rosette": "unusually spotted c_n",
-            "Sokoke": "c_n tabby"
+            "Sokoke": "c_n tabby",
+            "Smoke_wng": "c_n smoke",
+            "Singlestripe_wng": "dorsal-striped c_n",
+            "Pigeonbar": "c_n pigeon",
+            "Pigeoncheck": "c_n pigeon",
+            "Pigeonspread": "c_n pigeon",
+            "Pigeonfancy": "c_n pigeon",
+            "Garter": "c_n garter",
+            "Gartercheck": "checkered c_n garter",
+            "Garterexotic": "c_n garter"
+        }
+
+        species_des = {
+            "winged cat": "winged",
+            "feathered cat": "feathered",
+            "tatzelwurm": "serpentine"
         }
 
         # Start with determining the base color name. 
@@ -1407,6 +1469,12 @@ class Pelt():
 
         if "white and white" in color_name:
             color_name = color_name.replace("white and white", "white")
+
+        # species desc!
+        if cat.species in species_des:
+            color_name = f"{color_name} {species_des[cat.species]}"
+        else:
+            pass
 
         # Now it's time for gender
         if cat.genderalign in ["female", "trans female"]:
