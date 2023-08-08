@@ -608,7 +608,7 @@ class Pelt():
         # If this list is empty, something went wrong.
         if not par_peltcolours:
             print("Warning - no parents: pelt randomized")
-            return self.randomize_pattern_color(gender)
+            return self.randomize_pattern_color(species, gender)
 
         # There is a 1/10 chance for kits to have the exact same pelt as one of their parents
         if not random.randint(0, game.config["cat_generation"]["direct_inheritance"]):  # 1/10 chance
