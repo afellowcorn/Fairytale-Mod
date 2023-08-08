@@ -129,7 +129,7 @@ class Sprites():
             'lineart', 'lineartwng', 'lineartwurm',
             'mainwng', 'extrawng', 'mainwurm', 'extrawurm', 'extrawurmplaceholder',
             'singlecolours', 'speckledcolours', 'tabbycolours',
-            'whitepatches', 'eyes', 'eyes2', 'skin', 'scars', 'missingscars',
+            'whitepatches', 'eyes', 'skin', 'scars', 'missingscars',
             'collars', 'bellcollars', 'bowcollars', 'nyloncollars',
             'bengalcolours', 'marbledcolours', 'rosettecolours', 'smokecolours', 'tickedcolours', 
             'mackerelcolours', 'classiccolours', 'sokokecolours', 'agouticolours', 'singlestripecolours', 
@@ -155,6 +155,8 @@ class Sprites():
         self.make_group('lineartwng', (2, 0), 'lineswngdf')
 
         self.make_group('lineartwurm', (0, 0), 'lineswurm')
+        self.make_group('lineartwurm', (1, 0), 'lineswurmdead')
+        self.make_group('lineartwurm', (2, 0), 'lineswurmdf')
 
         # Fading Fog
         for i in range(0, 3):
@@ -166,12 +168,12 @@ class Sprites():
                 ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 
                 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD', 'HEATHERBLUE', 'SUNLITICE']):
             self.make_group('eyes', (a, 0), f'eyes{i}')
-            self.make_group('eyes2', (a, 0), f'eyes2{i}')
+            self.make_group('eyes', (a, 2), f'eyes2{i}')
         for a, i in enumerate(
                 ['COPPER', 'SAGE', 'COBALT', 'PALEBLUE', 'BRONZE', 'SILVER',
                 'PALEYELLOW', 'GOLD', 'GREENYELLOW']):
             self.make_group('eyes', (a, 1), f'eyes{i}')
-            self.make_group('eyes2', (a, 1), f'eyes2{i}')
+            self.make_group('eyes', (a, 3), f'eyes2{i}')
 
         # white patches
         for a, i in enumerate(['FULLWHITE', 'ANY', 'TUXEDO', 'LITTLE', 'COLOURPOINT', 'VAN', 'ANYTWO',
@@ -347,7 +349,7 @@ class Sprites():
         for a, i in enumerate(['HEART', 'LILTWO', 'GLASS', 'MOORISH', 'SEPIAPOINT', 'MINKPOINT', 'SEALPOINT',
             'MAO', 'LUNA', 'CHESTSPECK', 'WINGS', 'PAINTED', 'HEARTTWO', 'WOODPECKER']):
             self.make_group('extrawng', (14+a, 5), f'white_wng{i}')
-        for a, i in enumerate(['BOOTS', 'MISS', 'COW', 'COWTWO', 'BUB', 'BOWTIE', 'MUSTACHE', 'REVERSEHEART', 'SPARROW', 'VEST']):
+        for a, i in enumerate(['BOOTS', 'MISS', 'COW', 'COWTWO', 'BUB', 'BOWTIE', 'MUSTACHE', 'REVERSEHEART', 'SPARROW', 'VEST', 'LOVEBUG']):
             self.make_group('extrawng', (14+a, 6), 'white_wng' + i)
 
         # single (solid)
@@ -443,7 +445,7 @@ class Sprites():
         for a, i in enumerate(['HEART', 'LILTWO', 'GLASS', 'MOORISH', 'SEPIAPOINT', 'MINKPOINT', 'SEALPOINT',
             'MAO', 'LUNA', 'CHESTSPECK', 'WINGS', 'PAINTED', 'HEARTTWO', 'WOODPECKER']):
             self.make_group('extrawurm', (14+a, 5), f'white_wurm{i}')
-        for a, i in enumerate(['BOOTS', 'MISS', 'COW', 'COWTWO', 'BUB', 'BOWTIE', 'MUSTACHE', 'REVERSEHEART', 'SPARROW', 'VEST']):
+        for a, i in enumerate(['BOOTS', 'MISS', 'COW', 'COWTWO', 'BUB', 'BOWTIE', 'MUSTACHE', 'REVERSEHEART', 'SPARROW', 'VEST', 'LOVEBUG']):
             self.make_group('extrawurm', (14+a, 6), 'white_wurm' + i)
 
         #garter
@@ -500,6 +502,21 @@ class Sprites():
                 ["THROAT", "TAILBASE", "BELLY", "TOETRAP", "SNAKE",
                  "LEGBITE", "NECKBITE", "FACE"]):
             self.make_group('extrawng', (a, 8), f'scars_wng{i}')
+
+        #wurm
+        for a, i in enumerate(
+                ["ONE", "TWO", "THREE", "MANLEG", "BRIGHTHEART", "MANTAIL", 
+                 "BRIDGE", "RIGHTBLIND", "LEFTBLIND", "BOTHBLIND", "BURNPAWS", "BURNTAIL", "BURNBELLY", "BEAKCHEEK"]):
+            self.make_group('extrawurm', (a, 6), f'scars_wurm{i}')
+        for a, i in enumerate(
+                ["BEAKLOWER", "BURNRUMP", "CATBITE", "RATBITE",
+                 "FROSTFACE", "FROSTTAIL", "FROSTMITT", "FROSTSOCK", "QUILLCHUNK", "QUILLSCRATCH"
+                 "TAILSCAR", "SNOUT", "CHEEK", "SIDE"]):
+            self.make_group('extrawurm', (a, 7), f'scars_wurm{i}')
+        for a, i in enumerate(
+                ["THROAT", "TAILBASE", "BELLY", "TOETRAP", "SNAKE",
+                 "LEGBITE", "NECKBITE", "FACE"]):
+            self.make_group('extrawurm', (a, 8), f'scars_wurm{i}')
 
             # Accessories
         for a, i in enumerate([

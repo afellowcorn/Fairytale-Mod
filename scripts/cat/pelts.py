@@ -357,7 +357,7 @@ class Pelt():
             species = None
             if parents:
                 par1 = parents[0]
-                par2 = parents[1]
+                par2 = parents[1] if parents[1] else None
                 #If the cat has parents, use inheritance to decide species.
                 species = Pelt.species_inheritance(par1, par2, species_list)
             else:
@@ -1347,8 +1347,10 @@ class Pelt():
                 "coffee": "brown",
                 "snickers": "brown",
                 "neonblue": "blue",
-                "speckflame": "pale",
-                "dalmatian": "pale"
+                "speckred": "pale",
+                "dalmatian": "pale",
+                "hypocoast": "red",
+                "coast": "red"
             }
         else:
             renamed_colors = {
@@ -1379,8 +1381,10 @@ class Pelt():
                 "coffee": "dark brown",
                 "snickers": "brown",
                 "neonblue": "bright blue",
-                "speckflame": "speckled red",
-                "dalmatian": "pale"
+                "speckred": "speckled red",
+                "dalmatian": "pale",
+                "hypocoast": "bright red",
+                "coast": "dark red"
             }
 
         pattern_des = {
