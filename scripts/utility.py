@@ -418,7 +418,7 @@ def create_new_cat(Cat,
     return created_cats
 
 
-def create_outside_cat(Cat, status, backstory, alive=True, thought=None):
+def create_outside_cat(Cat, species, status, backstory, alive=True, thought=None):
     """
         TODO: DOCS
         """

@@ -1207,6 +1207,7 @@ class Patrol():
         litter = False
         status = None
         age = None
+        species = None
         kit_age = 0
         thought = 'Is looking around the camp with wonder'
         alive = True
@@ -1236,7 +1237,7 @@ class Patrol():
                 status = 'medicine cat'
                 chosen_backstory = ["wandering_healer1", "wandering_healer2"]
             if not success:
-                outsider = create_outside_cat(Cat, "kittypet", backstory=choice(chosen_backstory))
+                outsider = create_outside_cat(Cat, species, "kittypet", backstory=choice(chosen_backstory))
                 self.results_text.append(f"The Clan has met {outsider}.")
                 return
         elif cat_type == 'loner':
@@ -1247,7 +1248,7 @@ class Patrol():
                 status = 'medicine cat'
                 chosen_backstory = ["wandering_healer1", "wandering_healer2"]
             if not success:
-                outsider = create_outside_cat(Cat, "loner", backstory=choice(chosen_backstory))
+                outsider = create_outside_cat(Cat, species, "loner", backstory=choice(chosen_backstory))
                 self.results_text.append(f"The Clan has met {outsider}.")
                 return
         elif cat_type == 'rogue':
@@ -1258,7 +1259,7 @@ class Patrol():
                 status = 'medicine cat'
                 chosen_backstory = ["wandering_healer1", "wandering_healer2"]
             if not success:
-                outsider = create_outside_cat(Cat, "rogue", backstory=choice(chosen_backstory))
+                outsider = create_outside_cat(Cat, species, "rogue", backstory=choice(chosen_backstory))
                 self.results_text.append(f"The Clan has met {outsider}.")
                 return
         elif cat_type == 'clancat':
@@ -1269,7 +1270,7 @@ class Patrol():
                 status = 'medicine cat'
                 chosen_backstory = ["medicine_cat", "disgraced1"]
             if not success:
-                outsider = create_outside_cat(Cat, "former Clancat", backstory=choice(chosen_backstory))
+                outsider = create_outside_cat(Cat, species, "former Clancat", backstory=choice(chosen_backstory))
                 self.results_text.append(f"The Clan has met {outsider}.")
                 return
         else:
@@ -1286,12 +1287,12 @@ class Patrol():
                 if "medcat" in attribute_list:
                     chosen_backstory = ["medicine_cat", "disgraced1"]
                 if not success:
-                    outsider = create_outside_cat(Cat, loner, backstory=choice(chosen_backstory))
+                    outsider = create_outside_cat(Cat, species, loner, backstory=choice(chosen_backstory))
                     self.results_text.append(f"The Clan has met {outsider}.")
                     return
             else:
                 if not success:
-                    outsider = create_outside_cat(Cat, "former Clancat", backstory=choice(chosen_backstory))
+                    outsider = create_outside_cat(Cat, species, "former Clancat", backstory=choice(chosen_backstory))
                     self.results_text.append(f"The Clan has met {outsider}.")
                     return
 
