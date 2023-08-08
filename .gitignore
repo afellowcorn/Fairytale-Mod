@@ -162,14 +162,11 @@ cython_debug/
 
 /saves/**
 *.png~
-.vscode/settings.json
 scripts/__pycache__/**
 /__pycache__/
 .vscode/**
-
 *.kra
 *.kra~
-
 .vscode/launch.json
 .idea/
 
