@@ -357,7 +357,7 @@ class Pelt():
             species = None
             if parents:
                 par1 = parents[0]
-                par2 = parents[1] if parents[1] else None
+                par2 = parents[1] if len(parents)>1 else None
                 #If the cat has parents, use inheritance to decide species.
                 species = Pelt.species_inheritance(par1, par2, species_list)
             else:
