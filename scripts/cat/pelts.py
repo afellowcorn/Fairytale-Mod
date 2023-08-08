@@ -280,7 +280,7 @@ class Pelt():
             print("Error - no parents: species randomized")
             Pelt.randomize_species(species_list)
             return
-        par2_species = par2.species
+        par2_species = par2
         if par2_species == None:
             par2_species = choice(
                 random.choices(species_list, weights=(5, 1, 5, 1, 4, 0), k=1)
@@ -291,7 +291,7 @@ class Pelt():
             if par2_species == "regular cat":
                 chosen_species = "regular cat"
             elif par2_species == "feathered cat":
-                chosen_species = choice("regular cat", "feathered cat")
+                chosen_species = choice(["regular cat", "feathered cat"])
             elif par2_species == "winged cat":
                 chosen_species = choice(
                     random.choices(species_list, weights=(3, 0, 2, 0, 0, 0), k=1)
@@ -338,7 +338,7 @@ class Pelt():
             elif par2_species == "winged cat":
                 chosen_species = choice(["winged cat", "tatzelwurm"])
             elif par2_species == "basilisk":
-                chosen_species = choice("tatzelwurm", "basilisk")
+                chosen_species = choice(["tatzelwurm", "basilisk"])
             elif par2_species == "tatzelwurm":
                 chosen_species = "tatzelwurm"
             else:
