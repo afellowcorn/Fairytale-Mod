@@ -348,8 +348,6 @@ class Pelt():
                 chosen_species = "wurm placeholder"
         else:
             chosen_species = "This should not appear!"
-        print("par species: "+ par1.species+ " " +par2_species)
-        print("chosen: " + chosen_species)
         return str(chosen_species)
 
     @staticmethod
