@@ -240,6 +240,7 @@ class Pelt():
         self.reverse = reverse
         self.skin = skin
 
+    @staticmethod
     def generate_new_pelt(species:str, gender:str, parents:tuple=(), age:str="adult"):
         new_pelt = Pelt()
         while(True):
@@ -259,6 +260,7 @@ class Pelt():
         
         return new_pelt
 
+    @staticmethod
     def randomize_species(species_list):
         species_list = species_list
         weights = []
@@ -273,6 +275,7 @@ class Pelt():
             )
         return chosen_species
 
+    @staticmethod
     def species_inheritance(par1, par2, species_list):
         species_list = species_list
         # If this list is empty, something went wrong.
@@ -349,6 +352,7 @@ class Pelt():
         print("chosen: " + chosen_species)
         return str(chosen_species)
 
+    @staticmethod
     def init_species(cat, parents):
         species_list = [
         "regular cat", "feathered cat", "winged cat", "basilisk", "tatzelwurm", "egg"
@@ -1524,6 +1528,7 @@ class Pelt():
     def get_sprites_name(self):
         return Pelt.sprites_names[self.name]
 
+    @staticmethod
     def list_diff(li1, li2):
         #returns list1 items that are in list 2
         difference = [x for x in li1 if x in li2]
