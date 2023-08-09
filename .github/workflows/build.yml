@@ -51,11 +51,11 @@ jobs:
         env:
           IS_RELEASE: 1
       - name: Create archive (.tar.xz)
-        run: tar -caf Clangen_Linux64_glibc2.31+.tar.xz -C dist Clangen
+        run: tar -caf FairytaleMod_Clangen_Linux64_glibc2.31+.tar.xz -C dist Clangen
       - uses: actions/upload-artifact@v3
         with:
-          name: Clangen_Linux64_glibc2.31+.tar.xz
-          path: Clangen_Linux64_glibc2.31+.tar.xz
+          name: FairytaleMod_Clangen_Linux64_glibc2.31+.tar.xz
+          path: FairytaleMod_Clangen_Linux64_glibc2.31+.tar.xz
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -90,7 +90,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Clangen_Linux64_glibc2.31+.tar.xz
+          files: FairytaleMod_Clangen_Linux64_glibc2.31+.tar.xz
 
   build_ubuntu_22_04:
     runs-on: ubuntu-22.04
@@ -140,11 +140,11 @@ jobs:
         env:
           IS_RELEASE: 1
       - name: Create archive (.tar.xz)
-        run: tar -caf Clangen_Linux64_glibc2.35+.tar.xz -C dist Clangen
+        run: tar -caf FairytaleMod_Clangen_Linux64_glibc2.35+.tar.xz -C dist Clangen
       - uses: actions/upload-artifact@v3
         with:
-          name: Clangen_Linux64_glibc2.35+.tar.xz
-          path: Clangen_Linux64_glibc2.35+.tar.xz
+          name: FairytaleMod_Clangen_Linux64_glibc2.35+.tar.xz
+          path: FairytaleMod_Clangen_Linux64_glibc2.35+.tar.xz
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -179,7 +179,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Clangen_Linux64_glibc2.35+.tar.xz
+          files: FairytaleMod_Clangen_Linux64_glibc2.35+.tar.xz
 
   build_win32:
     runs-on: windows-2019
@@ -251,12 +251,12 @@ jobs:
           IS_RELEASE: 1
       - name: Create archive (.zip)
         run: |
-          cp dist/Clangen/.itch.toml dist/ 
-          tar.exe -a -c -f Clangen_Win32.zip -C dist Clangen .itch.toml
+          cp dist/FairytaleMod_Clangen/.itch.toml dist/ 
+          tar.exe -a -c -f FairytaleMod_Clangen_Win32.zip -C dist FairytaleMod_Clangen .itch.toml
       - uses: actions/upload-artifact@v3
         with:
-          name: Clangen_Win32
-          path: Clangen_Win32.zip
+          name: FairytaleMod_Clangen_Win32
+          path: FairytaleMod_Clangen_Win32.zip
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -292,7 +292,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Clangen_Win32.zip
+          files: FairytaleMod_Clangen_Win32.zip
 
   build_win64:
     runs-on: windows-latest
@@ -370,12 +370,12 @@ jobs:
           IS_RELEASE: 1
       - name: Create archive (.zip)
         run: |
-          cp dist/Clangen/.itch.toml dist/ 
-          tar.exe -a -c -f Clangen_Win64.zip -C dist Clangen .itch.toml
+          cp dist/FairytaleMod_Clangen/.itch.toml dist/ 
+          tar.exe -a -c -f FairytaleMod_Clangen_Win64.zip -C dist FairytaleMod_Clangen .itch.toml
       - uses: actions/upload-artifact@v3
         with:
-          name: Clangen_Win64
-          path: Clangen_Win64.zip
+          name: FairytaleMod_Clangen_Win64
+          path: FairytaleMod_Clangen_Win64.zip
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -411,7 +411,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Clangen_Win64.zip
+          files: FairytaleMod_Clangen_Win64.zip
 
   build_win64_py311:
     runs-on: windows-latest
@@ -489,12 +489,12 @@ jobs:
           IS_RELEASE: 1
       - name: Create archive (.zip)
         run: |
-          cp dist/Clangen/.itch.toml dist/ 
-          tar.exe -a -c -f Clangen_Win64_Windows10+.zip -C dist Clangen .itch.toml
+          cp dist/FairytaleMod_Clangen/.itch.toml dist/ 
+          tar.exe -a -c -f FairytaleMod_Clangen_Win64_Windows10+.zip -C dist FairytaleMod_Clangen .itch.toml
       - uses: actions/upload-artifact@v3
         with:
-          name: Clangen_Win64_Windows10+
-          path: Clangen_Win64_Windows10+.zip
+          name: FairytaleMod_Clangen_Win64_Windows10+
+          path: FairytaleMod_Clangen_Win64_Windows10+.zip
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -530,7 +530,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Clangen_Win64_Windows10+.zip
+          files: FairytaleMod_Clangen_Win64_Windows10+.zip
 
   build_macos64:
     # For commits to the original mac build action see:
@@ -593,15 +593,15 @@ jobs:
         env:
           IS_RELEASE: 1
       - name: Create archive (.tar.xz)
-        run: rm -r dist/Clangen
+        run: rm -r dist/FairytaleMod_Clangen
       - name: Install appdmg
         run: "npm install -g appdmg"
       - name: Generate .dmg
-        run: "appdmg appdmg.json Clangen_macOS64.dmg"
+        run: "appdmg appdmg.json FairytaleMod_Clangen_macOS64.dmg"
       - uses: actions/upload-artifact@v3
         with:
-          name: Clangen_macOS64.dmg
-          path: Clangen_macOS64.dmg
+          name: FairytaleMod_Clangen_macOS64.dmg
+          path: FairytaleMod_Clangen_macOS64.dmg
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -637,7 +637,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Clangen_macOS64.dmg
+          files: FairytaleMod_Clangen_macOS64.dmg
   confirm_release_ubuntu_22_04:
     runs-on: ubuntu-22.04
     needs:
