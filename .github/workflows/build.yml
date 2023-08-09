@@ -251,8 +251,8 @@ jobs:
           IS_RELEASE: 1
       - name: Create archive (.zip)
         run: |
-          cp dist/Fairytale-Mod/.itch.toml dist/ 
-          tar.exe -a -c -f FairytaleMod_Clangen_Win32.zip -C dist Fairytale-Mod .itch.toml
+          cp dist/Clangen/.itch.toml dist/ 
+          tar.exe -a -c -f FairytaleMod_Clangen_Win32.zip -C dist Clangen .itch.toml
       - uses: actions/upload-artifact@v3
         with:
           name: FairytaleMod_Clangen_Win32
