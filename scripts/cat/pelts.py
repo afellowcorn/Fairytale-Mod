@@ -283,7 +283,7 @@ class Pelt():
             print("Error - no parents: species randomized")
             Pelt.randomize_species(species_list)
             return
-        par2_species = par2
+        par2_species = par2.species if par2 else None
         if par2_species == None:
             par2_species = choice(
                 random.choices(species_list, weights=(5, 1, 5, 1, 4, 0), k=1)
@@ -740,13 +740,13 @@ class Pelt():
             elif p_ in Pelt.red_colours_wng:
                 add_weight = (40, 0, 10, 10, 10, 1, 10, 35, 0, 15, 35, 15)
             elif p_ in Pelt.blue_colours_wurm: #wurm
-                add_weight = (0, 0, 0, 0, 0, 0, 0, 0, 20, 10, 2, 2) #placeholder zeroes
+                add_weight = (0, 0, 0, 0, 0, 0, 0, 0, 20, 10, 2, 2)
             elif p_ in Pelt.brown_colours_wurm:
                 add_weight = (0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 5, 5)
             elif p_ in Pelt.red_colours_wurm:
                 add_weight = (0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 30, 15)
             elif p_ in Pelt.white_colours_wurm:
-                add_weight = (0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 30)
+                add_weight = (0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 20)
             elif p_ is None:
                 add_weight = (40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40)
             else:

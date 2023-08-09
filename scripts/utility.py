@@ -1535,9 +1535,9 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
             if not scars_hidden:
                 for scar in cat.pelt.scars:
                     if scar in cat.pelt.scars1:
-                        new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
+                        new_sprite.blit(sprites.sprites['scars_wng' + scar + cat_sprite], (0, 0))
                     if scar in cat.pelt.scars3:
-                        new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
+                        new_sprite.blit(sprites.sprites['scars_wng' + scar + cat_sprite], (0, 0))
 
             # draw line art
             if game.settings['shaders'] and not dead:
@@ -1654,9 +1654,9 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
             if not scars_hidden:
                 for scar in cat.pelt.scars:
                     if scar in cat.pelt.scars1:
-                        new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
+                        new_sprite.blit(sprites.sprites['scars_wurm' + scar + cat_sprite], (0, 0))
                     if scar in cat.pelt.scars3:
-                        new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0))
+                        new_sprite.blit(sprites.sprites['scars_wurm' + scar + cat_sprite], (0, 0))
 
             # draw line art
             if game.settings['shaders'] and not dead:
