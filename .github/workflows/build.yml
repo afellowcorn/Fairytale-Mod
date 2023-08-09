@@ -370,8 +370,8 @@ jobs:
           IS_RELEASE: 1
       - name: Create archive (.zip)
         run: |
-          cp dist/FairytaleMod_Clangen/.itch.toml dist/ 
-          tar.exe -a -c -f FairytaleMod_Clangen_Win64.zip -C dist FairytaleMod_Clangen .itch.toml
+          cp dist/Clangen/.itch.toml dist/ 
+          tar.exe -a -c -f FairytaleMod_Clangen_Win64.zip -C dist Clangen .itch.toml
       - uses: actions/upload-artifact@v3
         with:
           name: FairytaleMod_Clangen_Win64
@@ -489,8 +489,8 @@ jobs:
           IS_RELEASE: 1
       - name: Create archive (.zip)
         run: |
-          cp dist/FairytaleMod_Clangen/.itch.toml dist/ 
-          tar.exe -a -c -f FairytaleMod_Clangen_Win64_Windows10+.zip -C dist FairytaleMod_Clangen .itch.toml
+          cp dist/Clangen/.itch.toml dist/ 
+          tar.exe -a -c -f FairytaleMod_Clangen_Win64_Windows10+.zip -C dist Clangen .itch.toml
       - uses: actions/upload-artifact@v3
         with:
           name: FairytaleMod_Clangen_Win64_Windows10+
@@ -593,7 +593,7 @@ jobs:
         env:
           IS_RELEASE: 1
       - name: Create archive (.tar.xz)
-        run: rm -r dist/FairytaleMod_Clangen
+        run: rm -r dist/Clangen
       - name: Install appdmg
         run: "npm install -g appdmg"
       - name: Generate .dmg
