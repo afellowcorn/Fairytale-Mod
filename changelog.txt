@@ -1,0 +1,8 @@
+<strong>v0.1.1-alpha</strong>
+- 9 new colours for garter and gartercheck
+- fix unknown parent causing None kits
+- fix two winged parents having None kits
+- fix misaligned wurm lineart
+- fix a winged singlecolour coloring mistake
+- fix tailscar error
+- adjust a few winged white patches
