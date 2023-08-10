@@ -1,6 +1,6 @@
 ; Clan-gen Installer Script
 
-#define ApplicationBaseName "FairytaleMod_Clan-gen"
+#define ApplicationBaseName "FairytaleMod"
 #define ApplicationFullName "FairytaleMod_Clan-gen (fan edit) by Sablesteel"
 
 ; Update this line to the date of the latest Clan-gen (fan edit) by Sablesteel release 

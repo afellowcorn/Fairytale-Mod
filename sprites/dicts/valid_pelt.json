@@ -1,7 +1,7 @@
 {
     "reg": {
     	"pelt":["Tabby", "Ticked", "Mackerel", "Classic", "Sokoke", "Agouti",
-    		"Speckled", "Rosette", "Single", "SingleColour", "TwoColour", "Smoke", "Singlestripe",
+    		"Speckled", "Rosette", "Single", "SingleColour", "Singlecolour", "TwoColour", "Smoke", "Singlestripe",
     		"Bengal", "Marbled", "Tortie", "Calico"],
         "Tabby":["WHITE", "PALEGREY", "SILVER", "GREY", "DARKGREY", "GHOST", "BLACK", "CREAM", "PALEGINGER", "GOLDEN",
                 "GINGER", "DARKGINGER", "SIENNA", "LIGHTBROWN", "LILAC", "BROWN", "GOLDEN-BROWN", "DARKBROWN", "CHOCOLATE"],
@@ -35,7 +35,7 @@
                 "GINGER", "DARKGINGER", "SIENNA", "LIGHTBROWN", "LILAC", "BROWN", "GOLDEN-BROWN", "DARKBROWN", "CHOCOLATE"]
     },
     "wng": {
-    	"pelt":["Single_wng", "SingleColour_wng", "Smoke_wng", "Singlestripe_wng",
+    	"pelt":["Single_wng", "SingleColour_wng", "Singlecolour_wng", "Smoke_wng", "Singlestripe_wng",
     		"Pigeonbar", "Pigeoncheck", "Pigeonspread", "Pigeonfancy",
                 "Tortie", "Calico"],
         "Single_wng": ["WHITE", "PALEGREY", "SILVER", "GREY", "DARKGREY", "GHOST", "BLACK", "CREAM", "PALEGINGER", "GOLDEN",

@@ -35,7 +35,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='Fairytale Mod',
+    name='FairytaleMod',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -56,11 +56,11 @@ coll = COLLECT(
     strip=False,
     upx=False,
     upx_exclude=[],
-    name='Fairytale Mod',
+    name='FairytaleMod',
 )
 app = BUNDLE(
     coll,
-    name='Fairytale Mod.app',
+    name='FairytaleMod.app',
     icon='resources/images/icon.png',
     bundle_identifier='com.sablesteel.clangen',
     version='0.1.1' # imo we should give dev builds .5
