@@ -6,3 +6,4 @@
 - fix a winged singlecolour coloring mistake
 - fix tailscar error
 - adjust a few winged white patches
+- change exe name
