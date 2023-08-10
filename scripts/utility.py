@@ -287,6 +287,9 @@ def create_new_cat(Cat,
         elif age >= 12:
             status = "warrior"
 
+    if not species:
+        species = Pelt.randomize_species(["regular cat", "feathered cat", "winged cat", "basilisk", "tatzelwurm", "egg"])
+
     # cat creation and naming time
     for index in range(number_of_cats):
         # setting gender

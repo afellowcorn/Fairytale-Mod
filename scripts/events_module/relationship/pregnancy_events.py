@@ -606,6 +606,7 @@ class Pregnancy_Events():
             other_cat = None
         
         blood_parent = None
+        par2species = None
          
         ##### SELECT BACKSTORY #####
         if cat and cat.gender == 'female':
@@ -633,6 +634,12 @@ class Pregnancy_Events():
         for _m in adoptive_parents:
             if _m not in all_adoptive_parents:
                 all_adoptive_parents.append(_m)
+
+        # Generate a par2species in case par2 is None, so all littermates have same par2species
+        species_list = ["regular cat", "feathered cat", "winged cat", "basilisk", "tatzelwurm", "egg"]
+        par2species = choice(
+            random.choices(species_list, weights=(5, 0, 5, 0, 4, 0), k=1)
+            )
         
         #############################
         
@@ -651,12 +658,13 @@ class Pregnancy_Events():
                     thought = f"Is glad that {insert} safe"
                     blood_parent = create_new_cat(Cat, Relationship,
                                                 status=random.choice(["loner", "kittypet"]),
+                                                species=None,
                                                 alive=False,
                                                 thought=thought,
                                                 age=randint(15,120))[0]
                     blood_parent.thought = thought
-                
-                kit = Cat(parent1=blood_parent.ID ,moons=0, backstory=backstory, status='newborn')
+                    
+                kit = Cat(parent1=blood_parent.ID, moons=0, backstory=backstory, status='newborn', par2species=par2species)
             elif cat and other_cat:
                 # Two parents provided
                 kit = Cat(parent1=cat.ID, parent2=other_cat.ID, moons=0, status='newborn')
@@ -668,8 +676,8 @@ class Pregnancy_Events():
                 else:
                     kit.thought = f"Snuggles up to the belly of {other_cat.name}"
             else:
-                # A one blood parent litter is the only option left. 
-                kit = Cat(parent1=cat.ID, moons=0, backstory=backstory, status='newborn')
+                # A one blood parent litter is the only option left.
+                kit = Cat(parent1=cat.ID, moons=0, backstory=backstory, status='newborn', par2species=par2species)
                 kit.thought = f"Snuggles up to the belly of {cat.name}"
                 
             kit.adoptive_parents = all_adoptive_parents  # Add the adoptive parents. 

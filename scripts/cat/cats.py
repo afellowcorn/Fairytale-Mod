@@ -117,6 +117,7 @@ class Cat():
                  backstory="clanborn",
                  parent1=None,
                  parent2=None,
+                 par2species=None,
                  suffix=None,
                  specsuffix_hidden=False,
                  ID=None,
@@ -182,6 +183,7 @@ class Cat():
                                        stable=0, social=0)
         self.parent1 = parent1
         self.parent2 = parent2
+        self.par2species= par2species
         self.adoptive_parents = []
         self.pelt = pelt if pelt else Pelt()
         self.former_mentor = []
@@ -279,7 +281,7 @@ class Cat():
         self.g_tag = self.gender_tags[self.gender]
 
         if self.species is None:
-            self.species = Pelt.init_species(self, parents=[Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i])
+            self.species = Pelt.init_species(self, self.par2species if self.par2species else None, parents=[Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i])
 
         # These things should only run when generating a new cat, rather than loading one in.
         if not loading_cat:

@@ -276,18 +276,32 @@ class Pelt():
         return chosen_species
 
     @staticmethod
-    def species_inheritance(par1, par2, species_list):
+    def species_inheritance(parents, par2species, species_list):
         species_list = species_list
+        par1 = parents[0]
+        par2 = parents[1] if len(parents)>1 else None
+        if par2 and not par1:
+            par1 = par2
+            par2 = None
+        print("par1 "+str(par1)+" par2 "+str(par2))
+
         # If this list is empty, something went wrong.
-        if par1 and par2 == None:
+        if (par1 == None) and (par2 == None):
             print("Error - no parents: species randomized")
-            Pelt.randomize_species(species_list)
-            return
+            chosen_species = Pelt.randomize_species(species_list)
+            return str(chosen_species)
+
         par2_species = par2.species if par2 else None
-        if par2_species == None:
-            par2_species = choice(
-                random.choices(species_list, weights=(5, 1, 5, 1, 4, 0), k=1)
-                )
+        print(str(par1.species)+" "+str(par2_species))
+        if not par2_species:
+            if par2species:
+                par2_species = par2species
+            else:
+                par2_species = choice(
+                    random.choices(species_list, weights=(5, 0, 5, 0, 4, 0), k=1)
+                    )
+            print("par2 chosen "+str(par2_species))
+        print(str(par1.species)+" "+str(par2_species))
         chosen_species = None
         # Species list goes: (reg, fthrd, wngd, basilisk, wurm, egg)
         if par1.species == "regular cat":
@@ -308,7 +322,7 @@ class Pelt():
                     random.choices(species_list, weights=(2, 0, 0, 0, 1, 0), k=1)
                     )
             else:
-                chosen_species = "reg placeholder"
+                chosen_species = "This should not appear!"
 
         elif par1.species == "winged cat":
             if par2_species == "regular cat":
@@ -320,7 +334,7 @@ class Pelt():
                     random.choices(species_list, weights=(1, 5, 10, 0, 0, 0), k=1)
                     )
             elif par2_species == "winged cat":
-                chosen_chosen_species = "winged cat"
+                chosen_species = "winged cat"
             elif par2_species == "basilisk":
                 chosen_species = choice(
                     random.choices(species_list, weights=(0, 5, 10, 5, 0, 0), k=1)
@@ -329,7 +343,7 @@ class Pelt():
                 #chosen_species = "basilisk"
                 chosen_species = choice(["winged cat", "tatzelwurm"])
             else:
-                chosen_species = "wngd placeholder"
+                chosen_species = "This should not appear!"
                 
         elif par1.species == "tatzelwurm":
             if par2_species == "regular cat":
@@ -345,23 +359,21 @@ class Pelt():
             elif par2_species == "tatzelwurm":
                 chosen_species = "tatzelwurm"
             else:
-                chosen_species = "wurm placeholder"
+                chosen_species = "This should not appear!"
         else:
             chosen_species = "This should not appear!"
         return str(chosen_species)
 
     @staticmethod
-    def init_species(cat, parents):
+    def init_species(cat, par2species, parents):
         species_list = [
         "regular cat", "feathered cat", "winged cat", "basilisk", "tatzelwurm", "egg"
         ]
         if cat.species == None:
             species = None
             if parents:
-                par1 = parents[0]
-                par2 = parents[1] if len(parents)>1 else None
                 #If the cat has parents, use inheritance to decide species.
-                species = Pelt.species_inheritance(par1, par2, species_list)
+                species = Pelt.species_inheritance(parents, par2species, species_list)
             else:
                 species = Pelt.randomize_species(species_list)
             return species
@@ -675,16 +687,25 @@ class Pelt():
         chosen_pelt = None
         # Now, choose the pelt category and pelt. The extra 0 is for the tortie pelts,
         if species == "regular cat":
+            weights = weights[:4]
+            if all([x == 0 for x in weights]):
+                weights = [1, 1, 1, 1]
             chosen_pelt = choice(
-                random.choices(Pelt.pelt_categories_reg, weights=weights[:4] + [0], k = 1)[0]
+                random.choices(Pelt.pelt_categories_reg, weights=weights + [0], k = 1)[0]
                 )        
         elif species == "winged cat":
+            weights = weights[4:6]
+            if all([x == 0 for x in weights]):
+                weights = [1, 1]
             chosen_pelt = choice(
-                random.choices(Pelt.pelt_categories_wng, weights=weights[4:6], k = 1)[0]
+                random.choices(Pelt.pelt_categories_wng, weights=weights, k = 1)[0]
                 )  
         elif species == "tatzelwurm":
+            weights = weights[6:8]
+            if all([x == 0 for x in weights]):
+                weights = [1, 1]
             chosen_pelt = choice(
-                random.choices(Pelt.pelt_categories_wurm, weights=weights[6:8], k = 1)[0]
+                random.choices(Pelt.pelt_categories_wurm, weights=weights, k = 1)[0]
                 ) 
         else:
             chosen_pelt = choice(random.choices(Pelt.pelt_categories_reg, weights=weights[:4] + [0], k = 1)[0])
@@ -761,16 +782,25 @@ class Pelt():
 
         chosen_pelt_color = None
         if species == "regular cat":
+            weights = weights[:4]
+            if all([x == 0 for x in weights]):
+                weights = [1, 1, 1, 1]
             chosen_pelt_color = choice(
-                random.choices(Pelt.colour_categories, weights=weights[:4], k = 1)[0]
+                random.choices(Pelt.colour_categories, weights=weights, k = 1)[0]
                 )        
         elif species == "winged cat":
+            weights = weights[4:8]
+            if all([x == 0 for x in weights]):
+                weights = [1, 1, 1, 1]
             chosen_pelt_color = choice(
-                random.choices(Pelt.colour_categories_wng, weights=weights[4:8], k = 1)[0]
+                random.choices(Pelt.colour_categories_wng, weights=weights, k = 1)[0]
                 )  
         elif species == "tatzelwurm":
+            weights = weights[8:]
+            if all([x == 0 for x in weights]):
+                weights = [1, 1, 1, 1]
             chosen_pelt_color = choice(
-                random.choices(Pelt.colour_categories_wurm, weights=weights[8:], k = 1)[0]
+                random.choices(Pelt.colour_categories_wurm, weights=weights, k = 1)[0]
                 )  
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT LENGTH
