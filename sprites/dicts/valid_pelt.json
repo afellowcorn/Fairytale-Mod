@@ -55,8 +55,8 @@
     },
     "wurm":{
         "pelt":["Garter", "Gartercheck", "Garterexotic"],
-        "Garter": ["BLUE", "GREY", "PALEGREY", "COFFEE", "DARKBROWN", "SNICKERS", "BROWN", "LIGHTBROWN", "PASTEL"],
-        "Gartercheck": ["BLUE", "GREY", "PALEGREY", "COFFEE", "DARKBROWN", "SNICKERS", "BROWN", "LIGHTBROWN", "PASTEL"],
+        "Garter": ["BLUE", "GREY", "PALEGREY", "COFFEE", "DARKBROWN", "SNICKERS", "BROWN", "LIGHTBROWN", "PASTEL", "BLACK", "NIGHTLIGHT", "LILYPAD", "WARMBLACK", "ASH", "TAWNY", "GOLD", "AMBER", "SANDY"],
+        "Gartercheck": ["BLUE", "GREY", "PALEGREY", "COFFEE", "DARKBROWN", "SNICKERS", "BROWN", "LIGHTBROWN", "PASTEL", "BLACK", "NIGHTLIGHT", "LILYPAD", "WARMBLACK", "ASH", "TAWNY", "GOLD", "AMBER", "SANDY"],
         "Garterexotic": ["NEONBLUE", "FLAME", "SPECKRED", "RED", "DALMATIAN", "HYPOCOAST", "COAST"]
     },
     "convert":{

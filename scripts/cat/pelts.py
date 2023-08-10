@@ -161,16 +161,16 @@ class Pelt():
 
     # WURM ATTRIBUTES
     garter_colours = [
-        'BLUE', 'GREY', 'PALEGREY', 'COFFEE', 'DARKBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN', 'PASTEL'
+        'BLUE', 'GREY', 'PALEGREY', 'COFFEE', 'DARKBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN', 'PASTEL', 'BLACK', 'NIGHTLIGHT', 'LILYPAD', 'WARMBLACK', 'ASH', 'TAWNY', 'GOLD', 'AMBER', 'SANDY'
     ]
     garterexotic_colours = [
         'NEONBLUE', 'FLAME', 'SPECKRED', 'RED', 'DALMATIAN', 'HYPOCOAST', 'COAST'
     ]
 
-    blue_colours_wurm = ['BLUE', 'GREY', 'PALEGREY', 'NEONBLUE']
-    brown_colours_wurm = ['COFFEE', 'DARKBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN']
-    red_colours_wurm = ['RED', 'FLAME', 'HYPOCOAST', 'COAST']
-    white_colours_wurm = ['PASTEL', 'SPECKRED', 'DALMATIAN']
+    blue_colours_wurm = ['BLUE', 'GREY', 'PALEGREY', 'BLACK', 'NIGHTLIGHT', 'LILYPAD', 'NEONBLUE']
+    brown_colours_wurm = ['COFFEE', 'DARKBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN', 'WARMBLACK', 'ASH', 'TAWNY', 'GOLD']
+    red_colours_wurm = ['AMBER', 'RED', 'FLAME', 'HYPOCOAST', 'COAST']
+    white_colours_wurm = ['PASTEL', 'SANDY', 'SPECKRED', 'DALMATIAN']
     colour_categories_wurm = [blue_colours_wurm, brown_colours_wurm, red_colours_wurm, white_colours_wurm]
 
     garter = ["Garter", "Gartercheck", "Garterexotic"]
@@ -511,7 +511,7 @@ class Pelt():
             else:
                 valid = False
         else:
-            print("species has no valid_pelt json section")
+            print("Error - cannot validate pelt, species not in list")
             valid = True
             pass
         return valid

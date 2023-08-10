@@ -451,9 +451,13 @@ class Sprites():
         #garter
         for a, i in enumerate(['BLUE', 'GREY', 'PALEGREY', 'COFFEE', 'DARKBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN', 'PASTEL']):
            self.make_group('mainwurm', (a, 0), f"garter{i}")
+        for a, i in enumerate(['BLACK', 'NIGHTLIGHT', 'LILYPAD', 'WARMBLACK', 'ASH', 'TAWNY', 'GOLD', 'AMBER', 'SANDY']):
+           self.make_group('mainwurm', (a, 3), f"garter{i}")
 
         for a, i in enumerate(['BLUE', 'GREY', 'PALEGREY', 'COFFEE', 'DARKBROWN', 'SNICKERS', 'BROWN', 'LIGHTBROWN', 'PASTEL']):
            self.make_group('mainwurm', (a, 1), f"gartercheck{i}")
+        for a, i in enumerate(['BLACK', 'NIGHTLIGHT', 'LILYPAD', 'WARMBLACK', 'ASH', 'TAWNY', 'GOLD', 'AMBER', 'SANDY']):
+           self.make_group('mainwurm', (a, 4), f"gartercheck{i}")
 
         for a, i in enumerate(['NEONBLUE', 'FLAME', 'SPECKRED', 'RED', 'DALMATIAN', 'HYPOCOAST', 'COAST']):
            self.make_group('mainwurm', (a, 2), f"garterexotic{i}")
@@ -495,7 +499,7 @@ class Sprites():
             self.make_group('extrawng', (a, 6), f'scars_wng{i}')
         for a, i in enumerate(
                 ["BEAKLOWER", "BURNRUMP", "CATBITE", "RATBITE",
-                 "FROSTFACE", "FROSTTAIL", "FROSTMITT", "FROSTSOCK", "QUILLCHUNK", "QUILLSCRATCH"
+                 "FROSTFACE", "FROSTTAIL", "FROSTMITT", "FROSTSOCK", "QUILLCHUNK", "QUILLSCRATCH",
                  "TAILSCAR", "SNOUT", "CHEEK", "SIDE"]):
             self.make_group('extrawng', (a, 7), f'scars_wng{i}')
         for a, i in enumerate(
@@ -510,7 +514,7 @@ class Sprites():
             self.make_group('extrawurm', (a, 6), f'scars_wurm{i}')
         for a, i in enumerate(
                 ["BEAKLOWER", "BURNRUMP", "CATBITE", "RATBITE",
-                 "FROSTFACE", "FROSTTAIL", "FROSTMITT", "FROSTSOCK", "QUILLCHUNK", "QUILLSCRATCH"
+                 "FROSTFACE", "FROSTTAIL", "FROSTMITT", "FROSTSOCK", "QUILLCHUNK", "QUILLSCRATCH",
                  "TAILSCAR", "SNOUT", "CHEEK", "SIDE"]):
             self.make_group('extrawurm', (a, 7), f'scars_wurm{i}')
         for a, i in enumerate(
