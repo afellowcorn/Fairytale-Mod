@@ -60,7 +60,7 @@ coll = COLLECT(
 )
 app = BUNDLE(
     coll,
-    name='FairytaleMod.app',
+    name='Clangen.app',
     icon='resources/images/icon.png',
     bundle_identifier='com.sablesteel.clangen',
     version='0.1.1' # imo we should give dev builds .5
