@@ -919,24 +919,9 @@ class ChangelogPopup(UIWindow):
 
         dynamic_changelog = False
         if get_version_info().is_dev and get_version_info().is_source_build and get_version_info().git_installed:
-            file_cont = subprocess.check_output(
-                ["git", "log", "--pretty=oneline", "-10", "--no-decorate", "--no-merges"]).decode("utf-8")
-            dynamic_changelog = True
-        else:
             with open("changelog.txt", "r") as read_file:
                 file_cont = read_file.read()
 
-        if get_version_info().is_dev and not get_version_info().is_source_build:
-            dynamic_changelog = True
-
-        if dynamic_changelog:
-            commits = file_cont.splitlines()
-            file_cont = ""
-            for line in commits:
-                commit = line.split(" ", 1)[0]
-                if last_commit == commit:
-                    break
-                file_cont += f"<b>{commit[:7]}</b>\n- {line.split(' ', 1)[1]}\n"
 
         self.changelog_text = UITextBoxTweaked(
             f"{file_cont}",
