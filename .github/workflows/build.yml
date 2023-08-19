@@ -14,9 +14,9 @@ jobs:
       - name: Setup Python 3.11 x64
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-          architecture: 'x64'
-          cache: 'poetry'
+          python-version: "3.11"
+          architecture: "x64"
+          cache: "poetry"
       - name: install dependencies
         run: poetry install --with build -E discord
       - name: Configure dev
@@ -46,11 +46,11 @@ jobs:
         env:
           IS_RELEASE: 1
       - name: Create archive (.tar.xz)
-        run: tar -caf Clangen_Linux64_glibc2.31+.tar.xz -C dist Clangen
+        run: tar -caf FairytaleMod_Clangen_Linux64_glibc2.31+.tar.xz -C dist FairytaleMod
       - uses: actions/upload-artifact@v3
         with:
-          name: Clangen_Linux64_glibc2.31+.tar.xz
-          path: Clangen_Linux64_glibc2.31+.tar.xz
+          name: FairytaleMod_Clangen_Linux64_glibc2.31+.tar.xz
+          path: FairytaleMod_Clangen_Linux64_glibc2.31+.tar.xz
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -85,8 +85,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Clangen_Linux64_glibc2.31+.tar.xz
-          
+          files: FairytaleMod_Clangen_Linux64_glibc2.31+.tar.xz
+
   build_ubuntu_22_04:
     runs-on: ubuntu-22.04
     steps:
@@ -98,9 +98,9 @@ jobs:
       - name: Setup Python 3.11 x64
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-          architecture: 'x64'
-          cache: 'poetry'
+          python-version: "3.11"
+          architecture: "x64"
+          cache: "poetry"
       - name: install dependencies
         run: poetry install --with build -E discord
       - name: Configure dev
@@ -130,11 +130,11 @@ jobs:
         env:
           IS_RELEASE: 1
       - name: Create archive (.tar.xz)
-        run: tar -caf Clangen_Linux64_glibc2.35+.tar.xz -C dist Clangen
+        run: tar -caf FairytaleMod_Clangen_Linux64_glibc2.35+.tar.xz -C dist FairytaleMod
       - uses: actions/upload-artifact@v3
         with:
-          name: Clangen_Linux64_glibc2.35+.tar.xz
-          path: Clangen_Linux64_glibc2.35+.tar.xz
+          name: FairytaleMod_Clangen_Linux64_glibc2.35+.tar.xz
+          path: FairytaleMod_Clangen_Linux64_glibc2.35+.tar.xz
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -169,22 +169,21 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Clangen_Linux64_glibc2.35+.tar.xz
-          
+          files: FairytaleMod_Clangen_Linux64_glibc2.35+.tar.xz
+
   build_win32:
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v3
+      - name: Setup Python 3.8 x86
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8" # 3.8 to support older versions of Windows
+          architecture: "x86"
       - name: Install poetry
         uses: abatilo/actions-poetry@v2
         with:
           poetry-version: 1.4.1
-      - name: Setup Python 3.8 x86
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.8' # 3.8 to support older versions of Windows
-          architecture: 'x86'
-          cache: 'poetry'
       - name: Set up cargo cache
         uses: actions/cache@v3
         continue-on-error: false
@@ -236,12 +235,12 @@ jobs:
           IS_RELEASE: 1
       - name: Create archive (.zip)
         run: |
-          cp dist/Clangen/.itch.toml dist/ 
-          tar.exe -a -c -f Clangen_Win32.zip -C dist Clangen .itch.toml
+          cp dist/FairytaleMod/.itch.toml dist/ 
+          tar.exe -a -c -f FairytaleMod_Clangen_Win32.zip -C dist FairytaleMod .itch.toml
       - uses: actions/upload-artifact@v3
         with:
-          name: Clangen_Win32
-          path: Clangen_Win32.zip
+          name: FairytaleMod_Clangen_Win32
+          path: FairytaleMod_Clangen_Win32.zip
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -277,8 +276,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Clangen_Win32.zip    
-          
+          files: FairytaleMod_Clangen_Win32.zip
+
   build_win64:
     runs-on: windows-latest
     steps:
@@ -290,9 +289,9 @@ jobs:
       - name: Setup Python 3.8 x64
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8' # 3.8 to support older versions of Windows
-          architecture: 'x64'
-          cache: 'poetry'
+          python-version: "3.8" # 3.8 to support older versions of Windows
+          architecture: "x64"
+          cache: "poetry"
       - name: Set up cargo cache
         uses: actions/cache@v3
         continue-on-error: false
@@ -327,7 +326,7 @@ jobs:
           echo "release_channel=${{ env.RELEASE_CHANNEL }}" >> version.ini
           echo "upstream=${{ github.repository }}" >> version.ini
       # Example of an upx install, also requires adding "--upx-dir upx-4.0.0-win64" to the pyinst run
-      #- name: Setup UPX 
+      #- name: Setup UPX
       #  run: |
       #    curl -L -O https://github.com/upx/upx/releases/download/v4.0.0/upx-4.0.0-win64.zip
       #    tar.exe -x -v -f upx-4.0.0-win64.zip
@@ -349,12 +348,12 @@ jobs:
           IS_RELEASE: 1
       - name: Create archive (.zip)
         run: |
-          cp dist/Clangen/.itch.toml dist/ 
-          tar.exe -a -c -f Clangen_Win64.zip -C dist Clangen .itch.toml
+          cp dist/FairytaleMod/.itch.toml dist/ 
+          tar.exe -a -c -f FairytaleMod_Clangen_Win64.zip -C dist FairytaleMod .itch.toml
       - uses: actions/upload-artifact@v3
         with:
-          name: Clangen_Win64
-          path: Clangen_Win64.zip
+          name: FairytaleMod_Clangen_Win64
+          path: FairytaleMod_Clangen_Win64.zip
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -390,8 +389,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Clangen_Win64.zip   
-          
+          files: FairytaleMod_Clangen_Win64.zip
+
   build_win64_py311:
     runs-on: windows-latest
     steps:
@@ -403,9 +402,9 @@ jobs:
       - name: Setup Python 3.11 x64
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-          architecture: 'x64'
-          cache: 'poetry'
+          python-version: "3.11"
+          architecture: "x64"
+          cache: "poetry"
       - name: Set up cargo cache
         uses: actions/cache@v3
         continue-on-error: false
@@ -440,7 +439,7 @@ jobs:
           echo "release_channel=${{ env.RELEASE_CHANNEL }}" >> version.ini
           echo "upstream=${{ github.repository }}" >> version.ini
       # Example of an upx install, also requires adding "--upx-dir upx-4.0.0-win64" to the pyinst run
-      #- name: Setup UPX 
+      #- name: Setup UPX
       #  run: |
       #    curl -L -O https://github.com/upx/upx/releases/download/v4.0.0/upx-4.0.0-win64.zip
       #    tar.exe -x -v -f upx-4.0.0-win64.zip
@@ -462,12 +461,12 @@ jobs:
           IS_RELEASE: 1
       - name: Create archive (.zip)
         run: |
-          cp dist/Clangen/.itch.toml dist/ 
-          tar.exe -a -c -f Clangen_Win64_Windows10+.zip -C dist Clangen .itch.toml
+          cp dist/FairytaleMod/.itch.toml dist/ 
+          tar.exe -a -c -f FairytaleMod_Clangen_Win64_Windows10+.zip -C dist FairytaleMod .itch.toml
       - uses: actions/upload-artifact@v3
         with:
-          name: Clangen_Win64_Windows10+
-          path: Clangen_Win64_Windows10+.zip
+          name: FairytaleMod_Clangen_Win64_Windows10+
+          path: FairytaleMod_Clangen_Win64_Windows10+.zip
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -503,8 +502,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Clangen_Win64_Windows10+.zip
-          
+          files: FairytaleMod_Clangen_Win64_Windows10+.zip
+
   build_macos64:
     # For commits to the original mac build action see:
     # https://github.com/Thlumyn/clangen/blob/29c9e39fed9a09b8de906f5c3b91dc044fe9b9a5/.github/workflows/main.yml
@@ -561,15 +560,15 @@ jobs:
         env:
           IS_RELEASE: 1
       - name: Create archive (.tar.xz)
-        run: rm -r dist/Clangen
+        run: rm -r dist/FairytaleMod
       - name: Install appdmg
         run: "npm install -g appdmg"
       - name: Generate .dmg
-        run: "appdmg appdmg.json Clangen_macOS64.dmg"
+        run: "appdmg appdmg.json FairytaleMod_Clangen_macOS64.dmg"
       - uses: actions/upload-artifact@v3
         with:
-          name: Clangen_macOS64.dmg
-          path: Clangen_macOS64.dmg
+          name: FairytaleMod_Clangen_macOS64.dmg
+          path: FairytaleMod_Clangen_macOS64.dmg
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
@@ -605,7 +604,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: Clangen_macOS64.dmg
+          files: FairytaleMod_Clangen_macOS64.dmg
   confirm_release_ubuntu_22_04:
     runs-on: ubuntu-22.04
     needs:

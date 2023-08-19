@@ -99,25 +99,51 @@ class Thoughts():
                 return False
 
         if 'main_trait_constraint' in thought:
-            if main_cat.trait not in thought['main_trait_constraint']:
+            if main_cat.personality.trait not in thought['main_trait_constraint']:
                 return False
             
         if 'random_trait_constraint' in thought and random_cat:
-            if random_cat.trait not in thought['random_trait_constraint']:
+            if random_cat.personality.trait not in thought['random_trait_constraint']:
                 return False
 
         if 'main_skill_constraint' in thought:
-            if main_cat.skill not in thought['main_skill_constraint']:
+            _flag = False
+            for _skill in thought['main_skill_constraint']:
+                spli = _skill.split(",")
+                
+                if len(spli) != 2:
+                    print("Throught constraint not properly formated", _skill)
+                    continue
+                
+                if main_cat.skills.meets_skill_requirement(spli[0], int(spli[1])):
+                    _flag = True
+                    break
+            
+            if not _flag:
                 return False
             
         if 'random_skill_constraint' in thought and random_cat:
-            if random_cat.skill not in thought['random_skill_constraint']:
+            _flag = False
+            for _skill in thought['random_skill_constraint']:
+                spli = _skill.split(",")
+                
+                if len(spli) != 2:
+                    print("Throught constraint not properly formated", _skill)
+                    continue
+                
+                if random_cat.skills.meets_skill_requirement(spli[0], spli[1]):
+                    _flag = True
+                    break
+            
+            if not _flag:
                 return False
 
-        if 'backstory_constraint' in thought:
-            if main_cat.backstory not in thought['backstory_constraint']["m_c"]:
+        if 'main_backstory_constraint' in thought:
+            if main_cat.backstory not in thought['main_backstory_constraint']:
                 return False
-            if random_cat and random_cat.backstory not in thought['backstory_constraint']["r_c"]:
+        
+        if 'random_backstory_constraint' in thought:
+            if random_cat and random_cat.backstory not in thought['random_backstory_constraint']:
                 return False
         # species constraint
         if 'main_species_constraint' in thought:
@@ -174,7 +200,8 @@ class Thoughts():
             else:
                 if outside_status and outside_status != 'clancat' and len(r_c_in) > 0:
                     return False
-
+            
+            #makes sure thought is valid for game mode
             if game_mode == "classic" and ('has_injuries' in thought or "perm_conditions" in thought):
                 return False
             else:
@@ -303,6 +330,6 @@ class Thoughts():
             chosen_thought = choice(chosen_thought_group["thoughts"])
         except Exception:
             traceback.print_exc()
-            chosen_thought = "No thoughts, head empty"
+            chosen_thought = "Prrrp! You shouldn't see this! Report as a bug."
 
         return chosen_thought

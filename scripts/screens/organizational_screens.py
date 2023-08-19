@@ -11,31 +11,29 @@ This file contains:
 
 """  # pylint: enable=line-too-long
 
+import logging
+import os
 import platform
 import subprocess
-import os
 import traceback
-import logging
 from html import escape
 
 import pygame
-
-from .base_screens import Screens
-
-from requests.exceptions import ConnectionError, HTTPError
-from scripts.cat.cats import Cat
-from scripts.game_structure.image_button import UIImageButton
-from scripts.utility import get_text_box_theme, scale, quit  # pylint: disable=redefined-builtin
 import pygame_gui
-from scripts.game_structure.game_essentials import game, screen, screen_x, screen_y, MANAGER
-from scripts.game_structure.windows import DeleteCheck, UpdateAvailablePopup, ChangelogPopup, SaveError
-from scripts.game_structure.discord_rpc import _DiscordRPC
+import ujson
+from requests.exceptions import RequestException, Timeout
+
+from scripts.cat.cats import Cat
+from scripts.clan import Clan
 from scripts.game_structure import image_cache
+from scripts.game_structure.discord_rpc import _DiscordRPC
+from scripts.game_structure.game_essentials import game, screen, screen_x, screen_y, MANAGER
+from scripts.game_structure.image_button import UIImageButton
+from scripts.game_structure.windows import DeleteCheck, UpdateAvailablePopup, ChangelogPopup, SaveError
+from scripts.utility import get_text_box_theme, scale, quit  # pylint: disable=redefined-builtin
+from .base_screens import Screens
 from ..housekeeping.datadir import get_data_dir, get_cache_dir
 from ..housekeeping.update import has_update, UpdateChannel, get_latest_version_number
-
-import ujson
-
 from ..housekeeping.version import get_version_info
 
 logger = logging.getLogger(__name__)
@@ -67,7 +65,7 @@ class StartScreen(Screens):
                 subprocess.Popen(['xdg-open', event.link_target])
         if event.type == pygame_gui.UI_BUTTON_START_PRESS:
             screens = {
-                self.continue_button: 'clan screen',
+                self.continue_button: 'camp screen',
                 self.switch_clan_button: 'switch clan screen',
                 self.new_clan_button: 'make clan screen',
                 self.settings_button: 'settings screen',
@@ -88,36 +86,44 @@ class StartScreen(Screens):
                 self.error_gethelp.kill()
                 self.closebtn.kill()
                 self.open_data_directory_button.kill()
-                game.switches['error_message'] = ''
-                game.switches['traceback'] = ''
+                # game.switches['error_message'] = ''
+                # game.switches['traceback'] = ''
             elif event.ui_element == self.update_button:
                 UpdateAvailablePopup(game.switches['last_screen'])
             elif event.ui_element == self.quit:
                 quit(savesettings=False, clearevents=False)
             elif event.ui_element == self.social_buttons['discord_button']:
                 if platform.system() == 'Darwin':
-                    subprocess.Popen(["open", "-u", "https://discord.gg/clangen"])
+                    subprocess.Popen(
+                        ["open", "-u", "https://discord.gg/clangen"])
                 elif platform.system() == 'Windows':
                     os.system(f"start \"\" {'https://discord.gg/clangen'}")
                 elif platform.system() == 'Linux':
-                    subprocess.Popen(['xdg-open', "https://discord.gg/clangen"])
+                    subprocess.Popen(
+                        ['xdg-open', "https://discord.gg/clangen"])
             elif event.ui_element == self.social_buttons['tumblr_button']:
                 if platform.system() == 'Darwin':
-                    subprocess.Popen(["open", "-u", "https://officialclangen.tumblr.com/"])
+                    subprocess.Popen(
+                        ["open", "-u", "https://officialclangen.tumblr.com/"])
                 elif platform.system() == 'Windows':
-                    os.system(f"start \"\" {'https://officialclangen.tumblr.com/'}")
+                    os.system(
+                        f"start \"\" {'https://officialclangen.tumblr.com/'}")
                 elif platform.system() == 'Linux':
-                    subprocess.Popen(['xdg-open', "https://officialclangen.tumblr.com/"])
+                    subprocess.Popen(
+                        ['xdg-open', "https://officialclangen.tumblr.com/"])
             elif event.ui_element == self.social_buttons['twitter_button']:
                 if platform.system() == 'Darwin':
-                    subprocess.Popen(["open", "-u", "https://twitter.com/OfficialClangen"])
+                    subprocess.Popen(
+                        ["open", "-u", "https://twitter.com/OfficialClangen"])
                 elif platform.system() == 'Windows':
-                    os.system(f"start \"\" {'https://twitter.com/OfficialClangen'}")
+                    os.system(
+                        f"start \"\" {'https://twitter.com/OfficialClangen'}")
                 elif platform.system() == 'Linux':
-                    subprocess.Popen(['xdg-open', "https://twitter.com/OfficialClangen"])
+                    subprocess.Popen(
+                        ['xdg-open', "https://twitter.com/OfficialClangen"])
         elif event.type == pygame.KEYDOWN and game.settings['keybinds']:
             if (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE) and self.continue_button.is_enabled:
-                self.change_screen('clan screen')
+                self.change_screen('camp screen')
 
     def on_use(self):
         """
@@ -220,7 +226,7 @@ class StartScreen(Screens):
         )
 
         self.open_data_directory_button = UIImageButton(
-            scale(pygame.Rect((1040, 1020), (320, 60))),
+            scale(pygame.Rect((1040, 1020), (356, 60))),
             "",
             object_id="#open_data_directory_button",
             manager=MANAGER,
@@ -259,44 +265,45 @@ class StartScreen(Screens):
                                 show_popup = False
 
                     if show_popup:
-                        UpdateAvailablePopup(game.switches['last_screen'], show_checkbox=True)
+                        UpdateAvailablePopup(
+                            game.switches['last_screen'], show_checkbox=True)
 
                 has_checked_for_update = True
 
             if update_available:
                 self.update_button.visible = 1
-        except (ConnectionError, HTTPError):
+        except (RequestException, Timeout):
             logger.exception("Failed to check for update")
+            has_checked_for_update = True
 
         if game.settings['show_changelog']:
             show_changelog = True
+            lastCommit = "0000000000000000000000000000000000000000"
             if os.path.exists(f"{get_cache_dir()}/changelog_popup_shown"):
                 with open(f"{get_cache_dir()}/changelog_popup_shown") as read_file:
-                    if read_file.readline() == get_version_info().version_number:
+                    lastCommit = read_file.readline()
+                    if lastCommit == get_version_info().version_number:
                         show_changelog = False
 
             if show_changelog:
+                ChangelogPopup(game.switches['last_screen'], lastCommit)
                 with open(f"{get_cache_dir()}/changelog_popup_shown", 'w') as write_file:
                     write_file.write(get_version_info().version_number)
-                ChangelogPopup(game.switches['last_screen'])
 
         self.warning_label = pygame_gui.elements.UITextBox(
-            "Warning: this game includes some mild descriptions of gore.",
+            "Warning: this game includes some mild descriptions of gore, violence, and animal abuse",
             scale(pygame.Rect((100, 1244), (1400, 60))),
             object_id="#default_dark",
             manager=MANAGER)
 
         if game.clan is not None and game.switches['error_message'] == '':
             self.continue_button.enable()
-            if len(game.switches['clan_list']) > 1:
-                self.switch_clan_button.enable()
-            else:
-                self.switch_clan_button.disable()
-        elif game.clan is not None and game.switches['error_message']:
-            self.continue_button.disable()
-            self.switch_clan_button.enable()
         else:
             self.continue_button.disable()
+
+        if len(game.switches['clan_list']) > 1:
+            self.switch_clan_button.enable()
+        else:
             self.switch_clan_button.disable()
 
         if game.switches['error_message']:
@@ -360,10 +367,10 @@ class SwitchClanScreen(Screens):
 
                 for page in self.clan_buttons:
                     if event.ui_element in page:
-                        game.clan.switch_clans(
+                        Clan.switch_clans(
                             self.clan_name[self.page][page.index(
                                 event.ui_element)])
-                        
+
         elif event.type == pygame.KEYDOWN and game.settings['keybinds']:
             if event.key == pygame.K_ESCAPE:
                 self.change_screen('start screen')
@@ -415,7 +422,7 @@ class SwitchClanScreen(Screens):
                                        object_id="#main_menu_button",
                                        manager=MANAGER)
         self.info = pygame_gui.elements.UITextBox(
-            'Note: This will close the game.\n When you open it next, it should have the new clan.',
+            'Note: This will close the game.\n When you open it next, it should have the new Clan.',
             # pylint: disable=line-too-long
             scale(pygame.Rect((200, 1200), (1200, 140))),
             object_id=get_text_box_theme("#text_box_30_horizcenter"),
@@ -428,9 +435,9 @@ class SwitchClanScreen(Screens):
             manager=MANAGER)
         if game.clan:
             self.current_clan.set_text(
-                f"The currently loaded clan is {game.clan.name}Clan")
+                f"The currently loaded Clan is {game.clan.name}Clan")
         else:
-            self.current_clan.set_text("There is no clan currently loaded.")
+            self.current_clan.set_text("There is no Clan currently loaded.")
 
         self.clan_list = game.read_clans()
 
@@ -622,7 +629,7 @@ class SettingsScreen(Screens):
                 self.open_lang_settings()
             if self.sub_menu in ['general', 'relation', 'language']:
                 self.handle_checkbox_events(event)
-        
+
         elif event.type == pygame.KEYDOWN and game.settings['keybinds']:
             if event.key == pygame.K_ESCAPE:
                 self.change_screen('start screen')
@@ -717,14 +724,24 @@ class SettingsScreen(Screens):
             object_id="#save_settings_button",
             manager=MANAGER)
 
-        self.fullscreen_toggle = UIImageButton(
-            scale(pygame.Rect((1234, 50), (316, 72))),
-            "",
-            object_id="#toggle_fullscreen_button",
-            manager=MANAGER,
-            tool_tip_text="This will close the game. "
-                          "When you reopen, fullscreen"
-                          " will be toggled. ")
+        if game.settings['fullscreen']:
+            self.fullscreen_toggle = UIImageButton(
+                scale(pygame.Rect((1234, 50), (316, 72))),
+                "",
+                object_id="#toggle_fullscreen_button",
+                manager=MANAGER,
+                tool_tip_text="This will close the game. "
+                "When you reopen, the game"
+                " will be windowed. ")
+        else:
+            self.fullscreen_toggle = UIImageButton(
+                scale(pygame.Rect((1234, 50), (316, 72))),
+                "",
+                object_id="#toggle_fullscreen_button",
+                manager=MANAGER,
+                tool_tip_text="This will close the game. "
+                "When you reopen, the game"
+                " will be fullscreen. ")
 
         self.open_data_directory_button = UIImageButton(
             scale(pygame.Rect((50, 1290), (356, 60))),
@@ -873,7 +890,7 @@ class SettingsScreen(Screens):
 
         self.checkboxes_text['info_text_box'] = pygame_gui.elements.UITextBox(
             self.info_text,
-            scale(pygame.Rect((0, 0), (1200, 8000))),
+            scale(pygame.Rect((0, 0), (1150, 8000))),
             object_id=get_text_box_theme("#text_box_30_horizcenter"),
             container=self.checkboxes_text["info_container"],
             manager=MANAGER)
@@ -881,7 +898,7 @@ class SettingsScreen(Screens):
         self.checkboxes_text['info_text_box'].disable()
 
         i = 0
-        y_pos = 731
+        y_pos = 1305
         for tooltip in self.tooltip_text:
             if not tooltip:
                 self.tooltip[f'tip{i}'] = UIImageButton(
@@ -890,6 +907,7 @@ class SettingsScreen(Screens):
                     object_id="#blank_button",
                     container=self.checkboxes_text["info_container"],
                     manager=MANAGER,
+                    starting_height=2
                 ),
             else:
                 self.tooltip[f'tip{i}'] = UIImageButton(
@@ -898,12 +916,13 @@ class SettingsScreen(Screens):
                     object_id="#blank_button",
                     container=self.checkboxes_text["info_container"],
                     manager=MANAGER,
-                    tool_tip_text=tooltip
+                    tool_tip_text=tooltip,
+                    starting_height=2
                 ),
 
             i += 1
         self.checkboxes_text["info_container"].set_scrollable_area_dimensions(
-            (1150 / 1600 * screen_x, 4300 / 1400 * screen_y))
+            (1150 / 1600 * screen_x, (i * 56 + y_pos + 550) / 1400 * screen_y))
 
     def open_lang_settings(self):
         """Open Language Settings"""
@@ -1006,6 +1025,7 @@ class StatsScreen(Screens):
         """
         TODO: DOCS
         """
+
         self.set_disabled_menu_buttons(["stats"])
         self.show_menu_buttons()
         self.update_heading_text(f'{game.clan.name}Clan')
@@ -1026,7 +1046,7 @@ class StatsScreen(Screens):
                     warriors_num += 1
                 elif cat.status in ['apprentice', 'medicine cat apprentice']:
                     app_num += 1
-                elif cat.status == 'kitten':
+                elif cat.status in ['kitten', 'newborn']:
                     kit_num += 1
                 elif cat.status == 'elder':
                     elder_num += 1

@@ -1,4 +1,11 @@
 [[actions]]
 name = "play"
-path = "Clangen/Clangen.exe"
+platform = "windows"
+path = "FairytaleMod_Clangen/FairytaleMod.exe"
+args = ["--launched-through-itch"]
+
+[[actions]]
+name = "play"
+platform = "linux"
+path = "FairytaleMod_Clangen/FairytaleMod"
 args = ["--launched-through-itch"]

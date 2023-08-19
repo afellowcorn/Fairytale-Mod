@@ -58,7 +58,7 @@ class Relationship():
 
     def start_interaction(self) -> None:
         """This function handles the simple interaction of this relationship."""
-        # such interactions are only allowed for living clan members
+        # such interactions are only allowed for living Clan members
         if self.cat_from.dead or self.cat_from.outside or self.cat_from.exiled:
             return
         if self.cat_to.dead or self.cat_to.outside or self.cat_to.exiled:
@@ -147,13 +147,11 @@ class Relationship():
                 possible_death = self.adjust_interaction_string(injury_dict["death_text"]) if "death_text" in injury_dict else None
                 if injured_cat.status == "leader":
                     possible_death = self.adjust_interaction_string(injury_dict["death_leader_text"]) if "death_leader_text" in injury_dict else None
-                if possible_scar:
+                
+                if possible_scar or possible_death:
                     for condition in injuries:
-                        self.history.add_possible_death_or_scars(injured_cat, condition, possible_scar, scar=True)
-                if possible_death:
-                    for condition in injuries:
-                        self.history.add_possible_death_or_scars(injured_cat, condition, possible_scar, death=True)
-
+                        self.history.add_possible_history(injured_cat, condition, scar_text=possible_scar, death_text=possible_death)
+                
         # get any possible interaction string out of this interaction
         interaction_str = choice(self.chosen_interaction.interactions)
 
@@ -167,7 +165,10 @@ class Relationship():
             effect = f" ({intensity} negative effect)"
 
         interaction_str = interaction_str + effect
-        self.log.append(interaction_str)
+        if self.cat_from.moons == 1:
+            self.log.append(interaction_str + f" - {self.cat_from.name} was {self.cat_from.moons} moon old")
+        else:
+            self.log.append(interaction_str + f" - {self.cat_from.name} was {self.cat_from.moons} moons old")
         relevant_event_tabs = ["relation", "interaction"]
         if self.chosen_interaction.get_injuries:
             relevant_event_tabs.append("health")
@@ -176,6 +177,7 @@ class Relationship():
         ))
 
     def adjust_interaction_string(self, string):
+        ''' Adjusts the string text for viewing '''
 
         cat_dict = {
             "m_c": (str(self.cat_from.name), choice(self.cat_from.pronouns)),
@@ -183,7 +185,6 @@ class Relationship():
         }
 
         return process_text(string, cat_dict)
-
 
     def get_amount(self, in_de_crease: str, intensity: str) -> int:
         """Calculates the amount of such an interaction.
@@ -432,16 +433,22 @@ class Relationship():
     #                            complex value addition                            #
     # ---------------------------------------------------------------------------- #
 
-    # How increasing one state influences another directly: (an increase of one state doesn't trigger a chain reaction)
+    # How increasing/decreasing one state influences another directly (an increase of one state doesn't trigger a chain reaction)
     # increase romantic_love -> decreases: dislike | increases: like, comfortable
+    # decrease romantic_love -> decreases: comfortable | increases: -
     # increase like -> decreases: dislike | increases: comfortable
+    # decrease like -> increases: dislike | decreases: comfortable
     # increase dislike -> decreases: romantic_love, like | increases: -
-    # increase admiration -> decreases: - | increases: -
+    # decrease dislike -> increases: like, comfortable | decreases: -
+    # increase admiration -> decreases: - | increases: trust
+    # decrease admiration -> increases: dislike | decreases: trust
     # increase comfortable -> decreases: jealousy, dislike | increases: trust, like
+    # decrease comfortable -> increases: jealousy, dislike | decreases: trust, like
     # increase jealousy -> decreases: - | increases: dislike
-    # increase trust -> decreases: dislike | increases: -
-
-    # !! DECREASING ONE STATE DOES'T INFLUENCE OTHERS !!
+    # decrease jealousy -> increases: comfortable | decreases: -
+    # increase trust -> decreases: dislike | increases: comfortable
+    # decrease trust -> increases: dislike | decreases: comfortable
+    
 
     def complex_romantic(self, value, buff):
         """Add the value to the romantic type and influence other value types as well."""
@@ -450,6 +457,8 @@ class Relationship():
             self.platonic_like += buff
             self.comfortable += buff
             self.dislike -= buff
+        if value < 0:
+            self.comfortable -= buff
 
     def complex_platonic(self, value, buff):
         """Add the value to the platonic type and influence other value types as well."""
@@ -457,6 +466,9 @@ class Relationship():
         if value > 0:
             self.comfortable += buff
             self.dislike -= buff
+        if value < 0:
+            self.comfortable -= buff
+            self.dislike += buff
 
     def complex_dislike(self, value, buff):
         """Add the value to the dislike type and influence other value types as well."""
@@ -464,10 +476,18 @@ class Relationship():
         if value > 0:
             self.romantic_love -= buff
             self.platonic_like -= buff
+        if value < 0:
+            self.platonic_like += buff
+            self.comfortable += buff
 
     def complex_admiration(self, value, buff):
         """Add the value to the admiration type and influence other value types as well."""
         self.admiration += value
+        if value > 0:
+            self.trust += buff
+        if value < 0:
+            self.trust -= buff
+            self.dislike += buff
 
     def complex_comfortable(self, value, buff):
         """Add the value to the comfortable type and influence other value types as well."""
@@ -477,17 +497,24 @@ class Relationship():
             self.platonic_like += buff
             self.dislike -= buff
             self.jealousy -= buff
+        if value < 0:
+            self.trust -= buff
+            self.platonic_like -= buff
+            self.dislike += buff
 
     def complex_jealousy(self, value, buff):
         """Add the value to the jealousy type and influence other value types as well."""
         self.jealousy += value
         if value > 0:
             self.dislike += buff
+        if value < 0:
+            self.comfortable += buff
 
     def complex_trust(self, value, buff):
         """Add the value to the trust type and influence other value types as well."""
         self.trust += value
         if value > 0:
+            self.comfortable += buff
             self.dislike -= buff
 
 

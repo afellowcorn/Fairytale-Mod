@@ -6,7 +6,6 @@
 
 
 
-
 This file is the main file for the game.
 It also contains the main pygame loop
 It first sets up logging, then loads the version hash from version.ini (if it exists), then loads the cats and clan.
@@ -20,11 +19,52 @@ import shutil
 import sys
 import time
 import os
+import threading
+
+from importlib.util import find_spec
+
+if not getattr(sys, 'frozen', False):
+    requiredModules = [
+        "ujson",
+        "pygame",
+        "pygame_gui",
+        "platformdirs",
+        "pgpy",
+        "requests",
+        "strenum"
+    ]
+
+    isMissing = False
+
+    for module in requiredModules:
+        if find_spec(module) is None:
+            isMissing = True
+            break
+
+    if isMissing:
+        if find_spec("thonny") is not None:
+            print("""You are missing some requirements to run clangen!
+Please press "Tools" -> "Manage Packages"
+Once the menu opens, click the link below "Install from requirements file".
+Then, select the file "requirements.txt" in the clangen folder.""")
+        else:
+            print("""You are missing some requirements to run clangen!
+Please run the following command in your terminal to install them:
+
+python3 -m pip install -r requirements.txt
+""")
+        
+        print("If you are still having issues, please ask for help in the clangen discord server: https://discord.gg/clangen")
+        sys.exit(1)
+
+    del requiredModules
+    del isMissing
+del find_spec
 
 from scripts.housekeeping.log_cleanup import prune_logs
 from scripts.housekeeping.stream_duplexer import UnbufferedStreamDuplexer
 from scripts.housekeeping.datadir import get_log_dir, setup_data_dir
-from scripts.housekeeping.version import get_version_info, VERSION_NAME
+from scripts.housekeeping.version import get_version_info, VERSION_NAME, MOD_VERSION
 
 
 directory = os.path.dirname(__file__)
@@ -109,6 +149,7 @@ else:
 
 print("Version Name: ", VERSION_NAME)
 print("Running on commit " + get_version_info().version_number)
+print("Fairytale Mod Version ", MOD_VERSION)
 
 # Load game
 from scripts.game_structure.load_cat import load_cats, version_convert
@@ -118,7 +159,7 @@ from scripts.game_structure.discord_rpc import _DiscordRPC
 from scripts.cat.sprites import sprites
 from scripts.clan import clan_class
 from scripts.utility import get_text_box_theme, quit, scale  # pylint: disable=redefined-builtin
-from scripts.debugmode import debugmode
+from scripts.debugMenu import debugmode
 import pygame_gui
 import pygame
 
@@ -132,31 +173,100 @@ from scripts.screens.all_screens import start_screen # pylint: disable=ungrouped
 clock = pygame.time.Clock()
 pygame.display.set_icon(pygame.image.load('resources/images/icon.png'))
 
+game.rpc = _DiscordRPC("1076277970060185701", daemon=True)
+game.rpc.start()
+game.rpc.start_rpc.set()
+
 # LOAD cats & clan
-clan_list = game.read_clans()
-if clan_list:
-    game.switches['clan_list'] = clan_list
-    try:
-        load_cats()
-        version_info = clan_class.load_clan()
-        version_convert(version_info)
-    except Exception as e:
-        logging.exception("File failed to load")
-        if not game.switches['error_message']:
-            game.switches[
-                'error_message'] = 'There was an error loading the cats file!'
-            game.switches['traceback'] = e
+finished_loading = False
 
+def load_data():
+    global finished_loading
+    
+    #load in the spritesheets
+    sprites.load_all()
 
-# LOAD settings
+    clan_list = game.read_clans()
+    if clan_list:
+        game.switches['clan_list'] = clan_list
+        try:
+            load_cats()
+            version_info = clan_class.load_clan()
+            version_convert(version_info)
+            game.load_events()
+        except Exception as e:
+            logging.exception("File failed to load")
+            if not game.switches['error_message']:
+                game.switches[
+                    'error_message'] = 'There was an error loading the cats file!'
+                game.switches['traceback'] = e
+    
+    finished_loading = True
 
-sprites.load_scars()
+def loading_animation():
+    global finished_loading
+    
+    # Load images, adjust color
+    color = pygame.Surface((200, 210))
+    if game.settings["dark mode"]:
+        color.fill(game.config["theme"]["light_mode_background"])
+    else:
+        color.fill(game.config["theme"]["dark_mode_background"])
+    
+    images = []
+    for i in range(1, 11):
+        im = pygame.image.load(f"resources/images/loading_animate/startup/{i}.png")
+        im.blit(color, (0,0), special_flags=pygame.BLEND_RGBA_MULT)
+        images.append(im)
+        
+    #Cleanup
+    del im
+    del color
+    
+    x = screen.get_width() / 2
+    y = screen.get_height() / 2
+    
+    i = 0
+    total_frames = len(images)
+    while not finished_loading:
+        clock.tick(8) # Loading screen is 8FPS
+
+        if game.settings["dark mode"]:
+            screen.fill(game.config["theme"]["dark_mode_background"])
+        else:
+            screen.fill(game.config["theme"]["light_mode_background"])
+        
+        screen.blit(images[i], (x - images[i].get_width() / 2 , y - images[i].get_height() / 2))
+        
+        i += 1
+        if i >= total_frames:
+            i = 0
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit(savesettings=False)
+            
+        pygame.display.update()
+    
+
+loading_thread = threading.Thread(target=load_data)
+loading_thread.start()
+
+loading_animation()
+
+# The loading thread should be done by now. This line
+# is just for safety. Plus some cleanup. 
+loading_thread.join()
+del loading_thread
+del finished_loading
+del loading_animation
+del load_data
 
 start_screen.screen_switches()
 
 if game.settings['fullscreen']:
     version_number = pygame_gui.elements.UILabel(
-        pygame.Rect((1500, 1350), (-1, -1)), get_version_info().version_number[0:8],
+        pygame.Rect((1500, 1350), (-1, -1)), get_version_info().mod_version[0:8],
         object_id=get_text_box_theme())
     # Adjust position
     version_number.set_position(
@@ -164,23 +274,18 @@ if game.settings['fullscreen']:
          1400 - version_number.get_relative_rect()[3]))
 else:
     version_number = pygame_gui.elements.UILabel(
-        pygame.Rect((700, 650), (-1, -1)), get_version_info().version_number[0:8],
+        pygame.Rect((700, 650), (-1, -1)), get_version_info().mod_version[0:8],
         object_id=get_text_box_theme())
     # Adjust position
     version_number.set_position(
         (800 - version_number.get_relative_rect()[2] - 8,
         700 - version_number.get_relative_rect()[3]))
 
-if get_version_info().is_source_build or get_version_info().is_dev():
-    dev_watermark = pygame_gui.elements.UILabel(
-        scale(pygame.Rect((1050, 1321), (600, 100))),
-        "Dev Build:",
-        object_id="#dev_watermark"
-    )
-
-game.rpc = _DiscordRPC("1076277970060185701", daemon=True)
-game.rpc.start()
-game.rpc.start_rpc.set()
+dev_watermark = pygame_gui.elements.UILabel(
+    scale(pygame.Rect((1050, 1321), (600, 100))),
+    "Fairytale Mod:",
+    object_id="#dev_watermark"
+)
 
 
 cursor_img = pygame.image.load('resources/images/cursor.png').convert_alpha()
@@ -195,9 +300,9 @@ while True:
     time_delta = clock.tick(game.switches['fps']) / 1000.0
     if game.switches['cur_screen'] not in ['start screen']:
         if game.settings['dark mode']:
-            screen.fill((57, 50, 36))
+            screen.fill(game.config["theme"]["dark_mode_background"])
         else:
-            screen.fill((206, 194, 168))
+            screen.fill(game.config["theme"]["light_mode_background"])
 
     if game.settings['custom cursor']:
         if pygame.mouse.get_cursor() == disabled_cursor:
@@ -239,8 +344,10 @@ while True:
 
         # F2 turns toggles visual debug mode for pygame_gui, allowed for easier bug fixes.
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_F2:
+            if event.key == pygame.K_F3:
                 debugmode.toggle_console()
+            elif event.key == pygame.K_F2:
+                MANAGER.print_layer_debug()
 
         MANAGER.process_events(event)
     

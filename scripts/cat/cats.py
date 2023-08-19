@@ -1,33 +1,21 @@
 from __future__ import annotations
-from random import choice, randint, sample
+from random import choice, randint, sample, random, choices, getrandbits, randrange
 from typing import Dict, List, Any
-import random
 import os.path
 import itertools
 
 from .history import History
+from .skills import CatSkills
 from ..housekeeping.datadir import get_save_dir
 from ..events_module.generate_events import GenerateEvents
 
 import ujson
 
-from .pelts import describe_appearance
-from .names import Name, names
-from .appearance_utility import (
-    init_species,
-    init_pelt,
-    init_tint,
-    init_sprite,
-    init_scars,
-    init_accessories,
-    init_white_patches,
-    init_eyes,
-    init_pattern,
-)
+from .names import Name
+from .pelts import Pelt
 from scripts.conditions import Illness, Injury, PermanentCondition, get_amount_cat_for_one_medic, \
     medical_cats_condition_fulfilled
 import bisect
-import pygame
 
 from scripts.utility import get_med_cats, get_personality_compatibility, event_text_adjust, update_sprite, \
     leader_ceremony_text_adjust
@@ -36,35 +24,13 @@ from scripts.cat_relations.relationship import Relationship
 from scripts.game_structure import image_cache
 from scripts.event_class import Single_Event
 from .thoughts import Thoughts
-from scripts.cat_relations.inheritance import Inheritance, RelationType
+from scripts.cat_relations.inheritance import Inheritance
 
 
 class Cat():
     dead_cats = []
     used_screen = screen
-    traits = [
-        'adventurous', 'ambitious', 'bloodthirsty', 'bold',
-        'calm', 'careful', 'charismatic', 'childish', 'cold', 'compassionate',
-        'confident', 'daring', 'faithful', 'fierce', 'insecure',
-        'lonesome', 'loving', 'loyal', 'nervous', 'playful',
-        'responsible', 'righteous', 'shameless', 'sneaky', 'strange', 'strict',
-        'thoughtful', 'troublesome', 'vengeful', 'wise'
-    ]
-    kit_traits = [
-        'attention-seeker', 'bossy', 'bouncy', 'bullying', 'charming',
-        'daring', 'daydreamer', 'impulsive', 'inquisitive', 'insecure',
-        'nervous', 'noisy', 'polite', 'quiet', 'sweet', 'troublesome'
-    ]
-    personality_groups = {
-        'Outgoing': ['adventurous', 'bold', 'charismatic', 'childish', 'confident', 'daring',
-                     'playful', 'righteous', 'attention-seeker', 'bouncy', 'charming', 'noisy'],
-        'Benevolent': ['faithful', 'loving', 'responsible', 'thoughtful', 'wise', 'inquisitive',
-                       'polite', 'sweet'],
-        'Abrasive': ['ambitious', 'bloodthirsty', 'cold', 'fierce', 'shameless', 'strict',
-                     'troublesome', 'vengeful', 'bossy', 'bullying', 'impulsive'],
-        'Reserved': ['calm', 'careful', 'insecure', 'lonesome', 'loyal', 'nervous', 'sneaky',
-                     'strange', 'daydreamer', 'quiet'],
-    }
+    
     ages = [
         'newborn', 'kitten', 'adolescent', 'young adult', 'adult', 'senior adult',
         'senior'
@@ -95,66 +61,6 @@ class Cat():
     ]
 
     gender_tags = {'female': 'F', 'male': 'M'}
-
-    skills = [
-        'good hunter', 'great hunter', 'fantastic hunter', 'smart',
-        'very smart', 'extremely smart', 'good fighter', 'great fighter',
-        'excellent fighter', 'good speaker', 'great speaker',
-        'excellent speaker', 'strong connection to StarClan', 'good teacher',
-        'great teacher', 'fantastic teacher'
-    ]
-    med_skills = [
-        'good healer', 'great healer', 'fantastic healer', 'omen sight',
-        'dream walker', 'strong connection to StarClan', 'lore keeper',
-        'good teacher', 'great teacher', 'fantastic teacher', 'keen eye',
-        'smart', 'very smart', 'extremely smart', 'good mediator',
-        'great mediator', 'excellent mediator', 'clairvoyant', 'prophet'
-    ]
-    elder_skills = [
-        'good storyteller', 'great storyteller', 'fantastic storyteller',
-        'smart tactician', 'valuable tactician', 'valuable insight',
-        'good mediator', 'great mediator', 'excellent mediator',
-        'good teacher', 'great teacher', 'fantastic teacher',
-        'strong connection to StarClan', 'smart', 'very smart', 'extremely smart',
-        'good kitsitter', 'great kitsitter', 'excellent kitsitter', 'camp keeper', 'den builder',
-    ]
-
-    skill_groups = {
-        'special': ['omen sight', 'dream walker', 'clairvoyant', 'prophet', 'lore keeper', 'keen eye'],
-        'star': ['strong connection to StarClan'],
-        'heal': ['good healer', 'great healer', 'fantastic healer'],
-        'teach': ['good teacher', 'great teacher', 'fantastic teacher'],
-        'mediate': ['good mediator', 'great mediator', 'excellent mediator'],
-        'smart': ['smart', 'very smart', 'extremely smart'],
-        'hunt': ['good hunter', 'great hunter', 'fantastic hunter'],
-        'fight': ['good fighter', 'great fighter', 'excellent fighter'],
-        'speak': ['good speaker', 'great speaker', 'excellent speaker'],
-        'story': ['good storyteller', 'great storyteller', 'fantastic storyteller'],
-        'tactician': ['smart tactician', 'valuable tactician', 'valuable insight'],
-        'home': ['good kitsitter', 'great kitsitter', 'excellent kitsitter', 'camp keeper', 'den builder']
-    }
-
-    backstories = [
-        "clan_founder", "clanborn", "halfclan1", "halfclan2", "outsider_roots1", "outsider_roots2", "loner1", "loner2",
-        "kittypet1", "kittypet2", "kittypet3", "kittypet4", "rogue1", "rogue2", "rogue3", "abandoned1", "abandoned2",
-        "abandoned3", "abandoned4", "medicine_cat", "otherclan", 'otherclan1', "otherclan2", "otherclan3",
-        "ostracized_warrior", "disgraced", "retired_leader", "refugee", "refugee2", "refugee3", "refugee4", 'refugee5',
-        "tragedy_suvivor", "tragedy_survivor2", "tragedy_survivor4", "tragedy_survivor4", "orphaned", "orphaned2",
-        "orphaned3", "orphaned4", "orphaned5", "orphaned6" "wandering_healer1", "wandering_healer2", "guided1",
-        "guided2", "guided3", "guided4", "outsider", "outsider2", "outsider3"
-    ]
-    backstory_categories = {
-        'clan-born_backstories': ['clanborn', 'halfclan1', 'halfclan2', 'outsider_roots1', 'outsider_roots2'],
-        'loner_backstories': ['loner1', 'loner2', 'refugee2', 'tragedy_survivor4'],
-        'rogue_backstories': ['rogue1', 'rogue2', 'rogue3', 'refugee4', 'tragedy_survivor2'],
-        'kittypet_backstories': ['kittypet1', 'kittypet2', 'kittypet3', 'refugee3', 'tragedy_survivor3', 'kittypet4'],
-        'former_clancat_backstories': ['ostracized_warrior', 'disgraced', 'retired_leader', 'refugee',
-                                       'tragedy_survivor', 'disgraced2', 'disgraced3', 'medicine_cat'],
-        'otherclan_backstories': ['otherclan', 'otherclan2', 'otherclan3', 'other_clan1'],
-        'healer_backstories': ['medicine_cat', 'wandering_healer1', 'wandering_healer2'],
-        'orphaned_backstories': ['orphaned', 'orphaned2', 'orphaned3', 'orphaned4', 'orphaned5', 'orphaned6'],
-        'abandoned_backstories': ['abandoned1', 'abandoned2', 'abandoned3', 'abandoned4']
-    }
 
     # EX levels and ranges.
     # Ranges are inclusive to both bounds
@@ -195,7 +101,6 @@ class Cat():
         }
     ]
 
-
     all_cats: Dict[str, Cat] = {}  # ID: object
     outside_cats: Dict[str, Cat] = {}  # cats outside the clan
     id_iter = itertools.count()
@@ -212,20 +117,21 @@ class Cat():
                  backstory="clanborn",
                  parent1=None,
                  parent2=None,
-                 pelt=None,
-                 eye_colour=None,
+                 par2species=None,
                  suffix=None,
                  specsuffix_hidden=False,
                  ID=None,
                  moons=None,
                  example=False,
                  faded=False,
+                 skill_dict=None,
+                 pelt:Pelt=None,
                  loading_cat=False,  # Set to true if you are loading a cat at start-up.
                  **kwargs
                  ):
 
         # This must be at the top. It's a smaller list of things to init, which is only for faded cats
-        self.history_class = History()
+        self.history = None
         if faded:
             self.ID = ID
             self.name = Name(status, prefix=prefix, suffix=suffix)
@@ -235,7 +141,13 @@ class Cat():
             self.mate = []
             self.status = status
             self.species = species
+            self.pronouns = [self.default_pronouns[0].copy()]
             self.moons = moons
+            self.dead_for = 0
+            self.dead = True
+            self.outside = False
+            self.exiled = False
+            self.inheritance = None # This should never be used, but just for safety
             if "df" in kwargs:
                 self.df = kwargs["df"]
             else:
@@ -266,18 +178,14 @@ class Cat():
         self.status = status
         self.backstory = backstory
         self.age = None
-        self.skill = None
-        self.trait = None
+        self.skills = CatSkills(skill_dict=skill_dict)
+        self.personality = Personality(trait="troublesome", lawful=0, aggress=0,
+                                       stable=0, social=0)
         self.parent1 = parent1
         self.parent2 = parent2
+        self.par2species= par2species
         self.adoptive_parents = []
-        self.pelt = pelt
-        self.tint = None
-        self.white_patches_tint = None
-        self.eye_colour = eye_colour
-        self.eye_colour2 = None
-        self.eye_tint = None
-        self.scars = []
+        self.pelt = pelt if pelt else Pelt()
         self.former_mentor = []
         self.patrol_with_mentor = 0
         self.apprentice = []
@@ -294,43 +202,17 @@ class Cat():
         self.dead_for = 0  # moons
         self.thought = ''
         self.genderalign = None
-        self.tortiebase = None
-        self.pattern = None
-        self.tortiepattern = None
-        self.tortiecolour = None
-        self.white_patches = None
-        self.vitiligo = None
-        self.points = None
-        self.accessory = None
         self.birth_cooldown = 0
-        self.siblings = []
-        self.children = []
         self.illnesses = {}
         self.injuries = {}
         self.healed_condition = None
         self.leader_death_heal = None
         self.also_got = False
         self.permanent_condition = {}
-        self.retired = False
         self.df = False
         self.experience_level = None
         self.no_kits = False
-        self.paralyzed = False
-        self.cat_sprites = {
-            "newborn": 20,
-            "kitten": None,
-            "adolescent": None,
-            "young adult": None,
-            "adult": None,
-            "senior adult": None,
-            "senior": None,
-            "para_young": 17,
-            "para_adult": None,
-            "sick_adult": 18,
-            "sick_young": 19
-        }
-
-        self.opacity = 100
+        
         self.prevent_fading = False  # Prevents a cat from fading.
         self.faded_offspring = []  # Stores of a list of faded offspring, for family page purposes.
 
@@ -358,8 +240,6 @@ class Cat():
             self.ID = potential_id
         else:
             self.ID = ID
-
-        init_species(self) 
                 
         # age and status
         if status is None and moons is None:
@@ -387,40 +267,11 @@ class Cat():
                 self.age = 'adolescent'
             else:
                 self.age = choice(['young adult', 'adult', 'adult', 'senior adult'])
-            self.moons = random.randint(self.age_moons[self.age][0], self.age_moons[self.age][1])
-
-        # personality trait and skill
-        if self.trait is None:
-            if self.status not in ['newborn', 'kitten']:
-                self.trait = choice(self.traits)
-            else:
-                self.trait = choice(self.kit_traits)
-
-        if self.trait in self.kit_traits and self.status not in ['kitten', 'newborn']:
-            self.trait = choice(self.traits)
-
-        if self.skill is None or self.skill == '???':
-            if self.moons <= 11:
-                self.skill = '???'
-            elif self.status == 'warrior':
-                self.skill = choice(self.skills)
-            elif self.moons >= 120 and self.status != 'leader' and self.status != 'medicine cat':
-                self.skill = choice(self.elder_skills)
-            elif self.status == 'medicine cat':
-                self.skill = choice(self.med_skills)
-            else:
-                self.skill = choice(self.skills)
+            self.moons = randint(self.age_moons[self.age][0], self.age_moons[self.age][1])
 
         # backstory
-        if self.backstory == None:
-            if self.skill == 'formerly a loner':
-                backstory = choice(['loner1', 'loner2', 'rogue1', 'rogue2'])
-                self.backstory = backstory
-            elif self.skill == 'formerly a kittypet':
-                backstory = choice(['kittypet1', 'kittypet2'])
-                self.backstory = backstory
-            else:
-                self.backstory = 'clanborn'
+        if self.backstory is None:
+            self.backstory = 'clanborn'
         else:
             self.backstory = self.backstory
 
@@ -428,6 +279,9 @@ class Cat():
         if self.gender is None:
             self.gender = choice(["female", "male"])
         self.g_tag = self.gender_tags[self.gender]
+
+        if self.species is None:
+            self.species = Pelt.init_species(self, self.par2species if self.par2species else None, parents=[Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i])
 
         # These things should only run when generating a new cat, rather than loading one in.
         if not loading_cat:
@@ -450,32 +304,17 @@ class Cat():
                     self.genderalign = self.gender
             else:
                 self.genderalign = self.gender
-                
+
             """if self.genderalign in ["female", "trans female"]:
                 self.pronouns = [self.default_pronouns[1].copy()]
             elif self.genderalign in ["male", "trans male"]:
                 self.pronouns = [self.default_pronouns[2].copy()]"""
 
-            # setting up sprites that might not be correct
-            if self.pelt is not None:
-                if self.pelt.length == 'long':
-                    if self.cat_sprites['adult'] not in [9, 10, 11]:
-                        self.cat_sprites['adult'] = choice([9, 10, 11])
-                        self.cat_sprites['young adult'] = self.cat_sprites['adult']
-                        self.cat_sprites['senior adult'] = self.cat_sprites['adult']
-                        self.cat_sprites['para_adult'] = 16
-                else:
-                    self.cat_sprites['para_adult'] = 15
-
             # APPEARANCE
-            init_pelt(self)
-            init_sprite(self)
-            init_scars(self)
-            init_accessories(self)
-            init_white_patches(self)
-            init_eyes(self)
-            init_pattern(self)
-            init_tint(self)
+            self.pelt = Pelt.generate_new_pelt(self.species, self.gender, [Cat.fetch_cat(i) for i in (self.parent1, self.parent2) if i], self.age)
+            
+            #Personality
+            self.personality = Personality(kit_trait=self.is_baby())
 
             # experience and current patrol status
             if self.age in ['young', 'newborn']:
@@ -485,7 +324,7 @@ class Cat():
                 self.experience = 0
                 while m > Cat.age_moons['adolescent'][0]:
                     ran = game.config["graduation"]["base_app_timeskip_ex"]
-                    exp = random.choice(
+                    exp = choice(
                         list(range(ran[0][0], ran[0][1] + 1)) + list(range(ran[1][0], ran[1][1] + 1)))
                     self.experience += exp + 3
                     m -= 1
@@ -500,6 +339,9 @@ class Cat():
                                           Cat.experience_levels_range["master"][1])
             else:
                 self.experience = 0
+                
+            if not skill_dict:
+                self.skills = CatSkills.generate_new_catskills(self.status, self.moons)
 
         # In camp status
         self.in_camp = 1
@@ -516,14 +358,15 @@ class Cat():
                              prefix,
                              suffix,
                              self.pelt.colour,
-                             self.eye_colour,
+                             self.pelt.eye_colour,
                              self.pelt.name,
-                             self.tortiepattern,
+                             self.pelt.tortiepattern,
                              biome=biome,
                              specsuffix_hidden=self.specsuffix_hidden,
-                             load_existing_name = loading_cat)
+                             load_existing_name=loading_cat)
         else:
-            self.name = Name(status, prefix, suffix, eyes=self.eye_colour, specsuffix_hidden=self.specsuffix_hidden, load_existing_name = loading_cat)
+            self.name = Name(status, prefix, suffix, eyes=self.pelt.eye_colour, specsuffix_hidden=self.specsuffix_hidden,
+                             load_existing_name = loading_cat)
 
         # Private Sprite
         self._sprite = None
@@ -535,7 +378,7 @@ class Cat():
             Cat.insert_cat(self)
 
     def __repr__(self):
-        return self.ID
+        return "CAT OBJECT:" + self.ID
 
     @property
     def mentor(self):
@@ -567,7 +410,7 @@ class Cat():
         """
         self.injuries.clear()
         self.illnesses.clear()
-        # print('DEATH', self.name)
+        
         # Deal with leader death
         text = ""
         if self.status == 'leader':
@@ -576,14 +419,16 @@ class Cat():
                 return ""
             elif game.clan.leader_lives <= 0:
                 self.dead = True
+                game.just_died.append(self.ID)
                 game.clan.leader_lives = 0
                 self.thought = 'Is surprised to find themselves walking the stars of Silverpelt'
                 if game.clan.instructor.df is False:
                     text = 'They\'ve lost their last life and have travelled to StarClan.'
                 else:
-                    text = 'They\'ve has lost their last life and have travelled to the Dark Forest.'
+                    text = 'They\'ve lost their last life and have travelled to the Dark Forest.'
         else:
             self.dead = True
+            game.just_died.append(self.ID)
             self.thought = 'Is surprised to find themselves walking the stars of Silverpelt'
 
         # Clear Relationships. 
@@ -595,19 +440,18 @@ class Cat():
                 fetched_cat.update_mentor()
         self.update_mentor()
 
-        if game.clan.instructor.df is False:
-            self.df = False
-            game.clan.add_to_starclan(self)
-        elif game.clan.instructor.df is True:
-            self.df = True
-            self.thought = "Is startled to find themselves wading in the muck of a shadowed forest"
-            game.clan.add_to_darkforest(self)
-
-        if game.clan.game_mode != 'classic':
+        if game.clan.game_mode != 'classic' and not (self.outside or self.exiled):
             self.grief(body)
 
         if not self.outside:
             Cat.dead_cats.append(self)
+            if game.clan.instructor.df is False:
+                self.df = False
+                game.clan.add_to_starclan(self)
+            elif game.clan.instructor.df is True:
+                self.df = True
+                self.thought = "Is startled to find themselves wading in the muck of a shadowed forest"
+                game.clan.add_to_darkforest(self)
         else:
             self.thought = "Is fascinated by the new ghostly world they've stumbled into"
             game.clan.add_to_unknown(self)
@@ -620,7 +464,7 @@ class Cat():
         self.exiled = True
         self.outside = True
         self.status = 'exiled'
-        if self.trait == 'vengeful':
+        if self.personality.trait == 'vengeful':
             self.thought = "Swears their revenge for being exiled"
         else:
             self.thought = "Is shocked that they have been exiled"
@@ -629,7 +473,7 @@ class Cat():
             if fetched_cat:
                 fetched_cat.update_mentor()
         self.update_mentor()
-
+    
     def grief(self, body: bool):
         """
         compiles grief moon event text
@@ -638,107 +482,154 @@ class Cat():
             body_status = 'body'
         else:
             body_status = 'no_body'
-
-        # major, cat won't patrol
-        grief_major = [
-            'loving', 'compassionate', 'empathetic', 'insecure', 'lonesome', 'nervous'
-        ]
-        # minor, cat will patrol
-        grief_minor = [
-            'daring', 'cold', 'bold', 'ambitious', 'bloodthirsty', 'responsible', 'loyal', 'strict', 'vengeful'
-        ]
-
-        text = None
-
+    
+        # Keep track is the body was treated with rosemary. 
+        body_treated = False
+    
         # apply grief to cats with high positive relationships to dead cat
         for cat in Cat.all_cats.values():
             if cat.dead or cat.outside or cat.moons < 1:
                 continue
-            relationships = cat.relationships.values()
-
-            pos_rel_values = {
-                "romantic": [i for i in relationships if i.romantic_love > 55],
-                "platonic": [i for i in relationships if i.platonic_like > 50],
-                "admiration": [i for i in relationships if i.admiration > 70],
-                "comfort": [i for i in relationships if i.comfortable > 60],
-                "trust": [i for i in relationships if i.trust > 70]
-            }
-
-            neg_rel_values = {
-                "dislike": [i for i in relationships if i.dislike > 50],
-                "jealousy": [i for i in relationships if i.jealousy > 50]
-            }
-
-            possible_strings = []
-            for value in pos_rel_values:
-                value_list = pos_rel_values[value]
-                for y in range(len(value_list)):
-                    cat_to = value_list[y].cat_to
-                    if cat_to == self:
-                        family_relation = self.familial_grief(living_cat=cat)
-                        possible_strings.extend(
-                            self.generate_events.possible_death_reactions(family_relation, value, cat.trait,
-                                                                          body_status))
-
-            if possible_strings:
-                # choose string
-                text = [choice(possible_strings)]
-
-                # check if the cat will get Major or Minor severity for grief
-                weights = [1, 1]
-                if cat.trait in grief_major:
-                    weights = [3, 1]
-                if cat.trait in grief_minor:
-                    weights = [1, 3]
-                if "rosemary" in game.clan.herbs:  # decrease major grief chance if grave herbs are used
-                    weights = [1, 6]
-                    amount_used = random.choice([1, 2])
-                    game.clan.herbs["rosemary"] -= amount_used
+            
+            to_self = cat.relationships.get(self.ID)
+            if not isinstance(to_self, Relationship):
+                continue
+            
+            family_relation = self.familial_grief(living_cat=cat)
+            very_high_values = []
+            high_values = []
+            
+            if to_self.romantic_love > 55:
+                very_high_values.append("romantic")
+            if to_self.romantic_love > 40:
+                high_values.append("romantic")
+            
+            if to_self.platonic_like > 50:
+                very_high_values.append("platonic")
+            if to_self.platonic_like > 30:
+                high_values.append("platonic")
+            
+            if to_self.admiration > 70:
+                very_high_values.append("admiration")
+            if to_self.admiration > 50:
+                high_values.append("admiration")
+                
+            if to_self.comfortable > 60:
+                very_high_values.append("comfort")
+            if to_self.comfortable > 40:
+                high_values.append("comfort")
+                
+            if to_self.trust > 70:
+                very_high_values.append("trust")
+            if to_self.trust > 50:
+                high_values.append("trust")
+            
+            
+            major_chance = 0
+            if very_high_values:
+                # major grief eligible cats. 
+                
+                major_chance = 3
+                if cat.personality.stability < 5:
+                    major_chance -= 1
+                
+                # decrease major grief chance if grave herbs are used
+                if not body_treated and "rosemary" in game.clan.herbs:  
+                    body_treated = True
+                    game.clan.herbs["rosemary"] -= 1
                     if game.clan.herbs["rosemary"] <= 0:
                         game.clan.herbs.pop("rosemary")
-                    if f"Rosemary was used for {self.name}'s body." not in game.herb_events_list:
-                        game.herb_events_list.append(f"Rosemary was used for {self.name}'s body.")
-
-                severity = random.choices(['major', 'minor'], weights=weights, k=1)
-                # give the cat the relevant severity text
-                severity = severity[0]
-                if severity == 'major':
-                    text.append(choice(
-                        MINOR_MAJOR_REACTION["major"]
-                    ))
-                elif severity == 'minor':
-                    text.append(choice(
-                        MINOR_MAJOR_REACTION["minor"]
-                    ))
-
+                    game.herb_events_list.append(f"Rosemary was used for {self.name}'s body.")
+                
+                if body_treated:
+                    major_chance -= 1
+                
+            
+            # If major_chance is not 0, there is a chance for major grief
+            grief_type = None
+            if major_chance and not int(random() * major_chance):
+                
+                grief_type = "major"
+                
+                possible_strings = []
+                for x in very_high_values:
+                    possible_strings.extend(
+                        self.generate_events.possible_death_reactions(family_relation, x, cat.personality.trait,
+                                                                body_status)
+                    )
+                
+                if not possible_strings:
+                    print("No grief strings")
+                    continue
+                
+                text = choice(possible_strings)
+                text += ' ' + choice(MINOR_MAJOR_REACTION["major"])
+                text = event_text_adjust(Cat, text, self, cat)
+                
                 # grief the cat
                 if game.clan.game_mode != 'classic':
-                    cat.get_ill("grief stricken", event_triggered=True, severity=severity)
+                    cat.get_ill("grief stricken", event_triggered=True, severity="major")
+            
+            # If major grief fails, but there are still very_high or high values, 
+            # it can fail to to minor grief. If they have a family relation, bypass the roll. 
+            elif (very_high_values or high_values) and \
+                    (family_relation != "general" or not int(random() * 5)):
+            
+                grief_type = "minor"
+                
+                # These minor grief message will be applied as throughts. 
+                minor_grief_messages = (
+                            "Told a fond story at r_c's vigil",
+                            "Bargins with StarClan, begging them to send r_c back",
+                            "Sat all night at r_c's vigil",
+                            "Will never forget r_c",
+                            "Prays that r_c is safe in StarClan",
+                            "Misses the warmth that r_c brought to {PRONOUN/m_c/poss} life",
+                            "Is mourning r_c"
+                        )
+                
+                if body: 
+                    minor_grief_messages += (
+                        "Helped bury r_c, leaving {PRONOUN/r_c/poss} favorite prey at the grave",
+                        "Slips out of camp to visit r_c's grave"
+                    )
 
-            # negative reactions, no grief
-            else:
-                for value in neg_rel_values:
-                    value_list = neg_rel_values[value]
-                    for y in range(len(value_list)):
-                        cat_to = value_list[y].cat_to
-                        if cat_to == self:
-                            family_relation = self.familial_grief(living_cat=cat)
-                            possible_strings.extend(
-                                self.generate_events.possible_death_reactions(family_relation, value, cat.trait,
-                                                                              body_status))
-
-                if possible_strings:
-                    # choose string
-                    text = [choice(possible_strings)]
-
-            if text:
-                # adjust and append text to grief string list
-                # print(text)
-                text = ' '.join(text)
-                text = event_text_adjust(Cat, text, self, cat)
-                Cat.grief_strings[cat.ID] = (text, (self.ID, cat.ID))
-                possible_strings.clear()
-                text = None
+                
+                text = choice(minor_grief_messages)
+                
+            if grief_type:
+                #Generate the event:
+                if cat.ID not in Cat.grief_strings:
+                    Cat.grief_strings[cat.ID] = []
+                
+                Cat.grief_strings[cat.ID].append((text, (self.ID, cat.ID), grief_type))
+                continue
+            
+            
+            # Negative "grief" messages are just for flavor. 
+            high_values = []
+            very_high_values = []
+            if to_self.dislike > 50:
+                high_values.append("dislike")
+                
+            if to_self.jealousy > 50:
+                high_values.append("jealousy")
+            
+            if high_values:
+                #Generate the event:
+                possible_strings = []
+                for x in high_values:
+                    possible_strings.extend(
+                        self.generate_events.possible_death_reactions(family_relation, x, cat.personality.trait,
+                                                                body_status)
+                    )
+                
+                text = event_text_adjust(Cat, choice(possible_strings), self, cat)
+                if cat.ID not in Cat.grief_strings:
+                    Cat.grief_strings[cat.ID] = []
+                
+                Cat.grief_strings[cat.ID].append((text, (self.ID, cat.ID), "negative"))
+                
 
     def familial_grief(self, living_cat: Cat):
         """
@@ -756,87 +647,39 @@ class Cat():
             return "general"
 
     def gone(self):
-        """ Makes a clan cat an "outside" cat. Handles removing them from special positions, and removing
+        """ Makes a Clan cat an "outside" cat. Handles removing them from special positions, and removing
         mentors and apprentices. """
-        if self.status == 'leader':
-            self.outside = True
-            game.clan.leader_lives = 1
-            game.clan.leader.outside = True
+        self.outside = True
+        
+        if self.status in ['leader', 'warrior']:
+            self.status_change("warrior")
 
-        elif self.status == 'deputy':
-            self.outside = True
-            # self.status = 'warrior'
-            game.clan.deputy.outside = True
-        else:
-            self.outside = True
         for app in self.apprentice.copy():
             app_ob = Cat.fetch_cat(app)
             if app_ob:
                 app_ob.update_mentor()
         self.update_mentor()
+        for x in self.apprentice:
+            Cat.fetch_cat(x).update_mentor()
         game.clan.add_to_outside(self)
 
-    def add_to_clan(self):
-        """ Makes a "outside cat" a clan cat. Former leaders, deputies will become warriors. Apprentices will be assigned a mentor."""
+    def add_to_clan(self) -> list:
+        """ Makes a "outside cat" a Clan cat. Returns a list of any additional cats that
+            are coming with them. """
         self.outside = False
-
-        if self.status in ['leader', 'deputy']:
-            self.status_change('warrior')
-        elif self.status == 'apprentice' and self.moons >= 15:
-            self.status_change('warrior')
-            involved_cats = [self.ID]
-            game.cur_events_list.append(Single_Event('A long overdue warrior ceremony is held for ' + str(
-                self.name.prefix) + 'paw. They smile as they finally become a warrior of the Clan and are now named ' + str(
-                self.name) + '.', "ceremony", involved_cats))
-        elif self.status == 'kitten' and self.moons >= 15:
-            self.status_change('warrior')
-            involved_cats = [self.ID]
-            game.cur_events_list.append(Single_Event('A long overdue warrior ceremony is held for ' + str(
-                self.name.prefix) + 'kit. They smile as they finally become a warrior of the Clan and are now named ' + str(
-                self.name) + '.', "ceremony", involved_cats))
-        elif self.status == 'kitten' and self.moons >= 6:
-            self.status_change('apprentice')
-            involved_cats = [self.ID]
-            game.cur_events_list.append(Single_Event('A long overdue apprentice ceremony is held for ' + str(
-                self.name.prefix) + 'kit. They smile as they finally become a warrior of the Clan and are now named ' + str(
-                self.name) + '.', "ceremony", involved_cats))
-        elif self.status in ['kittypet', 'loner', 'rogue', 'former Clancat']:
-            if self.moons == 0:
-                self.status = 'newborn'
-            elif self.moons < 6:
-                self.status = "kitten"
-            elif self.moons < 12:
-                self.status_change('apprentice')
-            elif self.moons < 120:
-                self.status_change('warrior')
-            else:
-                self.status_change('elder')
 
         game.clan.add_to_clan(self)
 
         # check if there are kits under 12 moons with this cat and also add them to the clan
         children = self.get_children()
-        names = []
         ids = []
         for child_id in children:
             child = Cat.all_cats[child_id]
             if child.outside and not child.exiled and child.moons < 12:
                 child.add_to_clan()
-                if child.moons < 6:
-                    names.append(child.name)
-                    ids.append(child_id)
-        if len(names) > 0:
-            event_text = "This text should not appear, script cat.py function add_to_clan."
-            if len(names) > 2:
-                event_text = f"{', '.join([str(i) for i in names[0:-1]])}, and {names[-1]}"
-            elif len(names) == 2:
-                event_text = f"{names[0]} and {names[1]}"
-            else:
-                event_text = f"{names[0]}"
-            game.cur_events_list.append(
-                Single_Event(f"Together with {self.name}, {str(event_text)} joins the Clan.", ids))
-
-        self.update_mentor()
+                ids.append(child_id)
+        
+        return ids
 
     def status_change(self, new_status, resort=False):
         """ Changes the status of a cat. Additional functions are needed if you want to make a cat a leader or deputy.
@@ -848,25 +691,24 @@ class Cat():
         self.status = new_status
         self.name.status = new_status
 
+        self.update_mentor()
+        for app in self.apprentice.copy():
+            fetched_cat = Cat.fetch_cat(app)
+            if isinstance(fetched_cat, Cat):
+                fetched_cat.update_mentor()
+
         # If they have any apprentices, make sure they are still valid:
         if old_status == "medicine cat":
             game.clan.remove_med_cat(self)
 
-        for app in self.apprentice.copy():
-            fetched_cat = Cat.fetch_cat(app)
-            if fetched_cat:
-                fetched_cat.update_med_mentor()
-
         # updates mentors
         if self.status == 'apprentice':
-            self.update_mentor()
+            pass
 
         elif self.status == 'medicine cat apprentice':
-            self.update_med_mentor()
+            pass
 
         elif self.status == 'warrior':
-            self.update_mentor()
-
             if old_status == 'leader':
                 if game.clan.leader:
                     if game.clan.leader.ID == self.ID:
@@ -880,18 +722,10 @@ class Cat():
                     game.clan.deputy_predecessors += 1
 
         elif self.status == 'medicine cat':
-            self.update_med_mentor()
             if game.clan is not None:
                 game.clan.new_medicine_cat(self)
 
         elif self.status == 'elder':
-            self.update_mentor()
-
-            # Ideally, this should also be triggered for cats that retired due to
-            # health conditions. However, it is currently being triggered for all elders to
-            # prevent "unretiring" by switching to med or mediator, then warrior.
-            self.retired = True
-
             if old_status == 'leader':
                 if game.clan.leader:
                     if game.clan.leader.ID == self.ID:
@@ -904,10 +738,10 @@ class Cat():
                     game.clan.deputy_predecessors += 1
 
         elif self.status == 'mediator':
-            self.update_mentor()
+            pass
 
         elif self.status == 'mediator apprentice':
-            self.update_mentor()
+            pass
 
         # update class dictionary
         self.all_cats[self.ID] = self
@@ -916,96 +750,41 @@ class Cat():
         if game.sort_type == "rank" and resort:
             Cat.sort_cats()
 
-    def update_traits(self):
-        """Updates the traits of a cat upon ageing up.  """
-        if self.status in ["apprentice", "medicine cat apprentice", "mediator apprentice"]:
-            chance = randint(0, 5)  # chance for cat to gain trait that matches their previous trait's personality group
-            if chance == 0:
-                self.trait = choice(self.traits)
-            else:
-                possible_groups = ['Outgoing', 'Benevolent', 'Abrasive', 'Reserved']
-                for x in possible_groups:
-                    if self.trait in self.personality_groups[x]:
-                        possible_trait = self.personality_groups.get(x)
-                        chosen_trait = choice(possible_trait)
-                        if chosen_trait in self.kit_traits:
-                            self.trait = choice(self.traits)
-                        else:
-                            self.trait = chosen_trait
-        elif self.status in ["warrior", "medicine cat", "mediator"]:
-            mentor = None
-            if self.mentor:
-                mentor = Cat.fetch_cat(self.mentor)
-            elif not self.mentor and len(self.former_mentor) != 0:
-                if len(self.former_mentor) > 1:
-                    mentor = Cat.fetch_cat(self.former_mentor[-1])
-                else:
-                    mentor = Cat.fetch_cat(self.former_mentor[0])
+    
+    def rank_change_traits_skill(self, mentor):
+        """Updates trait and skill upon ceremony"""  
 
-            influence_trait = None
+        if self.status in ["warrior", "medicine cat", "mediator"]:
+            # Give a couple doses of mentor influence:
+            if mentor:
+                max = randint(0, 2)
+                i = 0
+                while max > i:
+                    i += 1
+                    affect_personality = self.personality.mentor_influence(Cat.fetch_cat(mentor))
+                    affect_skills = self.skills.mentor_influence(Cat.fetch_cat(mentor))
+                    if affect_personality:
+                        History.add_facet_mentor_influence(self, affect_personality[0], affect_personality[1], affect_personality[2])
+                    if affect_skills:
+                        History.add_skill_mentor_influence(self, affect_skills[0], affect_skills[1], affect_skills[2])
+            
+            History.add_mentor_skill_influence_strings(self)
+            History.add_mentor_facet_influence_strings(self)
+        return
 
-            chance = randint(0, 9) + int(self.patrol_with_mentor)  # chance for cat to gain new trait or keep old
-
-            # choose random trait, no influence
-            if chance == 0:
-                self.trait = choice(self.traits)
-
-            # choose related trait, no influence
-            elif 1 <= chance <= 6:
-                possible_groups = ['Outgoing', 'Benevolent', 'Abrasive', 'Reserved']
-                for x in possible_groups:
-                    if self.trait in self.personality_groups[x]:
-                        possible_trait = self.personality_groups.get(x)
-                        chosen_trait = choice(possible_trait)
-                        if chosen_trait in self.kit_traits:
-                            self.trait = self.trait
-                        else:
-                            self.trait = chosen_trait
-
-            # chose influence trait
-            elif chance >= 7:
-                possible_groups = ['Outgoing', 'Benevolent', 'Abrasive', 'Reserved']
-                for x in possible_groups:
-                    if mentor and mentor.trait in self.personality_groups[x]:
-                        possible_trait = self.personality_groups.get(x)
-
-                        if x == 'Abrasive' and chance >= 12:
-                            possible_trait = self.personality_groups.get('Reserved')
-                            influence_trait = "Reserved"
-                        chosen_trait = choice(possible_trait)
-
-                        if chosen_trait in self.kit_traits:
-                            chosen_group = choice(possible_groups)
-                            possible_traits = [i for i in self.personality_groups[chosen_group] if
-                                               i not in self.kit_traits]
-                            self.trait = choice(possible_traits)
-                            influence_trait = None
-                        else:
-                            self.trait = chosen_trait
-                            if not influence_trait:
-                                influence_trait = x
-
-            self.history_class.add_mentor_influence(self, mentor, skill=None, trait=influence_trait)
-
-        elif self.status in ["elder"]:
-            chance = randint(0, 7)  # chance for cat to gain new trait or keep old
-            if chance == 0:
-                self.trait = choice(self.traits)
-            elif chance == 1:
-                possible_groups = ['Outgoing', 'Benevolent', 'Abrasive', 'Reserved']
-                for x in possible_groups:
-                    if self.trait in self.personality_groups[x]:
-                        possible_trait = self.personality_groups.get(x)
-                        chosen_trait = choice(possible_trait)
-                        if chosen_trait in self.kit_traits:
-                            self.trait = choice(self.traits)
-                        else:
-                            self.trait = chosen_trait
+    def manage_outside_trait(self):
+        """To be run every moon on outside cats
+            to keep trait and skills making sense."""
+        if not (self.outside or self.exiled):
+            return
+        
+        self.personality.set_kit(self.is_baby()) #Update kit trait stuff
+        
 
     def describe_cat(self, short=False):
         """ Generates a string describing the cat's appearance and gender. Mainly used for generating
         the allegiances. If short is true, it will generate a very short one, with the minimal amount of information. """
-        output = describe_appearance(self, short)
+        output = Pelt.describe_appearance(self, short)
         # Add "a" or "an"
         if output[0].lower() in "aiou":
             output = f"an {output}"
@@ -1015,8 +794,8 @@ class Cat():
         return output
 
     def describe_eyes(self):
-        colour = str(self.eye_colour).lower()
-        colour2 = str(self.eye_colour2).lower()
+        colour = str(self.pelt.eye_colour).lower()
+        colour2 = str(self.pelt.eye_colour2).lower()
 
         if colour == 'palegreen':
             colour = 'pale green'
@@ -1034,7 +813,7 @@ class Cat():
             colour = 'sunlit ice'
         elif colour == 'greenyellow':
             colour = 'green-yellow'
-        if self.eye_colour2:
+        if self.pelt.eye_colour2:
             if colour2 == 'palegreen':
                 colour2 = 'pale green'
             if colour2 == 'darkblue':
@@ -1052,32 +831,10 @@ class Cat():
             colour = colour + ' and ' + colour2
         return colour
 
-    def convert_history(self, mentor_influence, died_by, scar_events):
+    def convert_history(self, died_by, scar_events):
         """
         this is to handle old history save conversions
         """
-        if mentor_influence or self.former_mentor:
-            trait = None
-            skill = None
-            if mentor_influence:
-                if len(mentor_influence) == 1:
-                    mentor_influence = [mentor_influence[0], 'None']
-                if mentor_influence[0] not in ['None', 'none']:
-                    if mentor_influence[0] in ["Benevolent", "Abrasive", "Outgoing", "Reserved"]:
-                        trait = mentor_influence[0]
-                        if mentor_influence[1] not in ['None', 'none']:
-                            skill = mentor_influence[1]
-                    else:
-                        skill = mentor_influence[0]
-                if mentor_influence[1] not in ['None', 'none'] and not trait:
-                    trait = mentor_influence[1]
-
-            mentor_influence = {
-                "mentor": self.former_mentor[-1] if self.former_mentor else None,
-                "skill": skill,
-                "trait": trait
-            }
-
         deaths = []
         if died_by:
             for death in died_by:
@@ -1099,7 +856,6 @@ class Cat():
                     }
                 )
         self.history = History(
-            mentor_influence=mentor_influence,
             died_by=deaths,
             scar_events=scars,
         )
@@ -1111,7 +867,7 @@ class Cat():
             else:
                 clanname = game.switches['clan_list'][0]
         except IndexError:
-            print('WARNING: History failed to load, no clan in game.switches?')
+            print('WARNING: History failed to load, no Clan in game.switches?')
             return
 
         history_directory = get_save_dir() + '/' + clanname + '/history/'
@@ -1123,9 +879,8 @@ class Cat():
                 mentor_influence={},
                 app_ceremony={},
                 lead_ceremony=None,
-                possible_death={},
+                possible_history={},
                 died_by=[],
-                possible_scar={},
                 scar_events=[],
                 murder={},
             )
@@ -1139,9 +894,8 @@ class Cat():
                         'mentor_influence'] if "mentor_influence" in history_data else {},
                     app_ceremony=history_data['app_ceremony'] if "app_ceremony" in history_data else {},
                     lead_ceremony=history_data['lead_ceremony'] if "lead_ceremony" in history_data else None,
-                    possible_death=history_data['possible_death'] if "possible_death" in history_data else {},
+                    possible_history=history_data['possible_history'] if "possible_history" in history_data else {},
                     died_by=history_data['died_by'] if "died_by" in history_data else [],
-                    possible_scar=history_data['possible_scar'] if "possible_scar" in history_data else {},
                     scar_events=history_data['scar_events'] if "scar_events" in history_data else [],
                     murder=history_data['murder'] if "murder" in history_data else {},
                 )
@@ -1155,24 +909,23 @@ class Cat():
         if not os.path.exists(history_dir):
             os.makedirs(history_dir)
 
-        history_dict = self.history_class.make_dict(self)
+        history_dict = History.make_dict(self)
         try:
-            with open(history_dir + '/' + self.ID + '_history.json', 'w') as history_file:
-                json_string = ujson.dumps(history_dict, indent=4)
-                history_file.write(json_string)
+            game.safe_save(history_dir + '/' + self.ID + '_history.json', history_dict)
         except:
-            print(f"WARNING: saving history of cat #{self.ID} didn't work")
             self.history = History(
                 beginning={},
                 mentor_influence={},
                 app_ceremony={},
                 lead_ceremony=None,
-                possible_death={},
+                possible_history={},
                 died_by=[],
-                possible_scar={},
                 scar_events=[],
                 murder={},
             )
+
+            print(f"WARNING: saving history of cat #{self.ID} didn't work")
+            
 
     def generate_lead_ceremony(self):
         """
@@ -1204,14 +957,14 @@ class Cat():
                 continue
 
             if all_intros[intro]["lead_trait"]:
-                if self.trait not in all_intros[intro]["lead_trait"]:
+                if self.personality.trait not in all_intros[intro]["lead_trait"]:
                     continue
             possible_intros.append(all_intros[intro])
 
         # choose and adjust text
-        chosen_intro = random.choice(possible_intros)
+        chosen_intro = choice(possible_intros)
         if chosen_intro:
-            intro = random.choice(chosen_intro["text"])
+            intro = choice(chosen_intro["text"])
             intro = leader_ceremony_text_adjust(Cat,
                                                 intro,
                                                 self,
@@ -1248,8 +1001,6 @@ class Cat():
         # sort relations by the strength of their relationship
         dead_relations.sort(
             key=lambda rel: rel.romantic_love + rel.platonic_like + rel.admiration + rel.comfortable + rel.trust, reverse=True)
-        for rel in dead_relations:
-            print(self.fetch_cat(rel.cat_to).name)
 
         # if we have relations, then make sure we only take the top 8
         if dead_relations:
@@ -1278,9 +1029,9 @@ class Cat():
                 if len(possible_sc_cats) - 1 < amount:
                     extra_givers = possible_sc_cats
                 else:
-                    extra_givers = random.sample(possible_sc_cats, k=amount)
+                    extra_givers = sample(possible_sc_cats, k=amount)
             else:
-                print(game.clan.darkforest_cats)
+                #print(game.clan.darkforest_cats)
                 possible_df_cats = [i for i in game.clan.darkforest_cats if
                                     self.fetch_cat(i) and
                                     i not in life_givers and
@@ -1288,7 +1039,7 @@ class Cat():
                 if len(possible_df_cats) - 1 < amount:
                     extra_givers = possible_df_cats
                 else:
-                    extra_givers = random.sample(possible_df_cats, k=amount)
+                    extra_givers = sample(possible_df_cats, k=amount)
 
             life_givers.extend(extra_givers)
 
@@ -1296,7 +1047,7 @@ class Cat():
         ancient_leader = False
         if not life_giving_leader:
             # choosing if the life giving leader will be oldest leader or previous leader
-            coin_flip = random.randint(1, 2)
+            coin_flip = randint(1, 2)
             if coin_flip == 1:
                 # pick oldest leader in SC
                 ancient_leader = True
@@ -1380,10 +1131,10 @@ class Cat():
                     if rank not in possible_lives[life]["rank"]:
                         continue
                 if possible_lives[life]["lead_trait"]:
-                    if self.trait not in possible_lives[life]["lead_trait"]:
+                    if self.personality.trait not in possible_lives[life]["lead_trait"]:
                         continue
                 if possible_lives[life]["star_trait"]:
-                    if giver_cat.trait not in possible_lives[life]["star_trait"]:
+                    if giver_cat.personality.trait not in possible_lives[life]["star_trait"]:
                         continue
                 life_list.extend([i for i in possible_lives[life]["life_giving"]])
 
@@ -1391,15 +1142,20 @@ class Cat():
             chosen_life = {}
             while i < 10:
                 attempted = []
-                try:
-                    chosen_life = random.choice(life_list)
-                except IndexError:
-                    print(f'WARNING: life list had no items for giver #{giver_cat.ID}. If you are a beta tester, please report and ping scribble along with all the info you can about the giver cat mentioned in this warning.')
-                if chosen_life not in used_lives and chosen_life not in attempted:
-                    break
+                if life_list:
+                    chosen_life = choice(life_list)
+                    if chosen_life not in used_lives and chosen_life not in attempted:
+                        break
+                    else:
+                        attempted.append(chosen_life)
+                    i += 1
                 else:
-                    attempted.append(chosen_life)
-                i += 1
+                    print(
+                        f'WARNING: life list had no items for giver #{giver_cat.ID}. Using default life. If you are a beta tester, please report and ping scribble along with all the info you can about the giver cat mentioned in this warning.')
+                    chosen_life = ceremony_dict["default_life"]
+                    break
+                
+            
             used_lives.append(chosen_life)
             if "virtue" in chosen_life:
                 poss_virtues = [i for i in chosen_life["virtue"] if i not in used_virtues]
@@ -1425,11 +1181,11 @@ class Cat():
                     continue
 
                 if possible_lives[life]["lead_trait"]:
-                    if self.trait not in possible_lives[life]["lead_trait"]:
+                    if self.personality.trait not in possible_lives[life]["lead_trait"]:
                         continue
                 possible_blessing.append(possible_lives[life])
             chosen_blessing = choice(possible_blessing)
-            chosen_text = random.choice(chosen_blessing["life_giving"])
+            chosen_text = choice(chosen_blessing["life_giving"])
             lives.append(leader_ceremony_text_adjust(Cat,
                                                      chosen_text["text"],
                                                      leader=self,
@@ -1455,18 +1211,18 @@ class Cat():
                 continue
 
             if all_outros[outro]["lead_trait"]:
-                if self.trait not in all_outros[outro]["lead_trait"]:
+                if self.personality.trait not in all_outros[outro]["lead_trait"]:
                     continue
             possible_outros.append(all_outros[outro])
 
-        chosen_outro = random.choice(possible_outros)
+        chosen_outro = choice(possible_outros)
 
         if chosen_outro:
             if life_givers:
                 giver = life_givers[-1]
             else:
                 giver = None
-            outro = random.choice(chosen_outro["text"])
+            outro = choice(chosen_outro["text"])
             outro = leader_ceremony_text_adjust(Cat,
                                                 outro,
                                                 leader=self,
@@ -1484,33 +1240,43 @@ class Cat():
 
     def one_moon(self):
         """Handles a moon skip for an alive cat. """
+        
+        
+        old_age = self.age
+        self.moons += 1
+        if self.moons == 1 and self.status == "newborn":
+            self.status = 'kitten'
+        self.in_camp = 1
+        
         if self.exiled or self.outside:
             # this is handled in events.py
+            self.personality.set_kit(self.is_baby())
             self.thoughts()
             return
 
         if self.dead:
             self.thoughts()
             return
+        
+        if old_age != self.age:
+            # Things to do if the age changes
+            self.personality.facet_wobble(max=2)
+        
+        # Set personality to correct type
+        self.personality.set_kit(self.is_baby())
+        # Upon age-change
 
-        self.moons += 1
-        if self.moons == 1:
-            self.status = 'kitten'
-        self.in_camp = 1
-
-        if self.status in ['apprentice', 'mediator apprentice']:
+        if self.status in ['apprentice', 'mediator apprentice', 'medicine cat apprentice']:
             self.update_mentor()
-        elif self.status == 'medicine cat apprentice':
-            self.update_med_mentor()
 
     def thoughts(self):
         """ Generates a thought for the cat, which displays on their profile. """
         all_cats = self.all_cats
-        other_cat = random.choice(list(all_cats.keys()))
+        other_cat = choice(list(all_cats.keys()))
         game_mode = game.switches['game_mode']
         biome = game.switches['biome']
         camp = game.switches['camp_bg']
-        dead_chance = random.getrandbits(4)
+        dead_chance = getrandbits(4)
         try:
             season = game.clan.current_season
         except:
@@ -1564,14 +1330,14 @@ class Cat():
 
         # get chosen thought
         chosen_thought = Thoughts.get_chosen_thought(self, other_cat, game_mode, biome, season, camp)
-        
+
         chosen_thought = event_text_adjust(Cat, chosen_thought, self, other_cat)
 
         # insert thought
         self.thought = str(chosen_thought)
 
     def relationship_interaction(self):
-        """Randomly choose a cat of the clan and have a interaction with them."""
+        """Randomly choose a cat of the Clan and have a interaction with them."""
         # if the cat has no relationships, skip
         if not self.relationships or len(self.relationships) < 1:
             return
@@ -1584,7 +1350,7 @@ class Cat():
 
         chosen_cat = choice(cats_to_choose)
         if chosen_cat.ID not in self.relationships:
-            self.relationships[chosen_cat.ID] = Relationship(self, chosen_cat)
+            self.create_one_relationship(chosen_cat)
         relevant_relationship = self.relationships[chosen_cat.ID]
         relevant_relationship.start_interaction()
 
@@ -1595,98 +1361,6 @@ class Cat():
             relevant_relationship.cat_to.contact_with_ill_cat(self)
         if relevant_relationship.cat_to.is_ill():
             self.contact_with_ill_cat(relevant_relationship.cat_to)
-
-    def update_skill(self):
-        """Checks for skill and replaces empty skill if cat is old enough
-        # also adds a chance for cat to take a skill similar to their mentor"""
-
-        if self.skill == '???':
-            skill_influence = None
-            # assign skill to new medicine cat
-            if self.status == 'medicine cat' and self.skill not in self.med_skills:
-                # skill groups they can take from
-                possible_groups = ['special', 'heal', 'star', 'mediate', 'smart', 'teach']
-                # check if they had a mentor
-                if self.former_mentor:
-                    chance = randint(0, 9) + int(self.patrol_with_mentor)
-                    mentor = Cat.fetch_cat(self.former_mentor[-1])
-                    if not mentor:
-                        print("WARNING: mentor not found")
-                        return
-                    # give skill from mentor
-                    if chance >= 9:
-                        for x in possible_groups:
-                            if mentor.skill in self.skill_groups[x]:
-                                possible_skill = self.skill_groups.get(x)
-                                self.skill = choice(possible_skill)
-                                skill_influence = self.skill
-                                self.history_class.add_mentor_influence(self, mentor, skill_influence, trait=None)
-                                return
-
-                    self.history_class.add_mentor_influence(self, mentor, skill_influence, trait=None)
-
-                # Will only be reached if a mentor skill was not applied.
-                self.skill = choice(self.med_skills)
-
-            # assign skill to new warrior
-            elif self.status == 'warrior':
-                # possible skill groups they can take from
-                possible_groups = ['star', 'smart', 'teach', 'hunt', 'fight', 'speak']
-                # check if they had a mentor
-                if self.former_mentor:
-                    chance = randint(0, 9) + int(self.patrol_with_mentor)
-                    mentor = Cat.fetch_cat(self.former_mentor[-1])
-                    if not mentor:
-                        print("WARNING: mentor not found")
-                        return
-                    # give skill from mentor
-                    if chance >= 9:
-                        for x in possible_groups:
-                            if mentor.skill in self.skill_groups[x]:
-                                possible_skill = self.skill_groups.get(x)
-                                self.skill = choice(possible_skill)
-                                skill_influence = self.skill
-                                self.history_class.add_mentor_influence(self, mentor, skill_influence, trait=None)
-                                return
-
-                    self.history_class.add_mentor_influence(self, mentor, skill_influence, trait=None)
-
-                self.skill = choice(self.skills)
-
-            elif self.status == 'mediator':
-                possible_groups = ['star', 'smart', 'teach', 'speak', 'mediate']
-                if self.former_mentor:
-                    chance = randint(0, 12)
-                    mentor = Cat.fetch_cat(self.former_mentor[-1])
-                    if not mentor:
-                        print("WARNING: mentor not found")
-                        return
-                    # give skill from mentor
-                    if chance >= 9:
-                        for x in possible_groups:
-                            if mentor.skill in self.skill_groups[x]:
-                                possible_skill = self.skill_groups.get(x)
-                                self.skill = choice(possible_skill)
-                                skill_influence = self.skill
-                                self.history_class.add_mentor_influence(self, mentor, skill_influence, trait=None)
-                                return
-
-                    all_skills = []
-                    for x in possible_groups:
-                        all_skills.extend(self.skill_groups[x])
-                    self.skill = choice(all_skills)
-
-                    self.history_class.add_mentor_influence(self, mentor, skill_influence, trait=None)
-
-
-            # assign new skill to elder
-            elif self.status == 'elder':
-                self.skill = choice(self.elder_skills)
-
-            # if a cat somehow has no skill, assign one after checking that they aren't a kit or adolescent
-            elif self.skill == '???' and self.status not in ['apprentice', 'medicine cat apprentice',
-                                                             'mediator apprentice', 'kitten', 'newborn']:
-                self.skill = choice(self.skills)
 
     def moon_skip_illness(self, illness):
         """handles the moon skip for illness"""
@@ -1705,7 +1379,7 @@ class Cat():
             if mortality == 0:
                 mortality = 1
 
-        if mortality and not int(random.random() * mortality):
+        if mortality and not int(random() * mortality):
             if self.status == "leader":
                 self.leader_death_heal = True
                 game.clan.leader_lives -= 1
@@ -1722,14 +1396,9 @@ class Cat():
             self.die()
             return False
 
-        keys = self.illnesses[illness].keys()
-        if 'moons_with' in keys:
-            self.illnesses[illness]["moons_with"] += 1
-        else:
-            self.illnesses[illness].update({'moons_with': 1})
+        moons_with = game.clan.age - self.illnesses[illness]["moon_start"]
 
-        self.illnesses[illness]["duration"] -= 1
-        if self.illnesses[illness]["duration"] <= 0:
+        if self.illnesses[illness]["duration"] - moons_with <= 0:
             self.healed_condition = True
             return False
 
@@ -1750,22 +1419,16 @@ class Cat():
             if mortality == 0:
                 mortality = 1
 
-        if mortality and not int(random.random() * mortality):
+        if mortality and not int(random() * mortality):
             if self.status == 'leader':
                 game.clan.leader_lives -= 1
             self.die()
             return False
 
-        keys = self.injuries[injury].keys()
-        if 'moons_with' in keys:
-            self.injuries[injury]["moons_with"] += 1
-        else:
-            self.injuries[injury].update({'moons_with': 1})
+        moons_with = game.clan.age - self.injuries[injury]["moon_start"]
 
         # if the cat has an infected wound, the wound shouldn't heal till the illness is cured
-        if not self.injuries[injury]["complication"]:
-            self.injuries[injury]["duration"] -= 1
-        if self.injuries[injury]["duration"] <= 0:
+        if not self.injuries[injury]["complication"] and self.injuries[injury]["duration"] - moons_with <= 0:
             self.healed_condition = True
             return False
 
@@ -1793,19 +1456,13 @@ class Cat():
             self.permanent_condition[condition]["moons_until"] = -2
             return "reveal"
 
-        keys = self.permanent_condition[condition].keys()
-        if 'moons_with' in keys:
-            self.permanent_condition[condition]["moons_with"] += 1
-        else:
-            self.permanent_condition[condition].update({'moons_with': 1})
-
         # leader should have a higher chance of death
         if self.status == "leader" and mortality != 0:
             mortality = int(mortality * 0.7)
             if mortality == 0:
                 mortality = 1
 
-        if mortality and not int(random.random() * mortality):
+        if mortality and not int(random() * mortality):
             if self.status == 'leader':
                 game.clan.leader_lives -= 1
             self.die()
@@ -1849,12 +1506,13 @@ class Cat():
         if not self.inheritance:
             self.inheritance = Inheritance(self)
         return other_cat.ID in self.inheritance.siblings.keys()
-    
+
     def is_littermate(self, other_cat: Cat):
         """Check if the cats are littermates."""
         if other_cat.ID not in self.inheritance.siblings.keys():
             return False
-        litter_mates = [key for key, value in self.inheritance.siblings.items() if "litter mates" in value["additional"]]
+        litter_mates = [key for key, value in self.inheritance.siblings.items() if
+                        "litter mates" in value["additional"]]
         return other_cat.ID in litter_mates
 
     def is_uncle_aunt(self, other_cat):
@@ -1876,7 +1534,7 @@ class Cat():
             return other_cat.ID in self.inheritance.all_but_cousins
         return other_cat.ID in self.inheritance.all_involved
 
-    def get_relatives(self, cousin_allowed = True) -> list:
+    def get_relatives(self, cousin_allowed=True) -> list:
         """Returns a list of ids of all nearly related ancestors."""
         if not self.inheritance:
             self.inheritance = Inheritance(self)
@@ -1898,6 +1556,9 @@ class Cat():
         severity = leave 'default' to keep default severity, otherwise set to the desired severity
                    ('minor', 'major', 'severe')
         """
+        if game.clan.game_mode == "classic":
+            return
+        
         if name not in ILLNESSES:
             print(f"WARNING: {name} is not in the illnesses collection.")
             return
@@ -1920,7 +1581,7 @@ class Cat():
         if medical_cats_condition_fulfilled(Cat.all_cats.values(), amount_per_med):
             duration = med_duration
         if severity != 'minor':
-            duration += random.randrange(-1, 1)
+            duration += randrange(-1, 1)
         if duration == 0:
             duration = 1
 
@@ -1954,20 +1615,23 @@ class Cat():
                 "mortality": new_illness.current_mortality,
                 "infectiousness": new_illness.infectiousness,
                 "duration": new_illness.duration,
-                "moons_with": 1,
+                "moon_start": game.clan.age if game.clan else 0,
                 "risks": new_illness.risks,
                 "event_triggered": new_illness.new
             }
 
     def get_injured(self, name, event_triggered=False, lethal=True, severity='default'):
+        if game.clan.game_mode == "classic":
+            return
+        
         if name not in INJURIES:
             if name not in INJURIES:
                 print(f"WARNING: {name} is not in the injuries collection.")
             return
 
-        if name == 'mangled tail' and 'NOTAIL' in self.scars:
+        if name == 'mangled tail' and 'NOTAIL' in self.pelt.scars:
             return
-        if name == 'torn ear' and 'NOEAR' in self.scars:
+        if name == 'torn ear' and 'NOEAR' in self.pelt.scars:
             return
 
         injury = INJURIES[name]
@@ -1983,7 +1647,7 @@ class Cat():
         if medical_cats_condition_fulfilled(Cat.all_cats.values(), get_amount_cat_for_one_medic(game.clan)):
             duration = med_duration
         if severity != 'minor':
-            duration += random.randrange(-1, 1)
+            duration += randrange(-1, 1)
         if duration == 0:
             duration = 1
 
@@ -2014,7 +1678,7 @@ class Cat():
                 "severity": new_injury.severity,
                 "mortality": new_injury.current_mortality,
                 "duration": new_injury.duration,
-                "moons_with": 1,
+                "moon_start": game.clan.age if game.clan else 0,
                 "illness_infectiousness": new_injury.illness_infectiousness,
                 "risks": new_injury.risks,
                 "complication": None,
@@ -2022,7 +1686,7 @@ class Cat():
                 "event_triggered": new_injury.new
             }
 
-        if len(new_injury.also_got) > 0 and not int(random.random() * 5):
+        if len(new_injury.also_got) > 0 and not int(random() * 5):
             avoided = False
             if 'blood loss' in new_injury.also_got and len(get_med_cats(Cat)) != 0:
                 clan_herbs = set()
@@ -2034,7 +1698,7 @@ class Cat():
 
                 if usable_herbs:
                     # deplete the herb
-                    herb_used = random.choice(usable_herbs)
+                    herb_used = choice(usable_herbs)
                     game.clan.herbs[herb_used] -= 1
                     if game.clan.herbs[herb_used] <= 0:
                         game.clan.herbs.pop(herb_used)
@@ -2066,9 +1730,9 @@ class Cat():
         new_condition = choice(possible_conditions)
 
         if new_condition == "born without a leg":
-            cat.scars.append('NOPAW')
+            cat.pelt.scars.append('NOPAW')
         elif new_condition == "born without a tail":
-            cat.scars.append('NOTAIL')
+            cat.pelt.scars.append('NOTAIL')
 
         self.get_permanent_condition(new_condition, born_with=True)
 
@@ -2078,10 +1742,10 @@ class Cat():
             return
 
         # remove accessories if need be
-        if 'NOTAIL' in self.scars and self.accessory in ['RED FEATHERS', 'BLUE FEATHERS', 'JAY FEATHERS']:
-            self.accessory = None
-        if 'HALFTAIL' in self.scars and self.accessory in ['RED FEATHERS', 'BLUE FEATHERS', 'JAY FEATHERS']:
-            self.accessory = None
+        if 'NOTAIL' in self.pelt.scars and self.pelt.accessory in ['RED FEATHERS', 'BLUE FEATHERS', 'JAY FEATHERS']:
+            self.pelt.accessory = None
+        if 'HALFTAIL' in self.pelt.scars and self.pelt.accessory in ['RED FEATHERS', 'BLUE FEATHERS', 'JAY FEATHERS']:
+            self.pelt.accessory = None
 
         condition = PERMANENT[name]
         new_condition = False
@@ -2104,7 +1768,7 @@ class Cat():
             moons_until = 0
 
         if name == "paralyzed":
-            self.paralyzed = True
+            self.pelt.paralyzed = True
 
         new_perm_condition = PermanentCondition(
             name=name,
@@ -2122,7 +1786,7 @@ class Cat():
                 "severity": new_perm_condition.severity,
                 "born_with": born_with,
                 "moons_until": new_perm_condition.moons_until,
-                "moons_with": 1,
+                "moon_start": game.clan.age if game.clan else 0,
                 "mortality": new_perm_condition.current_mortality,
                 "illness_infectiousness": new_perm_condition.illness_infectiousness,
                 "risks": new_perm_condition.risks,
@@ -2145,29 +1809,20 @@ class Cat():
                 break
         return not_working
 
-    # This is only for cats that retire due to the health condition.
+    
     def retire_cat(self):
-        old_status = self.status
-        self.retired = True
-        self.status = 'elder'
-        self.name.status = 'elder'
-        self.update_traits()
-        self.update_skill()
-
-        if old_status == 'leader':
-            game.clan.leader_lives = 0
-            if game.clan.leader:
-                if game.clan.leader.ID == self.ID:
-                    game.clan.leader = None
-                    game.clan.leader_predecessors += 1
-
-        if game.clan.deputy:
-            if game.clan.deputy.ID == self.ID:
-                game.clan.deputy = None
-                game.clan.deputy_predecessors += 1
-
-        self.update_mentor()
-
+        """This is only for cats that retire due to health condition"""
+        
+        #There are some special tasks we need to do for apprentice
+        # Note that although you can unretire cats, they will be a full warrior/med_cat/mediator
+        if self.moons > 6 and self.status in ["apprentice", "medicine cat apprentice", "mediator apprentice"]:
+            _ment = Cat.fetch_cat(self.mentor) if self.mentor else None
+            self.status_change("warrior") # Temp switch them to warrior, so the following step will work
+            self.rank_change_traits_skill(_ment)
+            
+        
+        self.status_change("elder")
+        return
 
     def is_ill(self):
         is_ill = True
@@ -2217,7 +1872,7 @@ class Cat():
                             f"WARNING: injury {self.injuries[y]['name']} has lowered chance of {illness_name} infection to {rate}")
                         rate = 1
 
-            if not random.random() * rate:
+            if not random() * rate:
                 text = f"{self.name} had contact with {cat.name} and now has {illness_name}."
                 # game.health_events_list.append(text)
                 game.cur_events_list.append(Single_Event(text, "health", [self.ID, cat.ID]))
@@ -2268,15 +1923,12 @@ class Cat():
         try:
             with open(condition_cat_directory, 'r') as read_file:
                 rel_data = ujson.loads(read_file.read())
-                if "illnesses" in rel_data:
-                    self.illnesses = rel_data.get("illnesses")
-                if "injuries" in rel_data:
-                    self.injuries = rel_data.get("injuries")
-                if "permanent conditions" in rel_data:
-                    self.permanent_condition = rel_data.get("permanent conditions")
+                self.illnesses = rel_data.get("illnesses", {})
+                self.injuries = rel_data.get("injuries", {})
+                self.permanent_condition = rel_data.get("permanent conditions", {})
 
-            if "paralyzed" in self.permanent_condition and not self.paralyzed:
-                self.paralyzed = True
+            if "paralyzed" in self.permanent_condition and not self.pelt.paralyzed:
+                self.pelt.paralyzed = True
 
         except Exception as e:
             print(f"WARNING: There was an error reading the condition file of cat #{self}.\n", e)
@@ -2284,23 +1936,6 @@ class Cat():
     # ---------------------------------------------------------------------------- #
     #                                    mentor                                    #
     # ---------------------------------------------------------------------------- #
-
-    def is_valid_med_mentor(self, potential_mentor: Cat):
-        # Dead or outside cats can't be mentors
-        if potential_mentor.dead or potential_mentor.outside:
-            return False
-        # Match jobs
-        if self.status == 'medicine cat apprentice' and potential_mentor.status == 'medicine cat':
-            return True
-        if self.status == 'medicine cat apprentice' and potential_mentor.status != 'medicine cat':
-            return False
-        # If not an app, don't need a mentor
-        if 'medicine cat apprentice' not in self.status:
-            return False
-        # Dead cats don't need mentors
-        if self.dead:
-            return False
-        return True
 
     def is_valid_mentor(self, potential_mentor: Cat):
         # Dead or outside cats can't be mentors
@@ -2320,48 +1955,9 @@ class Cat():
         if 'apprentice' not in self.status:
             return False
         # Dead cats don't need mentors
-        if self.dead:
+        if self.dead or self.outside or self.exiled:
             return False
         return True
-
-    def update_med_mentor(self, new_mentor: Any = None):
-        # No !!
-        if isinstance(new_mentor, Cat):
-            print("Everything is terrible!! (new_mentor {new_mentor} is a Cat D:)")
-            return
-        # Check if cat can have a mentor
-        illegible_for_mentor = self.dead or self.outside or self.exiled or self.status != "medicine cat apprentice"
-        if illegible_for_mentor:
-            self.__remove_mentor()
-            return
-
-        # If eligible, cat should get a mentor.
-        if new_mentor:
-            self.__remove_mentor()
-            self.__add_mentor(new_mentor)
-
-        # Check if current mentor is valid
-        if self.mentor:
-            mentor_cat = Cat.fetch_cat(self.mentor)  # This will return None if there is no current mentor
-            if mentor_cat and not self.is_valid_med_mentor(mentor_cat):
-                self.__remove_mentor()
-
-        # Need to pick a random mentor if not specified
-        if not self.mentor:
-            potential_mentors = []
-            priority_mentors = []
-            for cat in self.all_cats.values():
-                if self.is_valid_med_mentor(cat):
-                    potential_mentors.append(cat)
-                    if not cat.apprentice:  # length of list is 0
-                        priority_mentors.append(cat)
-            # First try for a cat who currently has no apprentices
-            if priority_mentors:  # length of list > 0
-                new_mentor = choice(priority_mentors)
-            elif potential_mentors:  # length of list > 0
-                new_mentor = choice(potential_mentors)
-            if new_mentor:
-                self.__add_mentor(new_mentor.ID)
 
     def __remove_mentor(self):
         """Should only be called by update_mentor, also sets fields on mentor."""
@@ -2397,7 +1993,8 @@ class Cat():
             return
         # Check if cat can have a mentor
         illegible_for_mentor = self.dead or self.outside or self.exiled or self.status not in ["apprentice",
-                                                                                               "mediator apprentice"]
+                                                                                               "mediator apprentice",
+                                                                                               "medicine cat apprentice"]
         if illegible_for_mentor:
             self.__remove_mentor()
             return
@@ -2417,11 +2014,11 @@ class Cat():
             potential_mentors = []
             priority_mentors = []
             for cat in self.all_cats.values():
-                if self.is_valid_mentor(cat) and not cat.not_working():
+                if self.is_valid_mentor(cat):
                     potential_mentors.append(cat)
-                    if not cat.apprentice:  # length of list is 0
+                    if not cat.apprentice and not cat.not_working(): 
                         priority_mentors.append(cat)
-            # First try for a cat who currently has no apprentices
+            # First try for a cat who currently has no apprentices and is working
             if priority_mentors:  # length of list > 0
                 new_mentor = choice(priority_mentors)
             elif potential_mentors:  # length of list > 0
@@ -2445,7 +2042,7 @@ class Cat():
             return False
 
         # Inheritance check
-        if self.is_related(other_cat, game.settings["first_cousin_mates"]):
+        if self.is_related(other_cat, game.settings["first cousin mates"]):
             return False
 
         # check exiled, outside, and dead cats
@@ -2457,7 +2054,9 @@ class Cat():
             if (self.moons < 14 or other_cat.moons < 14) and not for_love_interest:
                 return False
 
-            if self.age != other_cat.age and abs(self.moons - other_cat.moons) > game.config["mates"]["age_range"]:
+            # the +1 is necessary because both might not already aged up
+            # if only one is aged up at this point, later they are more moons apart than the setting defined
+            if self.age != other_cat.age and abs(self.moons - other_cat.moons) > game.config["mates"]["age_range"] + 1:
                 return False
 
         age_restricted_ages = ["newborn", "kitten", "adolescent"]
@@ -2466,7 +2065,7 @@ class Cat():
                 return False
 
         # check for mentor
-        is_former_mentor = (other_cat.ID in self.former_apprentices or self.ID in other_cat.former_apprentices)
+        is_former_mentor = (other_cat.ID in self.former_apprentices or self.ID in other_cat.former_apprentices or other_cat.ID in self.apprentice or self.ID in other_cat.apprentice)
         if is_former_mentor and not game.settings['romantic with former mentor']:
             return False
 
@@ -2474,6 +2073,8 @@ class Cat():
 
     def unset_mate(self, other_cat: Cat, breakup: bool = False, fight: bool = False):
         """Unset the mate from both self and other_cat"""
+        if not other_cat:
+            return
 
         # Both cats must have mates for this to work
         if len(self.mate) < 1 or len(other_cat.mate) < 1:
@@ -2488,7 +2089,8 @@ class Cat():
         if breakup:
             if not self.dead:
                 if other_cat.ID not in self.relationships:
-                    self.relationships[other_cat.ID] = Relationship(self, other_cat, True)
+                    self.create_one_relationship(other_cat)
+                    self.relationships[other_cat.ID].mate = True
                 self_relationship = self.relationships[other_cat.ID]
                 self_relationship.romantic_love -= 40
                 self_relationship.comfortable -= 20
@@ -2499,7 +2101,8 @@ class Cat():
 
             if not other_cat.dead:
                 if self.ID not in other_cat.relationships:
-                    other_cat.relationships[self.ID] = Relationship(other_cat, self, True)
+                    other_cat.create_one_relationship(self)
+                    other_cat.relationships[self.ID].mate = True
                 other_relationship = other_cat.relationships[self.ID]
                 other_relationship.romantic_love -= 40
                 other_relationship.comfortable -= 20
@@ -2510,8 +2113,8 @@ class Cat():
 
         self.mate.remove(other_cat.ID)
         other_cat.mate.remove(self.ID)
-        
-        #Handle previous mates:
+
+        # Handle previous mates:
         if other_cat.ID not in self.previous_mates:
             self.previous_mates.append(other_cat.ID)
         if self.ID not in other_cat.previous_mates:
@@ -2543,7 +2146,8 @@ class Cat():
         # Set starting relationship values
         if not self.dead:
             if other_cat.ID not in self.relationships:
-                self.relationships[other_cat.ID] = Relationship(self, other_cat, True)
+                self.create_one_relationship(other_cat)
+                self.relationships[other_cat.ID].mate =  True
             self_relationship = self.relationships[other_cat.ID]
             self_relationship.romantic_love += 20
             self_relationship.comfortable += 20
@@ -2552,7 +2156,8 @@ class Cat():
 
         if not other_cat.dead:
             if self.ID not in other_cat.relationships:
-                other_cat.relationships[self.ID] = Relationship(other_cat, self, True)
+                other_cat.create_one_relationship(self)
+                other_cat.relationships[self.ID].mate = True
             other_relationship = other_cat.relationships[self.ID]
             other_relationship.romantic_love += 20
             other_relationship.comfortable += 20
@@ -2567,10 +2172,14 @@ class Cat():
     def create_one_relationship(self, other_cat: Cat):
         """Create a new relationship between current cat and other cat. Returns: Relationship"""
         if other_cat.ID in self.relationships:
+            return self.relationships[other_cat.ID]
+        
+        if other_cat.ID == self.ID:
+            print(f"Attempted to create a relationship with self: {self.name}. Please report as a bug!")
             return None
-        relationship = Relationship(self, other_cat)
-        self.relationships[other_cat.ID] = relationship
-        return relationship
+        
+        self.relationships[other_cat.ID] = Relationship(self, other_cat)
+        return self.relationships[other_cat.ID]
 
     def create_relationships_new_cat(self):
         """Create relationships for a new generated cat."""
@@ -2584,7 +2193,7 @@ class Cat():
             # if they dead (dead cats have no relationships)
             if self.dead or inter_cat.dead:
                 continue
-            # if they are not outside of the clan at the same time
+            # if they are not outside of the Clan at the same time
             if self.outside and not inter_cat.outside or not self.outside and inter_cat.outside:
                 continue
             inter_cat.relationships[self.ID] = Relationship(inter_cat, self)
@@ -2713,14 +2322,14 @@ class Cat():
             if not os.path.exists(relation_cat_directory):
                 self.init_all_relationships()
                 for cat in Cat.all_cats.values():
-                    cat.relationships[self.ID] = Relationship(cat, self)
+                    cat.create_one_relationship(self)
                 return
             try:
                 with open(relation_cat_directory, 'r') as read_file:
                     rel_data = ujson.loads(read_file.read())
                     for rel in rel_data:
                         cat_to = self.all_cats.get(rel['cat_to_id'])
-                        if cat_to is None:
+                        if cat_to is None or rel['cat_to_id'] == self.ID:
                             continue
                         new_rel = Relationship(
                             cat_from=self,
@@ -2764,7 +2373,7 @@ class Cat():
         direct_related = cat1.is_sibling(cat2) or cat1.is_parent(cat2) or cat2.is_parent(cat1)
         indirect_related = cat1.is_uncle_aunt(cat2) or \
                            cat2.is_uncle_aunt(cat1)
-        if not game.settings["first_cousin_mates"]:
+        if not game.settings["first cousin mates"]:
             indirect_related = indirect_related or cat1.is_cousin(cat2)
         related = direct_related or indirect_related
 
@@ -2807,15 +2416,15 @@ class Cat():
         elif compat is False:
             chance -= 5
 
-        # Cat's compatablity with mediator also has an effect on success chance.
+        # Cat's compatibility with mediator also has an effect on success chance.
         for cat in [cat1, cat2]:
             if get_personality_compatibility(cat, mediator) is True:
                 chance += 5
             elif get_personality_compatibility(cat, mediator) is False:
                 chance -= 5
 
-        # Determine chance to fail, turing sabotage into mediate and mediate into sabotage
-        if not int(random.random() * chance):
+        # Determine chance to fail, turning sabotage into mediate and mediate into sabotage
+        if not int(random() * chance):
             apply_bonus = False
             if sabotage:
                 output += "Sabotage Failed!\n"
@@ -2846,7 +2455,7 @@ class Cat():
                 mediator.experience += EX_gain / lvl_modifier / gm_modifier
 
         if mediator.status == "mediator apprentice":
-            mediator.experience += max(random.randint(1, 6), 1)
+            mediator.experience += max(randint(1, 6), 1)
 
         no_romantic_mentor = False
         if not game.settings['romantic with former mentor']:
@@ -2863,7 +2472,7 @@ class Cat():
         # Determine the number of positive traits to effect, and choose the traits
         chosen_pos = sample(pos_traits, k=randint(2, len(pos_traits)))
 
-        # Determine netative trains effected
+        # Determine negative trains effected
         neg_traits = sample(neg_traits, k=randint(1, 2))
 
         if compat is True:
@@ -3026,7 +2635,7 @@ class Cat():
         """This function is for cats that are faded. It will set the sprite and the faded tag"""
         self.faded = True
 
-        # Sillotette sprite
+        # Silhouette sprite
         if self.age == 'newborn':
             file_name = "faded_newborn"
         elif self.age == 'kitten':
@@ -3067,7 +2676,7 @@ class Cat():
         try:
             with open(get_save_dir() + '/' + game.clan.name + '/faded_cats/' + cat + ".json", 'r') as read_file:
                 cat_info = ujson.loads(read_file.read())
-        except AttributeError:  # If loading cats is attempted before the clan is loaded, we would need to use this.
+        except AttributeError:  # If loading cats is attempted before the Clan is loaded, we would need to use this.
             with open(get_save_dir() + '/' + game.switches['clan_list'][0] + '/faded_cats/' + cat + ".json",
                       'r') as read_file:
                 cat_info = ujson.loads(read_file.read())
@@ -3083,7 +2692,9 @@ class Cat():
         if cat_info["parent2"]:
             cat_ob.parent2 = cat_info["parent2"]
         cat_ob.faded_offspring = cat_info["faded_offspring"]
+        cat_ob.adoptive_parents = cat_info["adoptive_parents"] if "adoptive_parents" in cat_info else []
         cat_ob.faded = True
+        cat_ob.dead_for = cat_info["dead_for"] if "dead_for" in cat_info else 1
 
         return cat_ob
 
@@ -3105,6 +2716,8 @@ class Cat():
             Cat.all_cats_list.sort(key=lambda x: (Cat.rank_order(x), Cat.get_adjusted_age(x)), reverse=True)
         elif game.sort_type == "exp":
             Cat.all_cats_list.sort(key=lambda x: x.experience, reverse=True)
+        elif game.sort_type == "death":
+            Cat.all_cats_list.sort(key=lambda x: -1 * int(x.dead_for))
 
         return
 
@@ -3124,6 +2737,8 @@ class Cat():
                 bisect.insort(Cat.all_cats_list, c, key=lambda x: int(x.ID))
             elif game.sort_type == "reverse_id":
                 bisect.insort(Cat.all_cats_list, c, key=lambda x: -1 * int(x.ID))
+            elif game.sort_type == "death":
+                bisect.insort(Cat.all_cats_list, c, key=lambda x: -1 * int(x.dead_for))
         except (TypeError, NameError):
             # If you are using python 3.8, key is not a supported parameter into insort. Therefore, we'll need to
             # do the slower option of adding the cat, then resorting
@@ -3139,13 +2754,25 @@ class Cat():
 
     @staticmethod
     def get_adjusted_age(cat: Cat):
-        """Returns the dead_for moons rather than the age for dead cats, so dead cats are sorted by how long
-        they have been dead, rather than age at death"""
+        """Returns the moons + dead_for moons rather than the moons at death for dead cats, so dead cats are sorted by
+        total age, rather than age at death"""
         if cat.dead:
-            return cat.dead_for
+            if game.config["sorting"]["sort_rank_by_death"]:
+                if game.sort_type == "rank":
+                    return cat.dead_for
+                else:
+                    if game.config["sorting"]["sort_dead_by_total_age"]:
+                        return cat.dead_for + cat.moons
+                    else:
+                        return cat.moons
+            else:
+                if game.config["sorting"]["sort_dead_by_total_age"]:
+                    return cat.dead_for + cat.moons
+                else:
+                    return cat.moons
         else:
             return cat.moons
-
+        
     # ---------------------------------------------------------------------------- #
     #                                  properties                                  #
     # ---------------------------------------------------------------------------- #
@@ -3172,7 +2799,7 @@ class Cat():
     @moons.setter
     def moons(self, value: int):
         self._moons = value
-
+        
         updated_age = False
         for key_age in self.age_moons.keys():
             if self._moons in range(self.age_moons[key_age][0], self.age_moons[key_age][1] + 1):
@@ -3180,29 +2807,359 @@ class Cat():
                 self.age = key_age
         try:
             if not updated_age and self.age is not None:
-                self.age = "elder"
+                self.age = "senior"
         except AttributeError:
             print("ERROR: cat has no age attribute! Cat ID: " + self.ID)
-            print("Possibly the disappearing cat bug? Ping luna on the discord if you see this message")
-            
+        
     @property
     def sprite(self):
-        #Update the sprite
-        update_sprite(self)        
+        # Update the sprite
+        update_sprite(self)
         return self._sprite
-    
+
     @sprite.setter
     def sprite(self, new_sprite):
         self._sprite = new_sprite
+        
+    # ---------------------------------------------------------------------------- #
+    #                                  other                                       #
+    # ---------------------------------------------------------------------------- #
+    
+    def is_baby(self):
+        return self.age in ["kitten", "newborn"]
+    
+    def get_save_dict(self, faded=False):
+        if faded:
+            return {
+                "ID": self.ID,
+                "name_prefix": self.name.prefix,
+                "name_suffix": self.name.suffix,
+                "species": self.species,
+                "status": self.status,
+                "moons": self.moons,
+                "dead_for": self.dead_for,
+                "parent1": self.parent1,
+                "parent2": self.parent2,
+                "adoptive_parents": self.adoptive_parents,
+                "df": self.df,
+                "faded_offspring": self.faded_offspring
+            }
+        else:
+            return {
+                "ID": self.ID,
+                "name_prefix": self.name.prefix,
+                "name_suffix": self.name.suffix,
+                "specsuffix_hidden": self.name.specsuffix_hidden,
+                "gender": self.gender,
+                "gender_align": self.genderalign,
+                #"pronouns": self.pronouns,
+                "birth_cooldown": self.birth_cooldown,
+                "species": self.species,
+                "status": self.status,
+                "backstory": self.backstory if self.backstory else None,
+                "moons": self.moons,
+                "trait": self.personality.trait,
+                "facets": self.personality.get_facet_string(),
+                "parent1": self.parent1,
+                "parent2": self.parent2,
+                "adoptive_parents": self.adoptive_parents,
+                "mentor": self.mentor if self.mentor else None,
+                "former_mentor": [cat for cat in self.former_mentor] if self.former_mentor else [],
+                "patrol_with_mentor": self.patrol_with_mentor if self.patrol_with_mentor else 0,
+                "mate": self.mate,
+                "previous_mates": self.previous_mates,
+                "dead": self.dead,
+                "paralyzed": self.pelt.paralyzed,
+                "no_kits": self.no_kits,
+                "exiled": self.exiled,
+                "pelt_name": self.pelt.name,
+                "pelt_color": self.pelt.colour,
+                "pelt_length": self.pelt.length,
+                "sprite_kitten": self.pelt.cat_sprites['kitten'],
+                "sprite_adolescent": self.pelt.cat_sprites['adolescent'],
+                "sprite_adult": self.pelt.cat_sprites['adult'],
+                "sprite_senior": self.pelt.cat_sprites['senior'],
+                "sprite_para_adult": self.pelt.cat_sprites['para_adult'],
+                "eye_colour": self.pelt.eye_colour,
+                "eye_colour2": self.pelt.eye_colour2 if self.pelt.eye_colour2 else None,
+                "reverse": self.pelt.reverse,
+                "white_patches": self.pelt.white_patches,
+                "vitiligo": self.pelt.vitiligo,
+                "points": self.pelt.points,
+                "white_patches_tint": self.pelt.white_patches_tint,
+                "pattern": self.pelt.pattern,
+                "tortie_base": self.pelt.tortiebase,
+                "tortie_color": self.pelt.tortiecolour,
+                "tortie_pattern": self.pelt.tortiepattern,
+                "skin": self.pelt.skin,
+                "tint": self.pelt.tint,
+                "skill_dict": self.skills.get_skill_dict(),
+                "scars": self.pelt.scars if self.pelt.scars else [],
+                "accessory": self.pelt.accessory,
+                "experience": self.experience,
+                "dead_moons": self.dead_for,
+                "current_apprentice": [appr for appr in self.apprentice],
+                "former_apprentices": [appr for appr in self.former_apprentices],
+                "df": self.df,
+                "outside": self.outside,
+                "faded_offspring": self.faded_offspring,
+                "opacity": self.pelt.opacity,
+                "prevent_fading": self.prevent_fading,
+                "favourite": self.favourite,
+            }
 
 
+        
 # ---------------------------------------------------------------------------- #
 #                               END OF CAT CLASS                               #
 # ---------------------------------------------------------------------------- #
 
+# ---------------------------------------------------------------------------- #
+#                               PERSONALITY CLASS                              #
+# ---------------------------------------------------------------------------- #
+
+class Personality():
+    """Hold personality information for a cat, and functions to deal with it """
+    facet_types = ["lawfulness", "sociability", "aggression", "stability"]
+    facet_range = [0, 16]
+    
+    with open("resources/dicts/traits/trait_ranges.json", "r") as read_file:
+        trait_ranges = ujson.loads(read_file.read())
+    
+    def __init__(self, trait:str=None, kit_trait:bool=False, lawful:int=None, social:int=None, aggress:int=None, 
+                 stable:int=None) -> Personality:
+        """If trait is given, it will randomize facets within the range of the trait. It will ignore any facets given. 
+            If facets are given and no trait, it will find a trait that matches the facets. NOTE: you can give
+            only some facets: It will randomize any you don't specify.
+            If both facets and trait are given, it will use the trait if it matched the facets. Otherwise it will
+            find a new trait."""
+        self._law = 0
+        self._social = 0
+        self._aggress = 0
+        self._stable = 0
+        self.trait = None
+        self.kit = kit_trait #If true, use kit trait. If False, use normal traits. 
+        
+        if self.kit:
+            trait_type_dict = Personality.trait_ranges["kit_traits"]
+        else:
+            trait_type_dict = Personality.trait_ranges["normal_traits"]
+        
+        _tr = None
+        if trait and trait in trait_type_dict:
+            # Trait-given init
+            self.trait = trait
+            _tr = trait_type_dict[self.trait]
+        
+        # Set Facet Values
+        # The priority of is: 
+        # (1) Given value, from parameter. 
+        # (2) If a trait range is assigned, pick from trait range
+        # (3) Totally random. 
+        if lawful is not None:
+            self._law = Personality.adjust_to_range(lawful)
+        elif _tr:
+            self._law = randint(_tr["lawfulness"][0], _tr["lawfulness"][1])
+        else:
+            self._law = randint(Personality.facet_range[0], Personality.facet_range[1])
+            
+        if social is not None:
+            self._social = Personality.adjust_to_range(social)
+        elif _tr:
+            self._social = randint(_tr["sociability"][0], _tr["sociability"][1])
+        else:
+            self._social = randint(Personality.facet_range[0], Personality.facet_range[1])
+            
+        if aggress is not None:
+            self._aggress = Personality.adjust_to_range(aggress)
+        elif _tr:
+            self._aggress = randint(_tr["aggression"][0], _tr["aggression"][1])
+        else:
+            self._aggress = randint(Personality.facet_range[0], Personality.facet_range[1])
+            
+        if stable is not None:
+            self._stable = Personality.adjust_to_range(stable)
+        elif _tr:
+            self._stable = randint(_tr["stability"][0], _tr["stability"][1])
+        else:
+            self._stable = randint(Personality.facet_range[0], Personality.facet_range[1])
+                
+        # If trait is still empty, or if the trait is not valid with the facets, change it. 
+        if not self.trait or not self.is_trait_valid():
+            self.choose_trait()
+                
+    def __repr__(self) -> str:
+        """For debugging"""
+        return f"{self.trait}: lawfulness {self.lawfulness}, aggression {self.aggression}, sociability {self.sociability}, stablity {self.stability}"
+    
+    def get_facet_string(self):
+        """For saving the facets to file."""
+        return f"{self.lawfulness},{self.sociability},{self.aggression},{self.stability}"
+    
+    def __getitem__(self, key):
+        """Alongside __setitem__, Allows you to treat this like a dictionary if you want. """
+        return getattr(self, key)
+    
+    def __setitem__(self, key, newval):
+        """Alongside __getitem__, Allows you to treat this like a dictionary if you want. """
+        setattr(self, key, newval)
+
+    # ---------------------------------------------------------------------------- #
+    #                               PROPERTIES                                     #
+    # ---------------------------------------------------------------------------- #
+    
+    @property
+    def lawfulness(self):
+        return self._law
+    
+    @lawfulness.setter
+    def lawfulness(self, new_val):
+        """Do not use property in init"""
+        self._law = Personality.adjust_to_range(new_val)
+        if not self.is_trait_valid():
+            self.choose_trait()
+            
+    @property
+    def sociability(self):
+        return self._social
+    
+    @sociability.setter
+    def sociability(self, new_val):
+        """Do not use property in init"""
+        self._social = Personality.adjust_to_range(new_val)
+        if not self.is_trait_valid():
+            self.choose_trait()
+            
+    @property
+    def aggression(self):
+        return self._aggress
+    
+    @aggression.setter
+    def aggression(self, new_val):
+        """Do not use property in init"""
+        self._aggress = Personality.adjust_to_range(new_val)
+        if not self.is_trait_valid():
+            self.choose_trait()
+            
+    @property
+    def stability(self):
+        return self._stable
+    
+    @stability.setter
+    def stability(self, new_val):
+        """Do not use property in init"""
+        self._stable = Personality.adjust_to_range(new_val)
+        if not self.is_trait_valid():
+            self.choose_trait()
+            
+
+    # ---------------------------------------------------------------------------- #
+    #                               METHODS                                        #
+    # ---------------------------------------------------------------------------- #
+
+    @staticmethod
+    def adjust_to_range(val:int) -> int:
+        """Take an integer and adjust it to be in the trait-range """
+        
+        if val < Personality.facet_range[0]:
+            val = Personality.facet_range[0]
+        elif val > Personality.facet_range[1]:
+            val = Personality.facet_range[1]
+        
+        return val
+    
+    def set_kit(self, kit:bool):
+        """Switch the trait-type. True for kit, False for normal"""
+        self.kit = kit
+        if not self.is_trait_valid():
+            self.choose_trait()
+        
+    def is_trait_valid(self) -> bool:
+        """Return True if the current facets fit the trait ranges, false
+        if it doesn't. Also returns false if the trait is not in the trait dict.  """
+        
+        if self.kit:
+            trait_type_dict = Personality.trait_ranges["kit_traits"]
+        else:
+            trait_type_dict = Personality.trait_ranges["normal_traits"]
+        
+        if self.trait not in trait_type_dict:
+            return False
+        
+        trait_range = trait_type_dict[self.trait]
+        
+        if not (trait_range["lawfulness"][0] <= self.lawfulness 
+                <= trait_range["lawfulness"][1]):
+            return False
+        if not (trait_range["sociability"][0] <= self.sociability 
+                <= trait_range["sociability"][1]):
+            return False
+        if not (trait_range["aggression"][0] <= self.aggression 
+                <= trait_range["aggression"][1]):
+            return False
+        if not (trait_range["stability"][0] <= self.stability 
+                <= trait_range["stability"][1]):
+            return False
+        
+        return True
+    
+    def choose_trait(self):
+        """Chooses trait based on the facets """
+        
+        if self.kit:
+            trait_type_dict = Personality.trait_ranges["kit_traits"]
+        else:
+            trait_type_dict = Personality.trait_ranges["normal_traits"]
+        
+        possible_traits = []
+        for trait, fac in trait_type_dict.items():
+            if not (fac["lawfulness"][0] <= self.lawfulness <= fac["lawfulness"][1]):
+                continue
+            if not (fac["sociability"][0] <= self.sociability <= fac["sociability"][1]):
+                continue
+            if not (fac["aggression"][0] <= self.aggression <= fac["aggression"][1]):
+                continue
+            if not (fac["stability"][0] <= self.stability <= fac["stability"][1]):
+                continue
+            
+            possible_traits.append(trait)
+            
+        if possible_traits:
+            self.trait = choice(possible_traits)
+        else:
+            print("No possible traits! Using 'strange'")
+            self.trait = "strange"
+            
+    def facet_wobble(self, max=5):
+        """Makes a small adjustment to all the facets, and redetermines trait if needed."""        
+        self.lawfulness += randint(-max, max)
+        self.stability += randint(-max, max)
+        self.aggression += randint(-max, max)
+        self.sociability += randint(-max, max)
+        
+    def mentor_influence(self, mentor:Cat):
+        """applies mentor influence after the pair go on a patrol together 
+            returns history information in the form (mentor_id, facet_affected, amount_affected)"""
+        mentor_personality = mentor.personality
+        
+        #Get possible facet values
+        possible_facets = {i: mentor_personality[i] - self[i] for i in 
+                           Personality.facet_types if mentor_personality[i] - self[i] != 0}
+        
+        if possible_facets:
+            # Choice trait to effect, weighted by the abs of the difference (higher difference = more likely to effect)
+            facet_affected = choices([i for i in possible_facets], weights=[abs(i) for i in possible_facets.values()], k=1)[0]
+            # stupid python with no sign() function by default. 
+            amount_affected = int(possible_facets[facet_affected]/abs(possible_facets[facet_affected]) * randint(1, 2))
+            self[facet_affected] += amount_affected
+            return (mentor.ID, facet_affected, amount_affected)
+        else:
+            #This will only trigger if they have the same personality. 
+            return None
+
 # Twelve example cats
 def create_example_cats():
-    e = random.sample(range(12), 3)
+    e = sample(range(12), 3)
     not_allowed = ['NOPAW', 'NOTAIL', 'HALFTAIL', 'NOEAR', 'BOTHBLIND', 'RIGHTBLIND', 'LEFTBLIND', 'BRIGHTHEART',
                    'NOLEFTEAR', 'NORIGHTEAR', 'MANLEG']
     for a in range(12):
@@ -3215,9 +3172,9 @@ def create_example_cats():
             game.choose_cats[a].moons = choice(range(120, 155))
         elif game.choose_cats[a].moons == 0:
             game.choose_cats[a].moons = choice([1, 2, 3, 4, 5])
-        for scar in game.choose_cats[a].scars:
+        for scar in game.choose_cats[a].pelt.scars:
             if scar in not_allowed:
-                game.choose_cats[a].scars.remove(scar)
+                game.choose_cats[a].pelt.scars.remove(scar)
     
         #update_sprite(game.choose_cats[a])
     
@@ -3232,28 +3189,25 @@ game.cat_class = cat_class
 
 resource_directory = "resources/dicts/conditions/"
 
-ILLNESSES = None
 with open(f"{resource_directory}illnesses.json", 'r') as read_file:
     ILLNESSES = ujson.loads(read_file.read())
 
-INJURIES = None
 with open(f"{resource_directory}injuries.json", 'r') as read_file:
     INJURIES = ujson.loads(read_file.read())
 
-PERMANENT = None
 with open(f"{resource_directory}permanent_conditions.json", 'r') as read_file:
     PERMANENT = ujson.loads(read_file.read())
 
 resource_directory = "resources/dicts/events/death/death_reactions/"
 
-MINOR_MAJOR_REACTION = None
 with open(f"{resource_directory}minor_major.json", 'r') as read_file:
     MINOR_MAJOR_REACTION = ujson.loads(read_file.read())
 
-LEAD_CEREMONY_SC = None
 with open(f"resources/dicts/lead_ceremony_sc.json", 'r') as read_file:
     LEAD_CEREMONY_SC = ujson.loads(read_file.read())
 
-LEAD_CEREMONY_DF = None
 with open(f"resources/dicts/lead_ceremony_df.json", 'r') as read_file:
     LEAD_CEREMONY_DF = ujson.loads(read_file.read())
+
+with open(f"resources/dicts/backstories.json", 'r') as read_file:
+    BACKSTORIES = ujson.loads(read_file.read())
