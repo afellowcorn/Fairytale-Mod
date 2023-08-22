@@ -1,3 +1,7 @@
+<strong>v0.1.2-alpha</strong>
+- shaders for winged cats and tatzelwurm
+- missing scars for winged cats and tatzelwurm
+
 <strong>v0.1.1-alpha</strong>
 - 9 new colours for garter and gartercheck
 - fix unknown parent causing None kits
