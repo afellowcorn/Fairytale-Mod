@@ -145,8 +145,6 @@ class Sprites():
 
         # Line art
         self.make_group('lineart', (0, 0), 'lines')
-        self.make_group('shadersnewwhite', (0, 0), 'shaders')
-        self.make_group('lightingnew', (0, 0), 'lighting')
         self.make_group('lineartdead', (0, 0), 'lineartdead')
         self.make_group('lineartdf', (0, 0), 'lineartdf')
 
@@ -157,6 +155,14 @@ class Sprites():
         self.make_group('lineartwurm', (0, 0), 'lineswurm')
         self.make_group('lineartwurm', (1, 0), 'lineswurmdead')
         self.make_group('lineartwurm', (2, 0), 'lineswurmdf')
+
+        # Shaders
+        self.make_group('shadersnewwhite', (0, 0), 'shaders')
+        self.make_group('lightingnew', (0, 0), 'lighting')
+        self.make_group('shadersnewwhite', (1, 0), 'shaders_wng')
+        self.make_group('lightingnew', (1, 0), 'lighting_wng')
+        self.make_group('shadersnewwhite', (2, 0), 'shaders_wurm')
+        self.make_group('lightingnew', (2, 0), 'lighting_wurm')
 
         # Fading Fog
         for i in range(0, 3):
@@ -506,6 +512,10 @@ class Sprites():
                 ["THROAT", "TAILBASE", "BELLY", "TOETRAP", "SNAKE",
                  "LEGBITE", "NECKBITE", "FACE"]):
             self.make_group('extrawng', (a, 8), f'scars_wng{i}')
+        # missing parts
+        for a, i in enumerate(
+                ["LEFTEAR", "RIGHTEAR", "NOTAIL", "NOLEFTEAR", "NORIGHTEAR", "NOEAR", "HALFTAIL", "NOPAW"]):
+            self.make_group('missingscars', (a, 1), f'scars_wng{i}')
 
         #wurm
         for a, i in enumerate(
@@ -521,6 +531,10 @@ class Sprites():
                 ["THROAT", "TAILBASE", "BELLY", "TOETRAP", "SNAKE",
                  "LEGBITE", "NECKBITE", "FACE"]):
             self.make_group('extrawurm', (a, 8), f'scars_wurm{i}')
+        # missing parts
+        for a, i in enumerate(
+                ["LEFTEAR", "RIGHTEAR", "NOTAIL", "NOLEFTEAR", "NORIGHTEAR", "NOEAR", "HALFTAIL", "NOPAW"]):
+            self.make_group('missingscars', (a, 2), f'scars_wurm{i}')
 
             # Accessories
         for a, i in enumerate([

@@ -1544,8 +1544,8 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
 
             # draw line art
             if game.settings['shaders'] and not dead:
-                new_sprite.blit(sprites.sprites['shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-                new_sprite.blit(sprites.sprites['lighting' + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['shaders_wng' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                new_sprite.blit(sprites.sprites['lighting_wng' + cat_sprite], (0, 0))
 
             if not dead:
                 new_sprite.blit(sprites.sprites['lineswng' + cat_sprite], (0, 0))
@@ -1560,7 +1560,7 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
             if not scars_hidden:
                 for scar in cat.pelt.scars:
                     if scar in cat.pelt.scars2:
-                        new_sprite.blit(sprites.sprites['scars' + scar + cat_sprite], (0, 0), special_flags=blendmode)
+                        new_sprite.blit(sprites.sprites['scars_wng' + scar + cat_sprite], (0, 0), special_flags=blendmode)
 
             # draw accessories
             if not acc_hidden:        
@@ -1663,8 +1663,8 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
 
             # draw line art
             if game.settings['shaders'] and not dead:
-                new_sprite.blit(sprites.sprites['shaders' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
-                new_sprite.blit(sprites.sprites['lighting' + cat_sprite], (0, 0))
+                new_sprite.blit(sprites.sprites['shaders_wurm' + cat_sprite], (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+                new_sprite.blit(sprites.sprites['lighting_wurm' + cat_sprite], (0, 0))
 
             if not dead:
                 new_sprite.blit(sprites.sprites['lineswurm' + cat_sprite], (0, 0))
