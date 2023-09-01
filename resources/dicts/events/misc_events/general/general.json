@@ -74,7 +74,7 @@
             "Leaf-fall",
             "Leaf-bare"
         ],
-        "event_text": "r_c gives m_c something to adorn {PRONOUN/m_c/poss} pelt as congratulations.",
+        "event_text": "r_c gives m_c something to adorn {PRONOUN/m_c/self} with as congratulations.",
         "accessories": [
             "WILD",
             "PLANT"
@@ -89,7 +89,7 @@
             "Leaf-fall",
             "Leaf-bare"
         ],
-        "event_text": "m_c decides to pick something to adorn {PRONOUN/m_c/poss} pelt as celebration.",
+        "event_text": "m_c decides to pick something to adorn {PRONOUN/m_c/self} with as celebration.",
         "accessories": [
             "WILD",
             "PLANT"
@@ -199,6 +199,126 @@
         "accessories": [
             "WILD",
             "PLANT"
+        ]
+    },
+    {
+        "camp": "any",
+        "tags": [
+            "Newleaf",
+            "Greenleaf",
+            "Leaf-fall",
+            "Leaf-bare"
+        ],
+        "event_text": "m_c can't seem to stop dragging {PRONOUN/m_c/poss} spear around.",
+        "accessories": [
+            "SPEAR",
+            "EXP SPEAR"
+        ]
+    },
+    {
+        "camp": "any",
+        "tags": [
+            "Newleaf",
+            "Greenleaf",
+            "Leaf-fall",
+            "Leaf-bare"
+        ],
+        "event_text": "A vulture flew above the camp, heading for m_c, but in a brilliant turn of events, m_c threw an explosive spear right at the vulture's neck. It flew up, but after a loud boom, it came falling down, dead, and m_c took it's mask as a prize.",
+        "accessories": [
+            "VULTURE MASK"
+        ]
+    },
+    {
+        "camp": "any",
+        "tags": [
+            "Newleaf",
+            "Greenleaf",
+            "Leaf-fall",
+            "Leaf-bare"
+        ],
+        "event_text": "m_c stumbles into camp, exhausted, but somehow unharmed, with a king vulture's mask in {PRONOUN/m_c/poss} hand.",
+        "accessories": [
+            "KING MASK"
+        ]
+    },
+    {
+        "camp": "any",
+        "tags": [
+            "Newleaf",
+            "Greenleaf",
+            "Leaf-fall",
+            "Leaf-bare"
+        ],
+        "event_text": "It's an odd sight to see m_c <i>wearing</i> a karma flower instead of just eating it.",
+        "accessories": [
+            "KARMA FLOWER"
+        ]
+    },
+    {
+        "camp": "any",
+        "tags": [
+            "Newleaf",
+            "Greenleaf",
+            "Leaf-fall",
+            "Leaf-bare"
+        ],
+        "event_text": "The batnip has already lost all usage, but m_c just seems to want to keep it as a good luck charm.",
+        "accessories": [
+            "BATNIP"
+        ]
+    },
+    {
+        "camp": "any",
+        "tags": [
+            "Newleaf",
+            "Greenleaf",
+            "Leaf-fall",
+            "Leaf-bare"
+        ],
+        "event_text": "m_c can't stop bragging about how {PRONOUN/m_c/subject} took down an elite scavenger all on their own, {PRONOUN/m_c/subject} even have the mask to prove it!... The other slugcats don't seem as happy, nervously talking about their reputation with scavengers.",
+        "accessories": [
+            "ELITE MASK"
+        ]
+    },
+    {
+        "camp": "any",
+        "tags": [
+            "Newleaf",
+            "Greenleaf",
+            "Leaf-fall",
+            "Leaf-bare"
+        ],
+        "event_text": "m_c keeps finding pearls to adorn {PRONOUN/m_c/self} with.",
+        "accessories": [
+            "PEARLS"
+        ]
+    },
+    {
+        "camp": "any",
+        "tags": [
+            "Newleaf",
+            "Greenleaf",
+            "Leaf-fall",
+            "Leaf-bare"
+        ],
+        "event_text": "It took an entire cycle for m_c to finally kill a pole plant. {PRONOUN/m_c/subject/CAP} {VERB/m_c/return/returns} to camp with a piece of it stuck to them.",
+        "accessories": [
+            "POLE PLANT"
+        ]
+    },
+    {
+        "camp": "any",
+        "tags": [
+            "Newleaf",
+            "Greenleaf",
+            "Leaf-fall",
+            "Leaf-bare"
+        ],
+        "event_text": "m_c took down an entire monster kelp by {PRONOUN/m_c/self}. Now, m_c is wearing a large piece of the kelp on {PRONOUN/m_c/poss} body, believing it will protect {PRONOUN/m_c/object} from predators.",
+        "accessories": [
+            "GREEN KELP",
+            "RED KELP",
+            "BROWN KELP"
         ]
     },
     {

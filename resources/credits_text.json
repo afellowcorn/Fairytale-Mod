@@ -1,4 +1,17 @@
 {
+    "mod_text": [
+         "<b>Welcome to the standalone version of RainGen!</b>",
+        "",
+        "This is a ClanGen mod themed around the game Rain World.",
+        "",
+        "<b>Author:</b> Bea",
+        "<b>With contributions from:</b>",
+        "<i>(hover over a name to see their contributions!)",
+        "",
+        "{mod_contrib}",
+        "</i>",
+        "---------------------------------------------------------------------"
+    ],
     "text": [
         "<b>Welcome to Warrior Cats Clan generator!</b>",
         "",
@@ -19,6 +32,16 @@
         "Code is licensed under <a href=https://www.mozilla.org/en-US/MPL/2.0/>Mozilla Public License Version 2.0</a>",
         "Art is licensed under <a href=https://creativecommons.org/licenses/by-nc/4.0/legalcode>CC-BY-NC 4.0</a> "
     ],
+    "mod_contrib": {
+        "Acorn (affellowcorn)": "Developer of the standalone release, binary release building, custom accessory code, revised name code, names",
+        "bucketofmackerels": "Tabby, Gravel and Collared pelts",
+        "Meltedcandles": "Gill sprites, old name code, names",
+        "potatcat": "Long tongue sprites, adaptation of basegame accessory sprites",
+        "raintailed": "Custom accessory display text",
+        "Silvery": "Main Menu art, Rosette and Classic pelts",
+        "Speckmaw": "Bengal pelt",
+        "Winter": "Singlestripe pelt"
+    },
     "contrib": {
         "anju": "-Senior Contributor-<br>Creating the Original Game- Old Base Code (Clan creation, Clan screen, Timeskip, Mates and kits, StarClan), Base Sprites & Pelts, Patrol Arts, New Sprite Revisions, Shaders",
         "Archanyhm": "-Senior Contributor-<br>Contributed Auto-Updater, Update-API, macOS fixes, changelog display",

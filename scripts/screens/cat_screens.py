@@ -57,6 +57,18 @@ def accessory_display_name(cat):
             acc_display = 'crow feathers'
         elif acc_display == 'red feathers':
             acc_display = 'cardinal feathers'
+        elif acc_display == 'exp spear':
+            acc_display = 'explosive spear'
+        elif acc_display == 'elect spear':
+            acc_display = 'electric spear'
+        elif acc_display == 'blue bandolier':
+            acc_display = 'flashbang bandolier'
+        elif acc_display == 'red bandolier':
+            acc_display = 'lantern bandolier'
+        elif acc_display == 'king mask':
+            acc_display = 'king vulture mask'
+        elif acc_display == 'elite mask':
+            acc_display = 'elite scavenger mask'
 
     return acc_display
 

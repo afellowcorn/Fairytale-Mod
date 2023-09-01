@@ -99,16 +99,12 @@ if os.environ.get('CODESPACES'):
 
 if get_version_info().is_source_build:
     print("Running on source code")
-    if get_version_info().version_number == VERSION_NAME:
-        print("Failed to get git commit hash, using hardcoded version number instead.")
-        print("Hey testers! We recommend you use git to clone the repository, as it makes things easier for everyone.")  # pylint: disable=line-too-long
-        print("There are instructions at https://discord.com/channels/1003759225522110524/1054942461178421289/1078170877117616169")  # pylint: disable=line-too-long
 else:
     print("Running on PyInstaller build")
 
 print("Version Name: ", VERSION_NAME)
-print("Running on commit " + get_version_info().version_number)
-
+print("this is a testing version before the 1.0 release meant to catch any issues with the framework, as well as minor issues like stray pixels on the sprites and such! enjoy bug hunting!")
+print("")
 # Load game
 from scripts.game_structure.load_cat import load_cats, version_convert
 from scripts.game_structure.windows import SaveCheck
@@ -174,7 +170,7 @@ else:
 if get_version_info().is_source_build or get_version_info().is_dev():
     dev_watermark = pygame_gui.elements.UILabel(
         scale(pygame.Rect((1050, 1321), (600, 100))),
-        "Dev Build:",
+        "Raingen:",
         object_id="#dev_watermark"
     )
 

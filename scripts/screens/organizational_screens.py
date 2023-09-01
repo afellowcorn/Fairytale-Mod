@@ -553,11 +553,21 @@ class SettingsScreen(Screens):
 
     # contains the tooltips for contributors
     tooltip = {}
+    mod_tooltip = {}
 
     info_text = ""
     tooltip_text = []
+    mod_tooltip_text = []
     with open('resources/credits_text.json', 'r', encoding='utf-8') as f:
         credits_text = ujson.load(f)
+    for string in credits_text["mod_text"]:
+        if string == "{mod_contrib}":
+            for contributor in credits_text["mod_contrib"]:
+                info_text += contributor + "<br>"
+                mod_tooltip_text.append(credits_text["mod_contrib"][contributor])
+        else:
+            info_text += string
+            info_text += "<br>"
     for string in credits_text["text"]:
         if string == "{contrib}":
             for contributor in credits_text["contrib"]:
@@ -888,7 +898,29 @@ class SettingsScreen(Screens):
         self.checkboxes_text['info_text_box'].disable()
 
         i = 0
-        y_pos = 731
+        y_pos = 1700
+        for tooltip in self.mod_tooltip_text:
+            if not tooltip:
+                self.mod_tooltip[f'tip{i}'] = UIImageButton(
+                    scale(pygame.Rect((400, i * 56 + 450), (400, 56))),
+                    "",
+                    object_id="#blank_button",
+                    container=self.checkboxes_text["info_container"],
+                    manager=MANAGER,
+                    starting_height=2
+                ),
+            else:
+                self.mod_tooltip[f'tip{i}'] = UIImageButton(
+                    scale(pygame.Rect((400, i * 56 + 450), (400, 56))),
+                    "",
+                    object_id="#blank_button",
+                    container=self.checkboxes_text["info_container"],
+                    manager=MANAGER,
+                    tool_tip_text=tooltip,
+                    starting_height=2
+                ),
+
+            i += 1
         for tooltip in self.tooltip_text:
             if not tooltip:
                 self.tooltip[f'tip{i}'] = UIImageButton(
@@ -911,6 +943,7 @@ class SettingsScreen(Screens):
                 ),
 
             i += 1
+
         self.checkboxes_text["info_container"].set_scrollable_area_dimensions(
             (1150 / 1600 * screen_x, (i * 56 + y_pos + 550) / 1400 * screen_y))
 

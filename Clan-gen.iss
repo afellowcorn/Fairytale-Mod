@@ -1,11 +1,11 @@
-; Clan-gen Installer Script
+; Rain-gen Installer Script
 
-#define ApplicationBaseName "Clan-gen"
-#define ApplicationFullName "Clan-gen (fan edit) by Sablesteel"
+#define ApplicationBaseName "Rain-gen"
+#define ApplicationFullName "Rain-gen (modded Clan-gen)"
 
-; Update this line to the date of the latest Clan-gen (fan edit) by Sablesteel release 
+; Update this line to the date of the latest Rain-gen (modded Clan-gen) release 
 ; (or choose your own version-numbering scheme)
-#define ApplicationVersion "2022.08.10"
+#define ApplicationVersion "2023.08.30"
 
 #define ApplicationURL "https://sablesteel.itch.io/clan-gen-fan-edit"
 
@@ -62,9 +62,9 @@ Name: "{app}\saves"; Permissions: users-full
 
 ;-------------------------------------------------------------------------------
 [Icons]
-;; Create Clan-gen (fan edit) icons
-Name: {group}\Clan-gen (fan edit); Filename: {app}\main.exe; Comment: "Clan-gen (fan edit) by Sablesteel"
-Name: {commondesktop}\Clan-gen (fan edit); Filename: {app}\main.exe; Comment: "Clan-gen (fan edit) by Sablesteel";
+;; Create Rain-gen (modded Clan-gen) icons
+Name: {group}\Rain-gen (modded Clan-gen); Filename: {app}\main.exe; Comment: "Rain-gen (modded Clan-gen)"
+Name: {commondesktop}\Rain-gen (modded Clan-gen); Filename: {app}\main.exe; Comment: "Rain-gen (modded Clan-gen)";
 
 ; Uninstall program Comment out to disable shortcut 
 ;Name: {group}\Uninstall {#ApplicationFullName}; Filename: {uninstallexe}

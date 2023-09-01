@@ -140,6 +140,22 @@ class Sprites():
         for a, i in enumerate([
             "RED FEATHERS", "BLUE FEATHERS", "JAY FEATHERS", "MOTH WINGS", "CICADA WINGS"]):
             sprites.make_group('medcatherbs', (a, 2), f'acc_wild{i}')
+
+        # Rain World Accessories
+        for a, i in enumerate([
+            "SPEAR", "EXP SPEAR", "ELECT SPEAR", "WATER GLOW WORM", "PEARL NECKLACE", "PEARLS"]):
+            sprites.make_group('herbs2', (a, 0), f'acc_wild{i}')
+        for a, i in enumerate([
+            "BEETLE", "MOTH", "BLUE BANDOLIER", "RED BANDOLIER", "GREEN DRAGONFLY", "BLUE DRAGONFLY"]):
+            sprites.make_group('herbs2', (a, 1), f'acc_wild{i}')
+        for a, i in enumerate([
+            "VULTURE MASK", "KING MASK", "ELITE MASK", "CENTIWING EARRING", "CENTIPEDE EARRING"]):
+            sprites.make_group('herbs2', (a, 2), f'acc_wild{i}')
+        sprites.make_group('herbs2', (5, 2), 'acc_herbsBROWN KELP')
+        for a, i in enumerate([
+            "GREEN KELP", "RED KELP", "BATNIP", "POLE PLANT", "KARMA FLOWER"]):
+            sprites.make_group('herbs2', (a, 3), f'acc_herbs{i}')
+
         for a, i in enumerate(["CRIMSON", "BLUE", "YELLOW", "CYAN", "RED", "LIME"]):
             sprites.make_group('collars', (a, 0), f'collars{i}')
         for a, i in enumerate(["GREEN", "RAINBOW", "BLACK", "SPIKES", "WHITE"]):
@@ -204,8 +220,8 @@ for x in [
     'bengalcolours', 'marbledcolours', 'rosettecolours', 'smokecolours', 'tickedcolours', 
     'mackerelcolours', 'classiccolours', 'sokokecolours', 'agouticolours', 'singlestripecolours', 
     'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 
-    'medcatherbs', 'lineartdf', 'lightingnew', 'fademask',
-    'fadestarclan', 'fadedarkforest'
+    'medcatherbs', 'herbs2', 'lineartdf', 'lightingnew', 'fademask',
+    'fadestarclan', 'fadedarkforest', 'gilltongue', 'gravelcolours', 'collaredcolours'
 
 ]:
     if 'lineart' in x and game.config['fun']['april_fools']:
@@ -355,6 +371,20 @@ for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 
     sprites.make_group('singlestripecolours', (a, 1), f'singlestripe{i}')
 for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
     sprites.make_group('singlestripecolours', (a, 2), f'singlestripe{i}')
+# gravel
+for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
+    sprites.make_group('gravelcolours', (a, 0), f'gravel{i}')
+for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
+    sprites.make_group('gravelcolours', (a, 1), f'gravel{i}')
+for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
+    sprites.make_group('gravelcolours', (a, 2), f'gravel{i}')
+# collared
+for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
+    sprites.make_group('collaredcolours', (a, 0), f'collared{i}')
+for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
+    sprites.make_group('collaredcolours', (a, 1), f'collared{i}')
+for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
+    sprites.make_group('collaredcolours', (a, 2), f'collared{i}')
     
 # new new torties
 for a, i in enumerate(['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'HALF', 'STREAK', 'MASK']):
@@ -373,5 +403,12 @@ for a, i in enumerate(['DARK', 'DARKGREY', 'GREY', 'DARKSALMON', 'SALMON', 'PEAC
     sprites.make_group('skin', (a, 1), f"skin{i}")
 for a, i in enumerate(['DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE']):
     sprites.make_group('skin', (a, 2), f"skin{i}")
+# Gills, Tongues, Quills
+for a, i in enumerate(['PINKGILLS', 'BLUEGILLS', 'REDGILLS', 'LIMEGILLS', 'YELLOWGILLS', 'WHITEGILLS']):
+    sprites.make_group('gilltongue', (a, 0), f"skin{i}")
+for a, i in enumerate(['RAINBOWGILLS', 'FUCHSIATONGUE', 'PASTELTONGUE', 'KOBITONGUE', 'FLAMINGOTONGUE', 'MAGENTATONGUE']):
+    sprites.make_group('gilltongue', (a, 1), f"skin{i}")
+for a, i in enumerate(['PINKTONGUE']):
+    sprites.make_group('gilltongue', (a, 2), f"skin{i}")
 
 sprites.load_scars()

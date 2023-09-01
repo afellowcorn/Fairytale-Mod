@@ -24,6 +24,8 @@ class Pelt():
         'Sokoke': 'sokoke',
         'Agouti': 'agouti',
         'Singlestripe': 'singlestripe',
+        'Gravel': 'gravel',
+        'Collared': 'collared',
         'Tortie': None,
         'Calico': None,
     }
@@ -49,7 +51,7 @@ class Pelt():
                     'OREO', 'SWOOP', 'MOTTLED', 'SIDEMASK', 'EYEDOT', 'BANDANA', 'PACMAN', 'STREAMSTRIKE', 'ORIOLE', 'CHIMERA', 'DAUB', 'EMBER', 'BLANKET',
                     'ROBIN', 'BRINDLE', 'PAIGE', 'ROSETAIL', 'SAFI', 'SMUDGED', 'DAPPLENIGHT', 'STREAK', 'MASK', 'CHEST', 'ARMTAIL']
     tortiebases = ['single', 'tabby', 'bengal', 'marbled', 'ticked', 'smoke', 'rosette', 'speckled', 'mackerel',
-                'classic', 'sokoke', 'agouti', 'singlestripe']
+                'classic', 'sokoke', 'agouti', 'singlestripe', 'collared']
 
     pelt_length = ["short", "medium", "long"]
     eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD', 'PALEBLUE', 
@@ -69,9 +71,13 @@ class Pelt():
     # make sure to add plural and singular forms of new accs to acc_display.json so that they will display nicely
     plant_accessories = ["MAPLE LEAF", "HOLLY", "BLUE BERRIES", "FORGET ME NOTS", "RYE STALK", "LAUREL",
                         "BLUEBELLS", "NETTLE", "POPPY", "LAVENDER", "HERBS", "PETALS", "DRY HERBS",
-                        "OAK LEAVES", "CATMINT", "MAPLE SEED", "JUNIPER"
+                        "OAK LEAVES", "CATMINT", "MAPLE SEED", "JUNIPER", "KARMA FLOWER", "POLE PLANT",
+                        "BATNIP", "GREEN KELP", "RED KELP", "BROWN KELP"
                         ]
-    wild_accessories = ["RED FEATHERS", "BLUE FEATHERS", "JAY FEATHERS", "MOTH WINGS", "CICADA WINGS"
+    wild_accessories = ["RED FEATHERS", "BLUE FEATHERS", "JAY FEATHERS", "MOTH WINGS", "CICADA WINGS",
+                        "SPEAR", "PEARLS", "WATER GLOW WORM", "PEARL NECKLACE", "BEETLE", "BLUE BANDOLIER",
+                        "RED BANDOLIER", "VULTURE MASK", "KING MASK", "ELITE MASK", "CENTIWING EARRING",
+                        "CENTIPEDE EARRING", "MOTH", "EXP SPEAR", "GREEN DRAGONFLY", "BLUE DRAGONFLY"
                         ]
     tail_accessories = ["RED FEATHERS", "BLUE FEATHERS", "JAY FEATHERS"]
     collars = [
@@ -86,9 +92,9 @@ class Pelt():
         "BLACKNYLON", "SPIKESNYLON", "WHITENYLON", "PINKNYLON", "PURPLENYLON", "MULTINYLON", "INDIGONYLON",
     ]
 
-    tabbies = ["Tabby", "Ticked", "Mackerel", "Classic", "Sokoke", "Agouti"]
-    spotted = ["Speckled", "Rosette"]
-    plain = ["SingleColour", "TwoColour", "Smoke", "Singlestripe"]
+    tabbies = ["Tabby", "Mackerel", "Classic", "Sokoke", "Agouti"]
+    spotted = ["Speckled", "Rosette", "Ticked"]
+    plain = ["SingleColour", "TwoColour", "Smoke", "Singlestripe", "Gravel", "Collared"]
     exotic = ["Bengal", "Marbled"]
     torties = ["Tortie", "Calico"]
     pelt_categories = [tabbies, spotted, plain, exotic, torties]
@@ -123,9 +129,11 @@ class Pelt():
     vit = ['VITILIGO', 'VITILIGOTWO', 'MOON', 'PHANTOM', 'KARPATI', 'POWDER', 'BLEACHED']
     white_sprites = [
         little_white, mid_white, high_white, mostly_white, point_markings, vit, 'FULLWHITE']
-
     skin_sprites = ['BLACK',  'PINK', 'DARKBROWN', 'BROWN', 'LIGHTBROWN', 'DARK', 'DARKGREY', 'GREY', 'DARKSALMON',
                     'SALMON', 'PEACH', 'DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE', 'RED']
+    spec_skin_sprites = ['PINKGILLS', 'BLUEGILLS', 'REDGILLS', 'LIMEGILLS', 'YELLOWGILLS', 'WHITEGILLS', 'RAINBOWGILLS',
+                    'FUCHSIATONGUE', 'PASTELTONGUE', 'KOBITONGUE', 'FLAMINGOTONGUE', 'MAGENTATONGUE', 'PINKTONGUE']
+    skin = [skin_sprites, spec_skin_sprites]
 
     """Holds all appearence information for a cat. """
     def __init__(self,
@@ -515,6 +523,14 @@ class Pelt():
             if not chosen_white:
                 chosen_pelt = "Tortie"
 
+        # skin
+        choicelist = [choice([i.pelt.skin for i in parents])] + [choice(random.choices(Pelt.skin, weights=(45, 1), k=1)[0])]
+        self.skin = choice(
+            choicelist
+            )
+        print(choicelist)
+        print(self.skin)
+
         # SET THE PELT
         self.name = chosen_pelt
         self.colour = chosen_pelt_color
@@ -581,6 +597,11 @@ class Pelt():
         elif chosen_pelt == "Calico":
             if not chosen_white:
                 chosen_pelt = "Tortie"
+                
+        # skin chances
+        self.skin = choice(
+            random.choices(Pelt.skin, weights=(30, 1), k=1)[0]
+        )
 
         self.name = chosen_pelt
         self.colour = chosen_pelt_color
@@ -613,8 +634,6 @@ class Pelt():
             'sick_adult': 18
         }
         self.reverse = choice([True, False])
-        # skin chances
-        self.skin = choice(Pelt.skin_sprites)
                 
         if self.length != 'long':
             self.cat_sprites['adult'] = random.randint(6, 8)
