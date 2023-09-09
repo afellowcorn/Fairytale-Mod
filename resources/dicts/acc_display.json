@@ -310,79 +310,79 @@
     "singular": "indigo iterator robe"
   },
   "CRIMSONBELL": {
-    "default": "crimson Mark",
-    "plural": "crimson Marks",
-    "singular": "crimson Mark"
+    "default": "red mark",
+    "plural": "red marks",
+    "singular": "red mark"
   },
   "BLUEBELL": {
-    "default": "blue Mark",
-    "plural": "blue Marks",
-    "singular": "blue Mark"
+    "default": "blue mark",
+    "plural": "blue marks",
+    "singular": "blue mark"
   },
   "CYANBELL": {
-    "default": "cyan Mark",
-    "plural": "cyan Marks",
-    "singular": "cyan Mark"
+    "default": "cyan mark",
+    "plural": "cyan marks",
+    "singular": "cyan mark"
   },
   "YELLOWBELL": {
-    "default": "yellow Mark",
-    "plural": "yellow Marks",
-    "singular": "yellow Mark"
+    "default": "yellow mark",
+    "plural": "yellow marks",
+    "singular": "yellow mark"
   },
   "LIMEBELL": {
-    "default": "lime Mark",
-    "plural": "lime Marks",
-    "singular": "lime Mark"
+    "default": "lime mark",
+    "plural": "lime marks",
+    "singular": "lime mark"
   },
   "GREENBELL": {
-    "default": "green Mark",
-    "plural": "green Marks",
-    "singular": "green Mark"
+    "default": "green mark",
+    "plural": "green marks",
+    "singular": "green mark"
   },
   "REDBELL": {
-    "default": "red Mark",
-    "plural": "red Marks",
-    "singular": "red Mark"
+    "default": "red mark",
+    "plural": "red marks",
+    "singular": "red mark"
   },
   "RAINBOWBELL": {
-    "default": "rainbow Mark",
-    "plural": "rainbow Marks",
-    "singular": "rainbow Mark"
+    "default": "crimson mark",
+    "plural": "crimson marks",
+    "singular": "crimson mark"
   },
   "BLACKBELL": {
-    "default": "black Mark",
-    "plural": "black Marks",
-    "singular": "black Mark"
+    "default": "gray mark",
+    "plural": "gray marks",
+    "singular": "gray mark"
   },
   "SPIKESBELL": {
-    "default": "spiky Mark",
-    "plural": "spiky Marks",
-    "singular": "spikyMark"
+    "default": "black mark",
+    "plural": "black marks",
+    "singular": "black mark"
   },
   "WHITEBELL": {
-    "default": "white Mark",
-    "plural": "white Marks",
-    "singular": "white Mark"
+    "default": "white mark",
+    "plural": "white marks",
+    "singular": "white mark"
   },
   "PINKBELL": {
-    "default": "pink Mark",
-    "plural": "pink Marks",
-    "singular": "pink Mark"
+    "default": "pink mark",
+    "plural": "pink marks",
+    "singular": "pink mark"
   },
   "PURPLEBELL": {
-    "default": "purple Mark",
-    "plural": "purple Marks",
-    "singular": "purple Mark"
+    "default": "purple mark",
+    "plural": "purple marks",
+    "singular": "purple mark"
   },
   "MULTIBELL": {
-    "default": "lilac Mark",
-    "plural": "lilac Marks",
-    "singular": "lilac Mark"
+    "default": "lilac mark",
+    "plural": "lilac marks",
+    "singular": "lilac mark"
   },
   "INDIGOBELL": {
-    "default": "indigo Mark",
-    "plural": "indigo Marks",
-    "singular": "indigo Mark"
+    "default": "indigo mark",
+    "plural": "indigo marks",
+    "singular": "indigo mark"
   },
   "CRIMSONBOW": {
     "default": "crimson bow collar",

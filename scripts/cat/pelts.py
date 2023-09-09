@@ -26,8 +26,10 @@ class Pelt():
         'Singlestripe': 'singlestripe',
         'Gravel': 'gravel',
         'Collared': 'collared',
+        'SlimeMold': 'slimemold',
+        'Vulture': 'vulture',
         'Tortie': None,
-        'Calico': None,
+        'Calico': None
     }
     
     # ATTRIBUTES, including non-pelt related
@@ -94,7 +96,7 @@ class Pelt():
 
     tabbies = ["Tabby", "Mackerel", "Classic", "Sokoke", "Agouti"]
     spotted = ["Speckled", "Rosette", "Ticked"]
-    plain = ["SingleColour", "TwoColour", "Smoke", "Singlestripe", "Gravel", "Collared"]
+    plain = ["SingleColour", "TwoColour", "Smoke", "Singlestripe", "Gravel", "Collared", "SlimeMold", "Vulture"]
     exotic = ["Bengal", "Marbled"]
     torties = ["Tortie", "Calico"]
     pelt_categories = [tabbies, spotted, plain, exotic, torties]
@@ -944,34 +946,44 @@ class Pelt():
         if short:
             renamed_colors = {
                 "white": "pale",
-                "palegrey": "gray",
-                "darkgrey": "gray",
-                "grey": "gray",
-                "paleginger": "ginger",
-                "darkginger": "ginger",
-                "sienna": "ginger",
-                "lightbrown": "brown",
-                "lilac": "brown",
-                "golden-brown": "brown",
-                "darkbrown": "brown",
-                "chocolate": "brown",
-                "ghost": "black"
+                "palegrey": "blue",
+                "silver": "blue",
+                "grey": "purple",
+                "darkgrey": "purple",
+                "ghost": "dark",
+                "cream": "pale",
+                "paleginger": "yellow",
+                "golden": "orange",
+                "ginger": "red",
+                "darkginger": "pink",
+                "sienna": "pink",
+                "lightbrown": "pale",
+                "lilac": "green",
+                "brown": "green",
+                "golden-brown": "red",
+                "darkbrown": "pink",
+                "chocolate": "purple"
             }
         else:
             renamed_colors = {
                 "white": "pale",
-                "palegrey": "pale gray",
-                "grey": "gray",
-                "darkgrey": "dark gray",
-                "paleginger": "pale ginger",
-                "darkginger": "dark ginger",
-                "sienna": "dark ginger",
-                "lightbrown": "light brown",
-                "lilac": "light brown",
-                "golden-brown": "golden brown",
-                "darkbrown": "dark brown",
-                "chocolate": "dark brown",
-                "ghost": "black"
+                "palegrey": "light blue",
+                "silver": "blue",
+                "grey": "purple",
+                "darkgrey": "purple",
+                "ghost": "dark",
+                "cream": "pale",
+                "paleginger": "yellow",
+                "golden": "orange",
+                "ginger": "red",
+                "darkginger": "warm pink",
+                "sienna": "pink",
+                "lightbrown": "pale",
+                "lilac": "light green",
+                "brown": "green",
+                "golden-brown": "dark red",
+                "darkbrown": "pale pink",
+                "chocolate": "pale purple"
             }
 
         pattern_des = {

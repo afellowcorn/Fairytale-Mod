@@ -221,7 +221,8 @@ for x in [
     'mackerelcolours', 'classiccolours', 'sokokecolours', 'agouticolours', 'singlestripecolours', 
     'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 
     'medcatherbs', 'herbs2', 'lineartdf', 'lightingnew', 'fademask',
-    'fadestarclan', 'fadedarkforest', 'gilltongue', 'gravelcolours', 'collaredcolours'
+    'fadestarclan', 'fadedarkforest', 'gilltongue', 'gravelcolours', 'collaredcolours', 'slimemoldcolours',
+    'vulturecolours'
 
 ]:
     if 'lineart' in x and game.config['fun']['april_fools']:
@@ -385,7 +386,21 @@ for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 
     sprites.make_group('collaredcolours', (a, 1), f'collared{i}')
 for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
     sprites.make_group('collaredcolours', (a, 2), f'collared{i}')
-    
+# slimemold
+for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
+    sprites.make_group('slimemoldcolours', (a, 0), f'slimemold{i}')
+for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
+    sprites.make_group('slimemoldcolours', (a, 1), f'slimemold{i}')
+for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
+    sprites.make_group('slimemoldcolours', (a, 2), f'slimemold{i}')
+# vulture
+for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
+    sprites.make_group('vulturecolours', (a, 0), f'vulture{i}')
+for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
+    sprites.make_group('vulturecolours', (a, 1), f'vulture{i}')
+for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
+    sprites.make_group('vulturecolours', (a, 2), f'vulture{i}')      
+
 # new new torties
 for a, i in enumerate(['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'HALF', 'STREAK', 'MASK']):
     sprites.make_group('tortiepatchesmasks', (a, 0), f"tortiemask{i}")

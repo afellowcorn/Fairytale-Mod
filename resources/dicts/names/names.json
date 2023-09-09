@@ -12,35 +12,39 @@
     "Agressive", "Ambitious", "Ambivalent", "Ancient", "Ant","Aquapede", "Archaeologist", "Archer", "Archivist", "Artificer",
     "Artificial", "Artisan", "Artistic", "Assertive", "Athletic", "Avenged", "Aversive", "Avoider", "Awakened", "Awkward", "Batfly", "Bawn",
     "Beetle", "Big", "Bird-like", "Bitter", "Blank Slate", "Blind", "Bouncy", "Brave", "Brief", "Bright", "Broad", "Broken", "Brook", "Brother Long Legs",
-    "Brother", "Bud", "Bug", "Calm", "Caramel Lizard", "Centipede", "Centiwing", "Champion", "Cherrybomb", "Chieftain", "Clear", "Coalescipede", "Collector",
-    "Crafter", "Creature", "Curly", "Current", "Daddy Long Legs", "Daisy", "Dancing", "Dancer", "Dandelion Peach", "Dandelion",
-    "Dappled", "Dart", "Dawn", "Day", "Deer", "Defensive", "Dragon Slayer", "Dragonfly", "Dreamy", "Droplet", "Dropwig",
+    "Brother", "Bud", "Bug", "Calm", "Callous", "Callow", "Candid", "Capable", "Caramel Lizard", "Careful", "Cause", "Cautious", "Centipede", "Centiwing", "Certain",
+    "Challenger", "Champion", "Change", "Chaos", "Chaotic", "Charming", "Cheerful", "Chef", "Cherrybomb", "Chieftain",
+    "Clear", "Clever", "Climber", "Coalescipede", "Coherent", "Cold", "Collector", "Comforting", "Commanding", "Common", "Compassionate", "Competitive", "Complete", "Cook",
+    "Crafter", "Creative", "Creature", "Curly", "Current", "Daddy Long Legs", "Daisy", "Damaged", "Dancing", "Dancer", "Dandelion Peach", "Dandelion", "Dangerous",
+    "Dappled", "Dart", "Dawn", "Day", "Decisive", "Deer", "Defensive", "Definite", "Delicate", "Dragon Slayer", "Dragon Tamer", "Dragonfly", "Dreamy", "Droplet", "Dropwig",
     "Dusk", "Echo", "Eel", "Eggbug", "Elite", "Enemy", "Evening", "Faithul", "Fallen", "Falling", "Farsighted", "Father",
     "Feathery", "Fierce", "Finned", "Firefly", "Fish", "Flea", "Flecked", "Flickering", "Flight", "Flood", "Flower", "Flower",
-    "Fluffy", "Flutter", "Fly", "Flying", "Fog", "Foggy", "Fragmented", "Freckled", "Friend", "Friendly", "Fuzzy", "Gentle", "Gilled", "Glow Weed",
+    "Fluffy", "Flutter", "Fly", "Flying", "Fog", "Foggy", "Fragmented", "Fragment", "Freckled", "Friendly", "Friend", "Fuzzy", "Gentle", "Gilled", "Glow Weed",
     "Glow-Worm", "Gooieduck", "Gourmand", "Grappler", "Grappling Worm", "Grasshopper", "Grenade", "Grub", "Guardian", "Hail",
     "Half", "Haven", "Hazer", "Hazy", "Heart", "Heavy", "Hollow", "Holly", "Hope", "Howling", "Hunter", "Inspector",
     "Iterator's Friend", "Jagged", "Jellyfish", "Jetfish", "Jumper", "Karma Wielder", "King", "Kinked", "Lantern Mouse", "Lantern",
-    "Leafy", "Leaper", "Leech", "Leviathan", "Light", "Lightning", "Lilypuck", "Little", "Lizard Mauler", "Lizard Tamer",
+    "Leafy", "Leaper", "Leech", "Leviathan", "Light", "Lightning", "Lilypuck", "Little", "Lizard Mauler", "Lizard Tamer", "Lizard Trainer",
     "Lizard", "Long", "Lotus", "Loud", "Lucky", "Marsh", "Martyr", "Mask Collector", "Mauler", "Meadow", "Miros Bird Hunter", "Miros Bird", "Mist", "Mite", "Mole", "Monk",
     "Monster Kelp", "Moongazer", "Moon", "Moor", "Morning", "Mossy", "Moth", "Mother Long Legs", "Mother", "Mottled", "Mouse-like", "Mumbler",
     "Murky", "Mushroom", "Needle Wielder", "Needle", "Night", "Nimble", "Nomad", "Noodlefly", "Odd", "One", "Outlaw", "Overseer", "Patchy", "Peaceful",
     "Peach", "Peak", "Pearl Collector", "Perch", "Petal", "Pilgrim", "Pole Plant", "Pond", "Pool", "Pouncer", "Puddle",
-    "Quick", "Quiet", "Quill", "Quivering", "Ragged", "Rainy", "Rattling", "Red Swarmer", "Rift", "Ripple", "River", "Rivulet",
+    "Quick", "Quiet", "Quill", "Quivering", "Ragged", "Rainy", "Rash", "Rattling", "Red Swarmer", "Rift", "Ripple", "River", "Rivulet",
     "Roar", "Root", "Rot", "Rotting", "Rubble", "Runner", "Saint", "Salamander Tamer", "Sapling", "Saviour", "Scavenger", "Scholar", "Scorched",
     "Scratched", "Seed", "Seer", "Serpent", "Shard", "Sharp", "Shell", "Shimmer", "Shine", "Shining", "Shivering", "Short",
     "Shy", "Silent", "Silky", "Singer", "Skysoarer", "Sleek", "Sleepy", "Slimy", "Slumberer", "Small", "Snail", "Snapper",
     "Sneezy", "Snowy", "Soft", "Spark", "Spearmaster", "Speckled", "Spider-like", "Spike", "Spitter", "Spotted", "Sprout", "Squidcada",
-    "Stargazer", "Stem", "Stone", "Stowaway", "Stream", "Stumpy", "Sungazer", "Sungrazer", "Sun", "Sunny", "Survivor", "Swallower", "Swamp", "Sweet", "Swift", "Tadpole",
-    "Tall", "Tamer", "Tawny", "Tempest", "Thorny", "Thunder", "Tiny", "Tormentor", "Torn", "Traveler", "Trembling", "Trickster", "Tufted", "Untouched",
-    "Void Seeker", "Void", "Vulture", "Wanderer", "Wasp", "Wet", "Whimsy", "Whispering", "Whistler", "Wild", "Wind", "Winged", "Wishful",
+    "Stargazer", "Star Seeker", "Stem", "Stone", "Stowaway", "Stream", "Stumpy", "Sungazer", "Sungrazer", "Sun", "Sunny", "Survivor", "Swallower", "Swamp", "Sweet", "Swift", "Tadpole", "Tainted",
+    "Tall", "Tamer", "Tawny", "Tempest", "Thorny", "Thunder", "Tiny", "Tormentor", "Torn", "Trainer", "Traveler", "Trembling", "Trickster", "Trinket Collector", "Trinket", "Tufted",
+    "Understanding", "Undertaker", "Unfortunate", "Uniform", "Unique", "Unknown", "Untouched", "Unusual",
+    "Various", "Vast", "Vessel", "Vestige", "Vice", "Violent", "Virtue", "Voice", "Void Seeker", "Voidwalker", "Void", "Vulture Slayer", "Vulture",
+    "Wanderer", "Wasp", "Weak", "Weapon", "Wet", "Whimsy", "Whispering", "Whistler", "Wild", "Wind", "Winged", "Wise", "Wishful", "Withdrawn",
     "Worm", "Yeek", "Youthful"
   ],
 
   "colour_suffixes": {
     "WHITE": [
     "White", "White", "Pale", "Snow", "Cloud", "Cloudy", "Hail", "Frost", "Frozen", "Icy","Blizzard", "Flurry",
-    "Moon", "Light", "Bright", "Wisp", "Ghost", "Squidcada", "Pearl"
+    "Moon", "Light", "Bright", "Wisp", "Ghost", "Squidcada", "Pearl", "Hail"
     ],
     "PALEGREY": [
     "White", "Gray", "Silver", "Pale", "Light", "Cloud", "Cloudy", "Hail", "Frost", "Icy", "Mouse", "Bright", "Fog",
@@ -91,7 +95,7 @@
     ],
     "LIGHTBROWN": [
     "White", "Pale", "Pale", "Snow", "Cloud", "Cloudy", "Hail", "Frost", "Mouse", "Lantern Mouse", "Spore Puff",
-    "Squidcada", "Lilypuck", "Bright", "Mushroom"
+    "Squidcada", "Lilypuck", "Bright", "Mushroom", "Hail"
     ],
     "LILAC": [
     "Pale", "Green", "Green", "Mouse", "Lantern Mouse", "Spore Puff", "Lilypuck", "Bright", "Acidic", "Snail",
@@ -150,25 +154,25 @@
     "Adder", "Alder", "Ant", "Antler", "Apricot", "Arch", "Bay", "Beam", "Bee", "Beetle", "Berry", "Big", "Bird", "Bite", "Biter",
     "Bitter", "Bliss", "Blizzard", "Bloom", "Blossom", "Blotch", "Bluff", "Bog", "Borage", "Boulder", "Bounce", "Bracken", "Bramble",
     "Brave", "Breeze", "Briar", "Bright", "Brindle", "Bristle", "Broken", "Brook", "Brush", "Bubble", "Bud", "Bug", "Bumble", "Burrow",
-    "Bush", "Butterfly", "Buzzard", "Caterpillar", "Cave", "Chaser", "Cherry", "Chestnut", "Chirp", "Claw", "Clay", "Clear", "Cliff",
+    "Bush", "Butterfly", "Buzzard", "Caterpillar", "Cave", "Chaser", "Centipede", "Cherry", "Chestnut", "Chirp", "Claw", "Clay", "Clear", "Cliff",
     "Clover", "Cone", "Creek", "Crest", "Crested", "Cricket", "Crooked", "Crouch", "Curl", "Curly", "Current", "Daisy", "Dapple",
     "Dappled", "Dart", "Dash", "Dawn", "Dazzle", "Dew", "Dream", "Drift", "Drizzle", "Droplet", "Dry", "Dusk", "Echo", "Faith", "Fallen",
     "Fawn", "Feather", "Fern", "Fidget", "Fierce", "Fin", "Fir", "Fish", "Flail", "Flash", "Fleck", "Flicker", "Flight", "Flint", "Flip", 
     "Flood", "Flower", "Fluff", "Fluffy", "Flutter", "Fly", "Fog", "Foggy", "Freckle", "Fringe", "Frog", "Fruit", "Fumble", "Furled",
     "Fuzz", "Fuzzy", "Gander", "Garlic", "Gentle", "Gill", "Glade", "Gorge", "Gorse", "Grass", "Gravel", "Gust", "Hail", "Half", "Hatch",
-    "Haven", "Hawk", "Hazel", "Hazy", "Heart", "Heath", "Heavy", "Hill", "Hollow", "Honey", "Hop", "Hope", "Hornet", "Howl", "Hush",
+    "Haven", "Hawk", "Hazel", "Hazer", "Hazy", "Heart", "Heath", "Heavy", "Hill", "Hollow", "Honey", "Hop", "Hope", "Hornet", "Howl", "Hush",
     "Iris", "Ivy", "Jagged", "Jumble", "Jump", "Lake", "Leaf", "Leap", "Lichen", "Light", "Lightning", "Lilac", "Little", "Lizard",
     "Long", "Lotus", "Loud", "Low", "Luck", "Mallow", "Mantis", "Maple", "Marigold", "Marsh", "Meadow", "Mite", "Mole", "Moon", 
     "Moor", "Morning", "Moss", "Mossy", "Moth", "Mottle", "Mottled", "Mouse", "Mumble", "Murk", "Myrtle", "Nectar", "Needle", 
     "Nettle", "Newt", "Nimble", "Nut", "Odd", "One", "Patch", "Peak", "Perch", "Petal", "Pike", "Pond", "Pool", "Pop", "Pounce", "Prance",
     "Prickle", "Puddle", "Quick", "Quiet", "Quill", "Quiver", "Ragged", "Rain", "Rainbow", "Rattle","Reed", "Ridge", "Rift", "Rindle",
-    "Ripple", "River", "Roar", "Rook", "Root", "Rose", "Rosy", "Rubble", "Runnel", "Running", "Rush", "Sable", "Sapling", "Scorch",
+    "Ripple", "River", "Roar", "Rook", "Root", "Rose", "Rosy", "Rubble", "Ruffian", "Ruffles", "Runnel", "Running", "Rush", "Sable", "Sapling", "Scorch",
     "Scratch", "Seed", "Serpent", "Shard", "Sharp", "Shell", "Shimmer", "Shine", "Shining", "Shivering", "Short","Shrub", "Shy", "Silent",
     "Silk", "Silt", "Skip", "Sky", "Slate", "Sleek", "Sleepy", "Sleet", "Slight", "Slip", "Slope", "Slumber", "Small", "Snail", "Snap", 
     "Sneeze", "Snip", "Snowy", "Soft", "Song", "Spark", "Speckle", "Spider", "Spike", "Splash", "Splinter", "Spore", "Spot", "Spotted",
     "Spring", "Sprout", "Spruce", "Stem", "Streak", "Stream", "Strike", "Stumpy", "Sunny", "Swamp", "Swarm", "Sweet", "Swift", "Tadpole",
     "Tall", "Talon", "Tangle", "Tawny", "Tempest", "Thistle", "Thorn", "Thrift", "Thunder", "Timber", "Tiny", "Toad", "Torn", "Tremble",
-    "Trickle", "Tuft", "Tulip", "Tumble", "Turtle", "Valley", "Vine", "Wasp", "Web", "Weed", "Whimsy", "Whirl", "Whisker", "Whisper",
+    "Trickle", "Trickster", "Tuft", "Tulip", "Tumble", "Turtle", "Valley", "Vine", "Wasp", "Web", "Weed", "Whimsy", "Whirl", "Whisker", "Whisper",
     "Whispering", "Whistle", "Whorl", "Wild", "Willow", "Wind", "Wing", "Wish", "Wood", "Worm", "Yarrow", "Yew", "Zinnia"
   ],
 
@@ -186,7 +190,7 @@
     "Bleak", "Stone", "Pebble", "Scale", "Glint", "Pale", "Snail"
     ],
     "GREY": [
-    "Violet", "Violet", "Purple", "Purple", "Blue", "Shade", "Mouse", "Lantern Mouse", "Smoke", "Smoky", "Shadow",
+    "Violet", "Violet", "Purple", "Purple", "Blue", "Shade", "Mouse", "Smoke", "Smoky", "Shadow",
     "Bleak", "Storm"
     ],
     "DARKGREY": [
@@ -194,15 +198,15 @@
     "Shadow", "Bleak", "Storm", "Wisp", "Berry"
     ],
     "GHOST": [
-    "Violet", "Black", "Shade", "Shade", "Dark", "Charred", "Night", "Shadow", "Scorch", "Bleak", "Storm",
-    "Faded", "Ghost", "Wisp", "Jetfish", "Vulture"
+    "Violet", "Black", "Shade", "Shade", "Dark", "Night", "Shadow", "Scorch", "Bleak", "Storm",
+    "Ghost", "Wisp", "Jetfish", "Vulture"
     ],
     "BLACK": [
     "Black", "Black", "Black", "Shade", "Shade", "Dark", "Night", "Shadow", "Scorch", "Midnight", "Batfly",
-    "Burnt","Charred", "Night", "Evening", "Dark", "Ghost", "Void", "Ash"
+    "Night", "Evening", "Dark", "Ghost", "Void", "Ash"
     ],
     "CREAM": [
-    "White", "White", "Sand", "Sandy", "Yellow", "Pale", "Cream", "Cream", "Light", "Pearl", "Day"
+    "White", "White", "Sand", "Sandy", "Yellow", "Pale", "Cream", "Cream", "Light", "Pearl", "Day", "Cloud"
     ],
     "PALEGINGER": [
     "Sand", "Sandy", "Yellow", "Yellow", "Yellow", "Sun", "Sunny", "Light", "Bright", "Warm", "Day",
@@ -217,35 +221,30 @@
     "Amber", "Flare", "Blaze", "Auburn", "Sunset", "Batnip"
     ],
     "DARKGINGER": [
-    "Red", "Pink", "Pink", "Peach", "Berry", "Light", "Bright", "Sky", "Strawberry",
-    "Snail"
+    "Red", "Pink", "Pink", "Peach", "Berry", "Light", "Bright", "Sky", "Strawberry", "Snail", "Rose"
     ],
     "SIENNA": [
-    "Pink", "Pink", "Pink", "Peach", "Berry", "Light", "Bright",
-    "Snail"
+    "Pink", "Pink", "Pink", "Peach", "Berry", "Light", "Bright", "Snail", "Rose"
     ],
     "LIGHTBROWN": [
-    "White", "Pale", "Pale", "Snow", "Cloud", "Cloudy", "Hail", "Frost", "Mouse",
-    "Lilypuck", "Bright", "Mushroom"
+    "White", "Pale", "Pale", "Snow", "Cloud", "Cloudy", "Hail", "Frost", "Mouse", "Lilypuck", "Bright",
+    "Mushroom"
     ],
     "LILAC": [
-    "Pale", "Green", "Green", "Mouse", "Lilypuck", "Bright", "Acid", "Snail",
-    "Hazer"
+    "Pale", "Green", "Green", "Mouse", "Lilypuck", "Bright", "Acid", "Snail", "Hazer"
     ],
     "BROWN": [
-    "Green", "Green", "Green", "Lilypuck", "Acid", "Vulture", "Snail",
-    "Hazer"
+    "Green", "Green", "Green", "Lilypuck", "Acid", "Vulture", "Snail", "Hazer"
     ],
     "GOLDEN-BROWN": [
-    "Red", "Red", "Dusk", "Sunset", "Dark", "Shade", "Dust", "Shadow", "Auburn",
-    "Grenade", "Cherrybomb", "Batnip", "Beehive"
+    "Red", "Red", "Dusk", "Sunset", "Dark", "Shade", "Dust", "Shadow", "Auburn", "Grenade", "Cherrybomb",
+    "Batnip", "Beehive", "Rose"
     ],
     "DARKBROWN": [
-    "Pale", "Pink", "Pink", "Strawberry","Lilypuck", "Mushroom", "Jellyfish",
-    "Salamander"
+    "Pale", "Pink", "Pink", "Strawberry","Lilypuck", "Mushroom", "Jellyfish", "Salamander"
     ],
     "CHOCOLATE": [
-    "Pale", "Purple", "Hazer", "Flashbang", "Lilypuck", "Wisp", "Ghost", "Salamander", "Rain"
+    "Pale", "Purple", "Hazer", "Flashbang", "Lilypuck", "Wisp", "Ghost", "Salamander", "Rain", "Cloud"
     ]
   },
 

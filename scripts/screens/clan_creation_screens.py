@@ -695,13 +695,7 @@ class MakeClanScreen(Screens):
         # SELECTED CAT INFO
         if selected is not None:
 
-            if self.sub_screen == 'choose leader':
-                self.elements['cat_name'].set_text(str(selected.name) +
-                                                   ' --> ' +
-                                                   selected.name.prefix +
-                                                   'star')
-            else:
-                self.elements['cat_name'].set_text(str(selected.name))
+            self.elements['cat_name'].set_text(str(selected.name))
             self.elements['cat_name'].show()
             self.elements['cat_info'].set_text(selected.gender + "\n" +
                                                str(selected.age + "\n" +

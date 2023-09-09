@@ -300,25 +300,24 @@ def create_new_cat(Cat,
         else:
             # grab starting names and accs for loners/kittypets
             if kittypet:
-                name = choice(names.names_dict["loner_names"])
+                name = choice(
+                    names.names_dict["normal_prefixes"])
                 if choice([1, 2]) == 1:
                     accessory = choice(Pelt.collars)
-            elif loner and choice([1, 2]) == 1:  # try to give name from full loner name list
-                name = choice(names.names_dict["loner_names"])
-            else:
-                name = choice(
-                    names.names_dict["normal_prefixes"])  # otherwise give name from prefix list (more nature-y names)
+            elif loner: #and choice([1, 2]) == 1:  # try to give name from full loner name list
+                if not getrandbits(17):
+                    name = "The"
+                    print("it is them: the 'The' slug.")
+                elif not getrandbits(14):
+                    name = "gloog"
+                    print("it is them: the gloog")
+                else:
+                    name = choice(
+                        names.names_dict["normal_prefixes"])  # otherwise give name from prefix list (more nature-y names)
 
             # now we make the cats
             if new_name:  # these cats get new names
                 if choice([1, 2]) == 1:  # adding suffix to OG name
-                    spaces = name.count(" ")
-                    if spaces > 0:
-                        # make a list of the words within the name, then add the OG name back in the list
-                        words = name.split(" ")
-                        words.append(name)
-                        new_prefix = choice(words)  # pick new prefix from that list
-                        name = new_prefix
                     new_cat = Cat(moons=age,
                                   prefix=name,
                                   status=status,

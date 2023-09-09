@@ -175,7 +175,9 @@ class Name():
     def __repr__(self):
         if self.status in ["newborn", "kitten", "apprentice", "mediator apprentice", "medicine cat apprentice"]:
             return self.prefix
-        else: 
+        elif (not self.suffix) or (self.suffix == ""):
+            return self.prefix
+        else:
             return "The " + self.suffix
 
 

@@ -33,10 +33,10 @@
         "Art is licensed under <a href=https://creativecommons.org/licenses/by-nc/4.0/legalcode>CC-BY-NC 4.0</a> "
     ],
     "mod_contrib": {
-        "Acorn (affellowcorn)": "Developer of the standalone release, binary release building, custom accessory code, revised name code, names",
-        "bucketofmackerels": "Tabby, Gravel and Collared pelts",
-        "Meltedcandles": "Gill sprites, old name code, names",
-        "potatcat": "Long tongue sprites, adaptation of basegame accessory sprites",
+        "Acorn (affellowcorn)": "Developer of the standalone release, accessory code, electric spear accessory, revised name code, names, mod contrib credits, miscellaneous code changes",
+        "bucketofmackerels": "Tabby, Gravel, Vulture, SlimeMold and Collared pelts",
+        "Meltedcandles": "Gill sprites, accessory events, old name code, names",
+        "potatcat": "Long Tongue sprites, adaptation of basegame accessory sprites",
         "raintailed": "Custom accessory display text",
         "Silvery": "Main Menu art, Rosette and Classic pelts",
         "Speckmaw": "Bengal pelt",

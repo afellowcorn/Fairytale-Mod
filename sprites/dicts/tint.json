@@ -11,15 +11,15 @@
     "CREAM": "warm",
     "PALEGINGER": "warm",
     "GOLDEN": "warm",
-    "GINGER": "warm",
+    "GINGER": "brown",
     "DARKGINGER": "warm",
-    "SIENNA": "brown",
-    "LIGHTBROWN": "brown",
-    "LILAC": "brown",
-    "BROWN": "brown",
+    "SIENNA": "warm",
+    "LIGHTBROWN": "cool",
+    "LILAC": "cool",
+    "BROWN": "monochrome",
     "GOLDEN-BROWN": "brown",
-    "DARKBROWN": "brown",
-    "CHOCOLATE": "brown"
+    "DARKBROWN": "warm",
+    "CHOCOLATE": "monochrome"
   },
   "possible_tints": {
     "basic": ["pink", "gray", "red", "orange", "none"],
