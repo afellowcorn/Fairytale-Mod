@@ -1473,11 +1473,29 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
         elif cat.species == "winged cat":
             if cat.pelt.name not in ['Tortie', 'Calico']:
                 new_sprite.blit(sprites.sprites[cat.pelt.get_sprites_name() + cat.pelt.colour + cat_sprite], (0, 0))
+
+                # Wing colour
+                if cat.pelt.wingcolour:
+                    wingpatch = sprites.sprites[
+                        cat.pelt.wingpattern + cat.pelt.wingcolour + cat_sprite].copy()
+                    wingpatch.blit(sprites.sprites["wngmask" + cat_sprite], (0, 0),
+                                    special_flags=pygame.BLEND_RGBA_MULT)
+
+                    new_sprite.blit(wingpatch, (0, 0))
             else:
                 # Base Coat
                 new_sprite.blit(
                     sprites.sprites[cat.pelt.tortiebase + cat.pelt.colour + cat_sprite],
                     (0, 0))
+
+                # Wing colour
+                if cat.pelt.wingcolour:
+                    wingpatch = sprites.sprites[
+                        cat.pelt.wingpattern + cat.pelt.wingcolour + cat_sprite].copy()
+                    wingpatch.blit(sprites.sprites["wngmask" + cat_sprite], (0, 0),
+                                    special_flags=pygame.BLEND_RGBA_MULT)
+
+                    new_sprite.blit(wingpatch, (0, 0))
 
                 # Create the patch image
                 if cat.pelt.tortiepattern == "Single_wng":

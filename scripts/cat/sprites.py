@@ -399,7 +399,7 @@ class Sprites():
         for a, i in enumerate(['ROBIN', 'BRINDLE', 'PAIGE', 'ROSETAIL', 'SAFI', 'DAPPLENIGHT', 'BLANKET']):
             self.make_group('extrawng', (a, 11), f"tortiemask_wng{i}")
         #wing mask
-        self.make_group('extrawng', (28, 12), 'wngmask')
+        self.make_group('extrawng', (27, 12), 'wngmask')
 
         # skins
         for a, i in enumerate(['BLACK', 'RED', 'PINK', 'DARKBROWN', 'BROWN', 'LIGHTBROWN', 'DARKMARBLED',
