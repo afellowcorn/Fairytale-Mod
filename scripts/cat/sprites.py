@@ -222,7 +222,7 @@ for x in [
     'shadersnewwhite', 'lineartdead', 'tortiepatchesmasks', 
     'medcatherbs', 'herbs2', 'lineartdf', 'lightingnew', 'fademask',
     'fadestarclan', 'fadedarkforest', 'gilltongue', 'gravelcolours', 'collaredcolours', 'slimemoldcolours',
-    'vulturecolours'
+    'vulturecolours', 'lizardcolours'
 
 ]:
     if 'lineart' in x and game.config['fun']['april_fools']:
@@ -399,7 +399,14 @@ for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST
 for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
     sprites.make_group('vulturecolours', (a, 1), f'vulture{i}')
 for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-    sprites.make_group('vulturecolours', (a, 2), f'vulture{i}')      
+    sprites.make_group('vulturecolours', (a, 2), f'vulture{i}')
+# lizard
+for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
+    sprites.make_group('lizardcolours', (a, 0), f'lizard{i}')
+for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
+    sprites.make_group('vulturecolours', (a, 1), f'lizard{i}')
+for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
+    sprites.make_group('lizardcolours', (a, 2), f'lizard{i}')      
 
 # new new torties
 for a, i in enumerate(['ONE', 'TWO', 'THREE', 'FOUR', 'REDTAIL', 'DELILAH', 'HALF', 'STREAK', 'MASK']):

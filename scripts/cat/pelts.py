@@ -28,6 +28,7 @@ class Pelt():
         'Collared': 'collared',
         'SlimeMold': 'slimemold',
         'Vulture': 'vulture',
+        'Lizard': 'lizard',
         'Tortie': None,
         'Calico': None
     }
@@ -95,7 +96,7 @@ class Pelt():
     ]
 
     tabbies = ["Tabby", "Mackerel", "Classic", "Sokoke", "Agouti"]
-    spotted = ["Speckled", "Rosette", "Ticked"]
+    spotted = ["Speckled", "Rosette", "Ticked", "Lizard"]
     plain = ["SingleColour", "TwoColour", "Smoke", "Singlestripe", "Gravel", "Collared", "SlimeMold", "Vulture"]
     exotic = ["Bengal", "Marbled"]
     torties = ["Tortie", "Calico"]
