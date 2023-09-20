@@ -33,14 +33,14 @@
         "Art is licensed under <a href=https://creativecommons.org/licenses/by-nc/4.0/legalcode>CC-BY-NC 4.0</a> "
     ],
     "mod_contrib": {
-        "Acorn (affellowcorn)": "Developer of the standalone release, accessory code, electric spear accessory, revised name code, names, mod contrib credits, miscellaneous code changes",
+        "Acorn (affellowcorn)": "Developer of the standalone release, accessory code, Electric Spear accessory, revised name code, names, mod contrib credits, miscellaneous code changes",
         "bucketofmackerels": "Tabby, Gravel, Vulture, SlimeMold and Collared pelts",
-        "Meltedcandles": "Gill sprites, accessory events, old name code, names",
+        "Meltedcandles": "Gill and Tail Speckles sprites, accessory events, old name code, names",
         "potatcat": "Long Tongue sprites, adaptation of basegame accessory sprites",
         "raintailed": "Custom accessory display text",
         "Silvery": "Main Menu art, Rosette and Classic pelts",
         "Speckmaw": "Bengal pelt",
-        "Winter": "Singlestripe pelt"
+        "Winter": "Singlestripe and Lizard pelts"
     },
     "contrib": {
         "anju": "-Senior Contributor-<br>Creating the Original Game- Old Base Code (Clan creation, Clan screen, Timeskip, Mates and kits, StarClan), Base Sprites & Pelts, Patrol Arts, New Sprite Revisions, Shaders",

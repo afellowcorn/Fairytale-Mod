@@ -430,7 +430,7 @@ for a, i in enumerate(['PINKGILLS', 'BLUEGILLS', 'REDGILLS', 'LIMEGILLS', 'YELLO
     sprites.make_group('gilltongue', (a, 0), f"skin{i}")
 for a, i in enumerate(['RAINBOWGILLS', 'FUCHSIATONGUE', 'PASTELTONGUE', 'KOBITONGUE', 'FLAMINGOTONGUE', 'MAGENTATONGUE']):
     sprites.make_group('gilltongue', (a, 1), f"skin{i}")
-for a, i in enumerate(['PINKTONGUE']):
+for a, i in enumerate(['PINKTONGUE', 'WHITESPOT', 'BLACKSPOT', 'BWSPOT', 'RAINBOWSPOT']):
     sprites.make_group('gilltongue', (a, 2), f"skin{i}")
 
 sprites.load_scars()

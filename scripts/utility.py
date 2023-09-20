@@ -305,10 +305,10 @@ def create_new_cat(Cat,
                 if choice([1, 2]) == 1:
                     accessory = choice(Pelt.collars)
             elif loner: #and choice([1, 2]) == 1:  # try to give name from full loner name list
-                if not getrandbits(17):
+                if not random.getrandbits(17):
                     name = "The"
                     print("it is them: the 'The' slug.")
-                elif not getrandbits(14):
+                elif not random.getrandbits(14):
                     name = "gloog"
                     print("it is them: the gloog")
                 else:
@@ -1359,7 +1359,8 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
             new_sprite.blit(sprites.sprites['lineartdead' + cat_sprite], (0, 0))
         # draw skin and scars2
         blendmode = pygame.BLEND_RGBA_MIN
-        new_sprite.blit(sprites.sprites['skin' + cat.pelt.skin + cat_sprite], (0, 0))
+        if cat.pelt.skin in Pelt.skin_sprites or Pelt.under_skin_sprites:
+            new_sprite.blit(sprites.sprites['skin' + cat.pelt.skin + cat_sprite], (0, 0))
         
         if not scars_hidden:
             for scar in cat.pelt.scars:
@@ -1374,6 +1375,9 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
                 new_sprite.blit(sprites.sprites['acc_wild' + cat.pelt.accessory + cat_sprite], (0, 0))
             elif cat.pelt.accessory in cat.pelt.collars:
                 new_sprite.blit(sprites.sprites['collars' + cat.pelt.accessory + cat_sprite], (0, 0))
+
+        if cat.pelt.skin in Pelt.over_skin_sprites:
+            new_sprite.blit(sprites.sprites['skin' + cat.pelt.skin + cat_sprite], (0, 0))
 
         # Apply fading fog
         if cat.pelt.opacity <= 97 and not cat.prevent_fading and game.settings["fading"] and dead:

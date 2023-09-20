@@ -80,7 +80,7 @@ class Pelt():
     wild_accessories = ["RED FEATHERS", "BLUE FEATHERS", "JAY FEATHERS", "MOTH WINGS", "CICADA WINGS",
                         "SPEAR", "PEARLS", "WATER GLOW WORM", "PEARL NECKLACE", "BEETLE", "BLUE BANDOLIER",
                         "RED BANDOLIER", "VULTURE MASK", "KING MASK", "ELITE MASK", "CENTIWING EARRING",
-                        "CENTIPEDE EARRING", "MOTH", "EXP SPEAR", "GREEN DRAGONFLY", "BLUE DRAGONFLY"
+                        "CENTIPEDE EARRING", "MOTH", "EXP SPEAR", "ELECT SPEAR", "GREEN DRAGONFLY", "BLUE DRAGONFLY"
                         ]
     tail_accessories = ["RED FEATHERS", "BLUE FEATHERS", "JAY FEATHERS"]
     collars = [
@@ -134,9 +134,10 @@ class Pelt():
         little_white, mid_white, high_white, mostly_white, point_markings, vit, 'FULLWHITE']
     skin_sprites = ['BLACK',  'PINK', 'DARKBROWN', 'BROWN', 'LIGHTBROWN', 'DARK', 'DARKGREY', 'GREY', 'DARKSALMON',
                     'SALMON', 'PEACH', 'DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE', 'RED']
-    spec_skin_sprites = ['PINKGILLS', 'BLUEGILLS', 'REDGILLS', 'LIMEGILLS', 'YELLOWGILLS', 'WHITEGILLS', 'RAINBOWGILLS',
-                    'FUCHSIATONGUE', 'PASTELTONGUE', 'KOBITONGUE', 'FLAMINGOTONGUE', 'MAGENTATONGUE', 'PINKTONGUE']
-    skin = [skin_sprites, spec_skin_sprites]
+    over_skin_sprites = ['FUCHSIATONGUE', 'PASTELTONGUE', 'KOBITONGUE', 'FLAMINGOTONGUE', 'MAGENTATONGUE', 'PINKTONGUE',]
+    under_skin_sprites = ['PINKGILLS', 'BLUEGILLS', 'REDGILLS', 'LIMEGILLS', 'YELLOWGILLS', 'WHITEGILLS', 'RAINBOWGILLS',
+                    'WHITESPOT', 'BLACKSPOT', 'BWSPOT', 'RAINBOWSPOT']
+    skin = [skin_sprites, over_skin_sprites, under_skin_sprites]
 
     """Holds all appearence information for a cat. """
     def __init__(self,
@@ -527,12 +528,10 @@ class Pelt():
                 chosen_pelt = "Tortie"
 
         # skin
-        choicelist = [choice([i.pelt.skin for i in parents])] + [choice(random.choices(Pelt.skin, weights=(45, 1), k=1)[0])]
+        choicelist = [choice([i.pelt.skin for i in parents])] + [choice(random.choices(Pelt.skin, weights=(45, 1, 1), k=1)[0])]
         self.skin = choice(
             choicelist
             )
-        print(choicelist)
-        print(self.skin)
 
         # SET THE PELT
         self.name = chosen_pelt
@@ -603,9 +602,10 @@ class Pelt():
                 
         # skin chances
         self.skin = choice(
-            random.choices(Pelt.skin, weights=(30, 1), k=1)[0]
+            random.choices(Pelt.skin, weights=(30, 1, 1), k=1)[0]
         )
-
+        if self.skin in ['BLACKSPOT', 'WHITESPOT', 'BWSPOT', 'RAINBOWSPOT']:
+            print("speckle")
         self.name = chosen_pelt
         self.colour = chosen_pelt_color
         self.length = chosen_pelt_length
