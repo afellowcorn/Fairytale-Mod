@@ -6,7 +6,7 @@ TODO: Docs
 
 """  # pylint: enable=line-too-long
 
-from random import choice, choices, randint, random, sample
+from random import choice, choices, randint, random, sample, getrandbits
 import re
 import pygame
 
@@ -305,15 +305,18 @@ def create_new_cat(Cat,
                 if choice([1, 2]) == 1:
                     accessory = choice(Pelt.collars)
             elif loner: #and choice([1, 2]) == 1:  # try to give name from full loner name list
-                if not random.getrandbits(17):
+                if not getrandbits(17):
                     name = "The"
                     print("it is them: the 'The' slug.")
-                elif not random.getrandbits(14):
+                elif not getrandbits(14):
                     name = "gloog"
                     print("it is them: the gloog")
                 else:
                     name = choice(
                         names.names_dict["normal_prefixes"])  # otherwise give name from prefix list (more nature-y names)
+            else:
+                name = choice(
+                        names.names_dict["normal_prefixes"])
 
             # now we make the cats
             if new_name:  # these cats get new names
@@ -419,15 +422,14 @@ def create_outside_cat(Cat, status, backstory, alive=True, thought=None):
     elif backstory in BACKSTORIES["backstory_categories"]["former_clancat_backstories"]:
         status = "former Clancat"
     if status == 'kittypet':
-        name = choice(names.names_dict["loner_names"])
+        name = choice(names.names_dict["normal_prefixes"])
     elif status in ['loner', 'rogue']:
-        name = choice(names.names_dict["loner_names"] +
-                      names.names_dict["normal_prefixes"])
+        name = choice(names.names_dict["normal_prefixes"])
     elif status == 'former Clancat':
         name = choice(names.names_dict["normal_prefixes"])
         suffix = choice(names.names_dict["normal_suffixes"])
     else:
-        name = choice(names.names_dict["loner_names"])
+        name = choice(names.names_dict["normal_prefixes"])
     new_cat = Cat(prefix=name,
                   suffix=suffix,
                   status=status,
