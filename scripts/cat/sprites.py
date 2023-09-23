@@ -404,7 +404,7 @@ for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROW
 for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
     sprites.make_group('lizardcolours', (a, 0), f'lizard{i}')
 for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-    sprites.make_group('vulturecolours', (a, 1), f'lizard{i}')
+    sprites.make_group('lizardcolours', (a, 1), f'lizard{i}')
 for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
     sprites.make_group('lizardcolours', (a, 2), f'lizard{i}')      
 
