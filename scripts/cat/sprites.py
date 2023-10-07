@@ -379,6 +379,21 @@ class Sprites():
             self.make_group('mainwng', (14+a, 7), f'smoke_wng{i}')
         for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
             self.make_group('mainwng', (14+a, 8), f'smoke_wng{i}')
+        # ticked
+        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
+            self.make_group('mainwng', (a, 3), f'ticked_wng{i}')
+        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
+            self.make_group('mainwng', (a, 4), f'ticked_wng{i}')
+        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
+            self.make_group('mainwng', (a, 5), f'ticked_wng{i}')
+        # agouti
+        for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
+            self.make_group('mainwng', (7+a, 3), f'agouti_wng{i}')
+        for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
+            self.make_group('mainwng', (6+a, 4), f'agouti_wng{i}')
+        for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
+            self.make_group('mainwng', (6+a, 5), f'agouti_wng{i}')
+
 
         #pigeon
         for a, i in enumerate(['SILVER', 'OPAL', 'GREY', 'DARKGREY', 'LIGHTBLUE', 'BLUE', 'DARKBLUE']):

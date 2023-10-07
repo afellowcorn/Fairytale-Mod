@@ -26,6 +26,8 @@ class Pelt():
         'SingleColour_wng': 'single_wng',
         'Singlestripe_wng': 'singlestripe_wng',
         'Smoke_wng': 'smoke_wng',
+        'Ticked_wng': 'ticked_wng',
+        'Agouti_wng': 'agouti_wng',
         'Pigeonbar': 'pigeonbar',
         'Pigeoncheck': 'pigeoncheck',
         'Pigeonspread': 'pigeonspread',
@@ -155,7 +157,7 @@ class Pelt():
 
     tortiebases_wng = ['single_wng', 'smoke_wng', 'pigeonbar', 'pigeoncheck', 'pigeonspread']
 
-    plain_wng = ["SingleColour_wng", "Singlestripe_wng", "Smoke_wng"]
+    plain_wng = ["SingleColour_wng", "Singlestripe_wng", "Smoke_wng", "Ticked_wng", "Agouti_wng"]
     bird = ["Pigeonbar", "Pigeoncheck", "Pigeonspread", "Pigeonfancy"]
     pelt_categories_wng = [plain_wng, bird]
 
