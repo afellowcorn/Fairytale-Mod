@@ -369,9 +369,9 @@ class Sprites():
         for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
             self.make_group('mainwng', (14+a, 3), f'singlestripe_wng{i}')
         for a, i in enumerate(['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']):
-            self.make_group('mainwng', (14+a, 4), f'singlestripe_wng{i}')
+            self.make_group('mainwng', (13+a, 4), f'singlestripe_wng{i}')
         for a, i in enumerate(['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']):
-            self.make_group('mainwng', (14+a, 5), f'singlestripe_wng{i}')
+            self.make_group('mainwng', (13+a, 5), f'singlestripe_wng{i}')
         # smoke
         for a, i in enumerate(['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK']):
             self.make_group('mainwng', (14+a, 6), f'smoke_wng{i}')
