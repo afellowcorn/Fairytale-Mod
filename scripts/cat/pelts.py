@@ -192,6 +192,8 @@ class Pelt():
                  tortiecolour:str=None,
                  pattern:str=None,
                  tortiepattern:str=None,
+                 wingpattern:str=None,
+                 wingcolour:str=None,
                  vitiligo:str=None,
                  points:str=None,
                  accessory:str=None,
@@ -217,6 +219,8 @@ class Pelt():
         self.pattern = pattern
         self.tortiepattern = tortiepattern
         self.tortiecolour = tortiecolour
+        self.wingpattern = wingpattern
+        self.wingcolour = wingcolour
         self.vitiligo = vitiligo
         self.length=length
         self.points = points
@@ -259,6 +263,7 @@ class Pelt():
         new_pelt.init_eyes(parents)
         new_pelt.init_pattern(species)
         new_pelt.valid_calico(species)
+        new_pelt.init_wngcolour(species)
         new_pelt.init_tint()
         
         return new_pelt
@@ -1155,6 +1160,63 @@ class Pelt():
             self.tortiepattern = None
             self.tortiecolour = None
             self.pattern = None
+
+    def init_wngcolour(self, species):
+        if not species == "winged cat":
+            self.wingpattern = None
+            self.wingcolour = None
+        else:
+            num = 100
+            if self.name in ["Tortie", "Calico"]:
+                num -= 50
+            if (not self.name in self.bird) or (not self.tortiebase in self.bird):
+                num -= 30
+
+            if num < 0:
+                num = 1
+
+            if not random.randint(0, num):
+                if self.name not in ["Tortie", "Calico"]:
+                    if not random.getrandbits(2):
+                        chosen_pattern = choice(
+                                random.choices(Pelt.pelt_categories_wng, weights=(35, 10), k=1)[0]
+                            )
+                    else:
+                        chosen_pattern = self.name
+
+                    possible_colours = (game.valid["wng"][chosen_pattern]).copy()
+                    if self.colour in possible_colours:
+                        possible_colours.remove(self.colour)
+                    chosen_colour = choice(possible_colours)
+
+                    if chosen_pattern == "SingleColour_wng":
+                        chosen_pattern = 'single_wng'
+
+                    self.wingpattern = chosen_pattern.lower()
+                    self.wingcolour = chosen_colour
+                    print(self.wingpattern + " " + self.wingcolour)
+                else:
+                    if not random.getrandbits(1):
+                        chosen_pattern = self.tortiepattern
+                    else:
+                        chosen_pattern = self.tortiebase
+
+                    possible_colours = (game.valid["wng"][chosen_pattern.capitalize()]).copy()
+
+                    if not random.getrandbits(5):
+                        if self.colour in possible_colours:
+                            possible_colours.remove(self.colour)
+                        if self.tortiecolour in possible_colours:
+                            possible_colours.remove(self.tortiecolour)
+                    else: 
+                        if self.colour in possible_colours:
+                            possible_colours.remove(self.colour)
+
+                    chosen_colour = choice(possible_colours)
+
+                    self.wingpattern = chosen_pattern
+                    self.wingcolour = chosen_colour
+                    print("tortie:"+" "+self.wingpattern + " " + self.wingcolour)
 
     def white_patches_inheritance(self, parents: tuple):
 
