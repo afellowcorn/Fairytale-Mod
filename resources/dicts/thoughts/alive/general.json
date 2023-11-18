@@ -57,10 +57,6 @@
             "Woke up on the wrong side of the nest",
             "Can't wait to take a nap later",
             "Is batting at {PRONOUN/m_c/poss} tail",
-            "Wants to visit the elders to hear a story",
-            "Daydreams about being a warrior in LionClan",
-            "Daydreams about being a warrior in TigerClan",
-            "Daydreams about being a warrior in LeopardClan",
             "Saw a yappy little dog today",
             "Got startled by a squirrel",
             "Spends time watching fish in the nearby river",
@@ -124,7 +120,8 @@
             "Is wondering if {PRONOUN/m_c/poss} molt is coming soon",
             "Hasn't been taking care of {PRONOUN/m_c/poss} feathers recently",
             "Is stretching out {PRONOUN/m_c/poss} wings",
-            "Is aligning {PRONOUN/m_c/poss} flight feathers"
+            "Is aligning {PRONOUN/m_c/poss} flight feathers",
+            "Is lining {PRONOUN/m_c/poss} nest with molted feathers"
         ],
         "main_status_constraint": [
             "apprentice",
@@ -144,7 +141,10 @@
     {
         "id": "gen_wurm",
         "thoughts": [
-            "Is wondering if {PRONOUN/m_c/poss} molt is coming soon"
+            "Is wondering if {PRONOUN/m_c/poss} molt is coming soon",
+            "Is scratching {PRONOUN/m_c/poss} side against a rock",
+            "Is basking in the sunlight",
+            "Is curled up in a ball"
         ],
         "main_status_constraint": [
             "apprentice",
