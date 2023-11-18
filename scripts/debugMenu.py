@@ -9,6 +9,7 @@ from ast import literal_eval
 
 import builtins
 
+from typing import List
 from scripts.game_structure.game_essentials import MANAGER, game
 
 from scripts.utility import get_text_box_theme
@@ -29,7 +30,7 @@ class debugConsole(pygame_gui.windows.UIConsoleWindow):
 
     def process_event(self, event):
         if event.type == pygame_gui.UI_CONSOLE_COMMAND_ENTERED:
-            command: list[str] = event.command.split(" ")
+            command: List[str] = event.command.split(" ")
             args = command[1:]
             command = command[0]
 
@@ -56,7 +57,18 @@ class debugConsole(pygame_gui.windows.UIConsoleWindow):
                                 else:
                                     curArgGroup += " " + arg
                         args = _args
-                    cmd.callback(args)
+                    if len(args) > 0:
+                        for subcommand in cmd.subCommands:
+                            if args[0] in subcommand._aliases:  # pylint: disable=protected-access
+                                args = args[1:]
+                                cmd = subcommand
+                                break
+                    try:
+                        cmd.callback(args)
+                    except Exception as e:
+                        self.add_output_line_to_log(
+                            f"Error while executing command {command}: {e}")
+                        raise e
                     break
             if not commandFound:
                 self.add_output_line_to_log(f"Command {command} not found")

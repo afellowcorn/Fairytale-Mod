@@ -253,7 +253,7 @@ class History:
                 SkillPath.DREAM: [ "understanding dreams" ],
                 SkillPath.CLAIRVOYANT: [ "predicting the future" ],
                 SkillPath.PROPHET: [ "understanding prophecies" ],
-                SkillPath.GHOST: [ "connecting to the afterlife" ],
+                SkillPath.GHOST: [ "connecting to the afterlife" ]
             }
         
         for _ment in cat.history.mentor_influence["skill"]:
@@ -337,7 +337,7 @@ class History:
             # Will probably sound weird, but it's better than nothing
             if not death_text:
                 if cat.status == 'leader':
-                    death_text = f"died from an injury of illness ({condition})"
+                    death_text = f"died from an injury or illness ({condition})"
                 else:
                     death_text = f"m_c died from an injury or illness ({condition})."
             if not scar_text:
@@ -346,7 +346,7 @@ class History:
             cat.history.possible_history[condition] = {
                 "death_text": death_text,
                 "scar_text": scar_text,
-                "other_cat": other_cat.ID if other_cat is not None else None
+                "other_cat": other_cat.ID if other_cat else None
             }
 
 
@@ -655,12 +655,12 @@ class History:
                 murder_history = murder_history["is_murderer"][murder_index]
                 murder_history["revealed"] = True
                 murder_history["revealed_by"] = other_cat.ID
-                murder_history["revelation_text"] = "The truth of {PRONOUN/m_c/subject} crime against [victim] was discovered by [discoverer]."
+                murder_history["revelation_text"] = "The truth of {PRONOUN/m_c/poss} crime against [victim] was discovered by [discoverer]."
 
                 victim_history = victim_history["is_victim"][0]
                 victim_history["revealed"] = True
                 victim_history["revealed_by"] = other_cat.ID
-                victim_history["revelation_text"] = "The truth of {PRONOUN/m_c/subject} murder was discovered by [discoverer]."
+                victim_history["revelation_text"] = "The truth of {PRONOUN/m_c/poss} murder was discovered by [discoverer]."
 
                 murder_history["revelation_text"] = murder_history["revelation_text"].replace('[victim]', str(victim.name))
                 murder_history["revelation_text"] = murder_history["revelation_text"].replace('[discoverer]', str(other_cat.name))

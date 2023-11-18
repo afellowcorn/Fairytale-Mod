@@ -3,6 +3,7 @@ from random import choice, randint, sample, random, choices, getrandbits, randra
 from typing import Dict, List, Any
 import os.path
 import itertools
+import sys
 
 from .history import History
 from .skills import CatSkills
@@ -211,10 +212,14 @@ class Cat():
         self.permanent_condition = {}
         self.df = False
         self.experience_level = None
-        self.no_kits = False
         
+        # Various behavior toggles
+        self.no_kits = False
+        self.no_mates = False
+        self.no_retire = False
         self.prevent_fading = False  # Prevents a cat from fading.
-        self.faded_offspring = []  # Stores of a list of faded offspring, for family page purposes.
+        
+        self.faded_offspring = []  # Stores of a list of faded offspring, for relation tracking purposes
 
         self.faded = faded  # This is only used to flag cat that are faded, but won't be added to the faded list until
         # the next save.
@@ -379,6 +384,15 @@ class Cat():
 
     def __repr__(self):
         return "CAT OBJECT:" + self.ID
+    
+    def __eq__(self, other):
+        if not isinstance(other, Cat):
+            return False
+        
+        return self.ID == other.ID
+    
+    def __hash__(self):
+        return hash(self.ID)
 
     @property
     def mentor(self):
@@ -404,12 +418,14 @@ class Cat():
         body - defaults to True, use this to mark if the body was recovered so
         that grief messages will align with body status
 
-        died_by_condition - defaults to False, use this to mark if the cat is dying via a condition.
-
         May return some additional text to add to the death event.
         """
-        self.injuries.clear()
-        self.illnesses.clear()
+        if self.status == 'leader' and 'pregnant' in self.injuries and game.clan.leader_lives > 0:
+            self.illnesses.clear()
+            self.injuries = { key : value for (key, value) in self.injuries.items() if key == 'pregnant'}
+        else:
+            self.injuries.clear()
+            self.illnesses.clear()
         
         # Deal with leader death
         text = ""
@@ -577,10 +593,10 @@ class Cat():
             
                 grief_type = "minor"
                 
-                # These minor grief message will be applied as throughts. 
+                # These minor grief message will be applied as thoughts. 
                 minor_grief_messages = (
                             "Told a fond story at r_c's vigil",
-                            "Bargins with StarClan, begging them to send r_c back",
+                            "Bargains with StarClan, begging them to send r_c back",
                             "Sat all night at r_c's vigil",
                             "Will never forget r_c",
                             "Prays that r_c is safe in StarClan",
@@ -1339,8 +1355,8 @@ class Cat():
     def relationship_interaction(self):
         """Randomly choose a cat of the Clan and have a interaction with them."""
         # if the cat has no relationships, skip
-        if not self.relationships or len(self.relationships) < 1:
-            return
+        #if not self.relationships or len(self.relationships) < 1:
+        #    return
 
         cats_to_choose = [iter_cat for iter_cat in Cat.all_cats.values() if iter_cat.ID != self.ID and \
                           not iter_cat.outside and not iter_cat.exiled and not iter_cat.dead]
@@ -2032,17 +2048,31 @@ class Cat():
     def is_potential_mate(self,
                           other_cat: Cat,
                           for_love_interest: bool = False,
-                          age_restriction: bool = True):
+                          age_restriction: bool = True,
+                          first_cousin_mates:bool = False,
+                          ignore_no_mates:bool=False):
         """
             Checks if this cat is potential mate for the other cat.
             There are no restrictions if the current cat already has a mate or not (this allows poly-mates).
         """
+        
+        try:
+            first_cousin_mates = game.clan.clan_settings["first cousin mates"]
+        except:
+            if 'unittest' not in sys.modules:
+                raise
+                
+        
         # just to be sure, check if it is not the same cat
         if self.ID == other_cat.ID:
             return False
+        
+        #No Mates Check
+        if not ignore_no_mates and (self.no_mates or other_cat.no_mates):
+            return False
 
         # Inheritance check
-        if self.is_related(other_cat, game.settings["first cousin mates"]):
+        if self.is_related(other_cat, first_cousin_mates):
             return False
 
         # check exiled, outside, and dead cats
@@ -2056,8 +2086,10 @@ class Cat():
 
             # the +1 is necessary because both might not already aged up
             # if only one is aged up at this point, later they are more moons apart than the setting defined
-            if self.age != other_cat.age and abs(self.moons - other_cat.moons) > game.config["mates"]["age_range"] + 1:
-                return False
+            # game_config boolian "override_same_age_group" disables the same-age group check.
+            if game.config["mates"].get("override_same_age_group", False) or self.age != other_cat.age:
+                if abs(self.moons - other_cat.moons)> game.config["mates"]["age_range"] + 1:
+                    return False
 
         age_restricted_ages = ["newborn", "kitten", "adolescent"]
         if self.age in age_restricted_ages or other_cat.age in age_restricted_ages:
@@ -2065,8 +2097,14 @@ class Cat():
                 return False
 
         # check for mentor
-        is_former_mentor = (other_cat.ID in self.former_apprentices or self.ID in other_cat.former_apprentices or other_cat.ID in self.apprentice or self.ID in other_cat.apprentice)
-        if is_former_mentor and not game.settings['romantic with former mentor']:
+        
+        # Current mentor
+        if other_cat.ID in self.apprentice or self.ID in other_cat.apprentice:
+            return False
+        
+        #Former mentor
+        is_former_mentor = (other_cat.ID in self.former_apprentices or self.ID in other_cat.former_apprentices)
+        if is_former_mentor and not game.clan.clan_settings['romantic with former mentor']:
             return False
 
         return True
@@ -2097,6 +2135,7 @@ class Cat():
                 self_relationship.trust -= 10
                 self_relationship.mate = False
                 if fight:
+                    self_relationship.romantic_love -= 20
                     self_relationship.platonic_like -= 30
 
             if not other_cat.dead:
@@ -2109,6 +2148,7 @@ class Cat():
                 other_relationship.trust -= 10
                 other_relationship.mate = False
                 if fight:
+                    self_relationship.romantic_love -= 20
                     other_relationship.platonic_like -= 30
 
         self.mate.remove(other_cat.ID)
@@ -2363,33 +2403,6 @@ class Cat():
         else:
             rel2 = cat2.create_one_relationship(cat1)
 
-        # Are they mates?
-        if rel1.cat_from.ID in rel1.cat_to.mate:
-            mates = True
-        else:
-            mates = False
-
-        # Relation Checking
-        direct_related = cat1.is_sibling(cat2) or cat1.is_parent(cat2) or cat2.is_parent(cat1)
-        indirect_related = cat1.is_uncle_aunt(cat2) or \
-                           cat2.is_uncle_aunt(cat1)
-        if not game.settings["first cousin mates"]:
-            indirect_related = indirect_related or cat1.is_cousin(cat2)
-        related = direct_related or indirect_related
-
-        # Check for both adults, or same age type:
-        if cat1.age == cat2.age or (cat1.age not in ['newborn', 'kitten', 'adolescent'] and
-                                    cat2.age not in ['newborn', 'kitten', 'adolescent']):
-            valid_age = True
-        else:
-            valid_age = False
-
-        # Small check to prevent huge age gaps. Will be bypassed if the cats are already mates.
-        if abs(cat1.moons - cat2.moons) > 85:
-            age_diff = False
-        else:
-            age_diff = True
-
         # Output string.
         output = ""
 
@@ -2457,14 +2470,15 @@ class Cat():
         if mediator.status == "mediator apprentice":
             mediator.experience += max(randint(1, 6), 1)
 
-        no_romantic_mentor = False
-        if not game.settings['romantic with former mentor']:
-            if cat2.ID in cat1.former_apprentices or cat1.ID in cat2.former_apprentices:
-                no_romantic_mentor = True
-
         # determine the traits to effect
+        # Are they mates?
+        if rel1.cat_from.ID in rel1.cat_to.mate:
+            mates = True
+        else:
+            mates = False
+        
         pos_traits = ["platonic", "respect", "comfortable", "trust"]
-        if allow_romantic and (mates or (valid_age and not related and age_diff and not no_romantic_mentor)):
+        if allow_romantic and (mates or cat1.is_potential_mate(cat2)):
             pos_traits.append("romantic")
 
         neg_traits = ["dislike", "jealousy"]
@@ -2514,13 +2528,13 @@ class Cat():
                                                              personality_bonus)
                     rel2.romantic_love = Cat.effect_relation(rel1.romantic_love, -(randint(ran[0], ran[1]) + bonus) +
                                                              personality_bonus)
-                    output += f"Romantic interest decreased. "
+                    output += "Romantic interest decreased. "
                 else:
                     rel1.romantic_love = Cat.effect_relation(rel1.romantic_love, (randint(ran[0], ran[1]) + bonus) +
                                                              personality_bonus)
                     rel2.romantic_love = Cat.effect_relation(rel2.romantic_love, (randint(ran[0], ran[1]) + bonus) +
                                                              personality_bonus)
-                    output += f"Romantic interest increased. "
+                    output += "Romantic interest increased. "
 
             elif trait == "platonic":
                 ran = (4, 6)
@@ -2530,13 +2544,13 @@ class Cat():
                                                              personality_bonus)
                     rel2.platonic_like = Cat.effect_relation(rel2.platonic_like, -(randint(ran[0], ran[1]) + bonus) +
                                                              personality_bonus)
-                    output += f"Platonic like decreased. "
+                    output += "Platonic like decreased. "
                 else:
                     rel1.platonic_like = Cat.effect_relation(rel1.platonic_like, (randint(ran[0], ran[1]) + bonus) +
                                                              personality_bonus)
                     rel2.platonic_like = Cat.effect_relation(rel2.platonic_like, (randint(ran[0], ran[1]) + bonus) +
                                                              personality_bonus)
-                    output += f"Platonic like increased. "
+                    output += "Platonic like increased. "
 
             elif trait == "respect":
                 ran = (4, 6)
@@ -2546,13 +2560,13 @@ class Cat():
                                                           personality_bonus)
                     rel2.admiration = Cat.effect_relation(rel2.admiration, -(randint(ran[0], ran[1]) + bonus) +
                                                           personality_bonus)
-                    output += f"Respect decreased. "
+                    output += "Respect decreased. "
                 else:
                     rel1.admiration = Cat.effect_relation(rel1.admiration, (randint(ran[0], ran[1]) + bonus) +
                                                           personality_bonus)
                     rel2.admiration = Cat.effect_relation(rel2.admiration, (randint(ran[0], ran[1]) + bonus) +
                                                           personality_bonus)
-                    output += f"Respect increased. "
+                    output += "Respect increased. "
 
             elif trait == "comfortable":
                 ran = (4, 6)
@@ -2562,13 +2576,13 @@ class Cat():
                                                            personality_bonus)
                     rel2.comfortable = Cat.effect_relation(rel2.comfortable, -(randint(ran[0], ran[1]) + bonus) +
                                                            personality_bonus)
-                    output += f"Comfort decreased. "
+                    output += "Comfort decreased. "
                 else:
                     rel1.comfortable = Cat.effect_relation(rel1.comfortable, (randint(ran[0], ran[1]) + bonus) +
                                                            personality_bonus)
                     rel2.comfortable = Cat.effect_relation(rel2.comfortable, (randint(ran[0], ran[1]) + bonus) +
                                                            personality_bonus)
-                    output += f"Comfort increased. "
+                    output += "Comfort increased. "
 
             elif trait == "trust":
                 ran = (4, 6)
@@ -2578,13 +2592,13 @@ class Cat():
                                                      personality_bonus)
                     rel2.trust = Cat.effect_relation(rel2.trust, -(randint(ran[0], ran[1]) + bonus) +
                                                      personality_bonus)
-                    output += f"Trust decreased. "
+                    output += "Trust decreased. "
                 else:
                     rel1.trust = Cat.effect_relation(rel1.trust, (randint(ran[0], ran[1]) + bonus) +
                                                      personality_bonus)
                     rel2.trust = Cat.effect_relation(rel2.trust, (randint(ran[0], ran[1]) + bonus) +
                                                      personality_bonus)
-                    output += f"Trust increased. "
+                    output += "Trust increased. "
 
             elif trait == "dislike":
                 ran = (4, 9)
@@ -2593,13 +2607,13 @@ class Cat():
                                                        personality_bonus)
                     rel2.dislike = Cat.effect_relation(rel2.dislike, (randint(ran[0], ran[1]) + bonus) -
                                                        personality_bonus)
-                    output += f"Dislike increased. "
+                    output += "Dislike increased. "
                 else:
                     rel1.dislike = Cat.effect_relation(rel1.dislike, -(randint(ran[0], ran[1]) + bonus) -
                                                        personality_bonus)
                     rel2.dislike = Cat.effect_relation(rel2.dislike, -(randint(ran[0], ran[1]) + bonus) -
                                                        personality_bonus)
-                    output += f"Dislike decreased. "
+                    output += "Dislike decreased. "
 
             elif trait == "jealousy":
                 ran = (4, 6)
@@ -2609,13 +2623,13 @@ class Cat():
                                                         personality_bonus)
                     rel2.jealousy = Cat.effect_relation(rel2.jealousy, (randint(ran[0], ran[1]) + bonus) -
                                                         personality_bonus)
-                    output += f"Jealousy increased. "
+                    output += "Jealousy increased. "
                 else:
                     rel1.jealousy = Cat.effect_relation(rel1.jealousy, -(randint(ran[0], ran[1]) + bonus) -
                                                         personality_bonus)
                     rel2.jealousy = Cat.effect_relation(rel2.jealousy, -(randint(ran[0], ran[1]) + bonus) -
                                                         personality_bonus)
-                    output += f"Jealousy decreased . "
+                    output += "Jealousy decreased . "
 
         return output
 
@@ -2871,6 +2885,8 @@ class Cat():
                 "dead": self.dead,
                 "paralyzed": self.pelt.paralyzed,
                 "no_kits": self.no_kits,
+                "no_retire": self.no_retire,
+                "no_mates": self.no_mates,
                 "exiled": self.exiled,
                 "pelt_name": self.pelt.name,
                 "pelt_color": self.pelt.colour,

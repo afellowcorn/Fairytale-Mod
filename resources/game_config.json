@@ -81,8 +81,9 @@
 	},
 	"mates":{
 		"age_range": 40,
+		"override_same_age_group": false,
 		"chance_fulfilled_condition": 5,
-		"chance_friends_to_lovers": 250,
+		"chance_friends_to_lovers": 170,
 		"confession": {
 			"make_confession" : {
 				"romantic": 30,
@@ -114,10 +115,10 @@
 		},
 		"platonic_to_romantic": {
 			"romantic": 0,
-			"platonic": 40,
+			"platonic": 30,
 			"dislike": -15,
 			"admiration": 0,
-			"comfortable": 25,
+			"comfortable": 20,
 			"jealousy": 0,
 			"trust": 0
 		},
@@ -319,6 +320,7 @@
 		"best_stat_modifier": 10,
 		"fail_stat_cat_modifier": -15,
 		"chance_of_romance_patrol": 16,
+		"debug_ensure_patrol_id": null,
 		"comment": [
 			"the Cruel Season difficulty modifier needs to have a space rather than an underscore,",
 			"due to how it's written in the save files. So don't try to 'fix' it."
@@ -376,7 +378,8 @@
 		"april_fools": false,
 		"all_cats_are_newborn": false,
 		"newborns_can_roam": false,
-		"newborns_can_patrol": false
+		"newborns_can_patrol": false,
+		"always_halloween": false
 	},
 	"theme": {
 		"dark_mode_background": [57, 50, 36],
