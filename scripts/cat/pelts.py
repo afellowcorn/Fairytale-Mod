@@ -185,6 +185,8 @@ class Pelt():
                  name:str="SingleColour",
                  length:str="short",
                  colour:str="WHITE",
+                 alt_name:str="SingleColour",
+                 alt_colour:str="WHITE",
                  white_patches:str=None,
                  eye_color:str="BLUE",
                  eye_colour2:str=None,
@@ -202,6 +204,7 @@ class Pelt():
                  scars:list=None,
                  tint:str="none",
                  skin:str="BLACK",
+                 antler:str=None,
                  white_patches_tint:str="none",
                  kitten_sprite:int=None,
                  adol_sprite:int=None,
@@ -212,6 +215,8 @@ class Pelt():
                  ) -> None:
         self.name = name
         self.colour = colour
+        self.alt_name = alt_name
+        self.alt_colour = alt_colour
         self.white_patches = white_patches
         self.eye_colour = eye_color
         self.eye_colour2 = eye_colour2
@@ -246,6 +251,7 @@ class Pelt():
         
         self.reverse = reverse
         self.skin = skin
+        self.antler = antler
 
     @staticmethod
     def generate_new_pelt(species:str, gender:str, parents:tuple=(), age:str="adult"):
@@ -1166,9 +1172,9 @@ class Pelt():
             self.wingpattern = None
             self.wingcolour = None
         else:
-            num = 100
+            num = 80
             if self.name in ["Tortie", "Calico"]:
-                num -= 50
+                num -= 40
             if (not self.name in self.bird) or (not self.tortiebase in self.bird):
                 num -= 30
 
@@ -1179,12 +1185,13 @@ class Pelt():
                 if self.name not in ["Tortie", "Calico"]:
                     if not random.getrandbits(2):
                         chosen_pattern = choice(
-                                random.choices(Pelt.pelt_categories_wng, weights=(35, 10), k=1)[0]
+                                random.choices(Pelt.pelt_categories_wng, weights=(15, 35, 10), k=1)[0]
                             )
                     else:
                         chosen_pattern = self.name
 
                     possible_colours = (game.valid["wng"][chosen_pattern]).copy()
+
                     if self.colour in possible_colours:
                         possible_colours.remove(self.colour)
                     chosen_colour = choice(possible_colours)

@@ -61,7 +61,7 @@ def json_load():
                         suffix=cat["name_suffix"],
                         specsuffix_hidden=(cat["specsuffix_hidden"] if 'specsuffix_hidden' in cat else False),
                         gender=cat["gender"],
-                        species=cat["species"],
+                        species=cat["species"] if "species" in cat else "regular cat",
                         status=cat["status"],
                         parent1=cat["parent1"],
                         parent2=cat["parent2"],
@@ -85,6 +85,8 @@ def json_load():
                 name=cat["pelt_name"],
                 length=cat["pelt_length"],
                 colour=cat["pelt_color"],
+                alt_name=["alt_pelt_name"] if "alt_pelt_name" in cat else None,
+                alt_colour=["alt_pelt_color"] if "alt_pelt_color" in cat else None,
                 eye_color=cat["eye_colour"],
                 eye_colour2=cat["eye_colour2"] if "eye_colour2" in cat else None,
                 paralyzed=cat["paralyzed"],
@@ -102,7 +104,10 @@ def json_load():
                 tortiecolour=cat["tortie_color"],
                 tortiepattern=cat["tortie_pattern"],
                 pattern=cat["pattern"],
+                wingpattern=cat["wing_pattern"] if "wing_pattern" in cat else None,
+                wingcolour=cat["wing_color"] if "wing_color" in cat else None,
                 skin=cat["skin"],
+                antler=cat["antler"] if "antler" in cat else None,
                 tint=cat["tint"] if "tint" in cat else "none",
                 scars=cat["scars"] if "scars" in cat else [],
                 accessory=cat["accessory"],
@@ -257,7 +262,7 @@ def csv_load(all_cats):
             # spec2(29) - moons(30) - mate(31)
             # dead(32) - SPRITE:dead(33) - exp(34) - dead for _ moons(35) - current apprentice(36)
             # (BOOLS, either TRUE OR FALSE) paralyzed(37) - no kits(38) - exiled(39)
-            # genderalign(40) - species(41) - former apprentices list (42)[FORMER APPS SHOULD ALWAYS BE MOVED TO THE END]
+            # genderalign(40) - species(41) - alt_name(42) - alt_colour(43) - wingpattern(44) - wingcolour(45) - antler(46) - former apprentices list (47)[FORMER APPS SHOULD ALWAYS BE MOVED TO THE END]
             if i.strip() != '':
                 attr = i.split(',')
                 for x in range(len(attr)):
@@ -388,8 +393,30 @@ def csv_load(all_cats):
                 game.switches[
                     'error_message'] = '16There was an error loading cat # ' + str(
                     attr[0])
-                if len(attr) > 42 and attr[42] is not None:  #KEEP THIS AT THE END
-                    the_cat.former_apprentices = attr[42].split(';')
+                if len(attr) > 42:
+                    the_cat.alt_name = attr[42]
+                game.switches[
+                    'error_message'] = '17There was an error loading cat # ' + str(
+                    attr[0])
+                if len(attr) > 43:
+                    the_cat.alt_colour = attr[43]
+                game.switches[
+                    'error_message'] = '18There was an error loading cat # ' + str(
+                    attr[0])
+                if len(attr) > 44:
+                    the_cat.wingpattern = attr[44]
+                game.switches[
+                    'error_message'] = '19There was an error loading cat # ' + str(
+                    attr[0])
+                if len(attr) > 45:
+                    the_cat.wingcolour = attr[45]
+                game.switches[
+                    'error_message'] = '20There was an error loading cat # ' + str(
+                    attr[0])
+                if len(attr) > 46:
+                    the_cat.antler = attr[46]
+                if len(attr) > 47 and attr[47] is not None:  #KEEP THIS AT THE END
+                    the_cat.former_apprentices = attr[47].split(';')
         game.switches[
             'error_message'] = 'There was an error loading this clan\'s mentors, apprentices, relationships, or sprite info.'
         for inter_cat in all_cats.values():
