@@ -145,6 +145,14 @@ class Thoughts():
         if 'random_backstory_constraint' in thought:
             if random_cat and random_cat.backstory not in thought['random_backstory_constraint']:
                 return False
+        # species constraint
+        if 'main_species_constraint' in thought:
+            if main_cat.species not in thought['main_species_constraint']:
+                return False
+
+        if 'random_species_constraint' in thought and random_cat:
+            if random_cat.species not in thought['random_species_constraint']:
+                return False        
 
         # Filter for the living status of the random cat. The living status of the main cat
         # is taken into account in the thought loading process.
@@ -262,8 +270,16 @@ class Thoughts():
     def load_thoughts(main_cat, other_cat, game_mode, biome, season, camp):
         base_path = f"resources/dicts/thoughts/"
         life_dir = None
+        species = main_cat.species
         status = main_cat.status
         loaded_thoughts = []
+
+        if species == "regular cat":
+            species = "regular_cat"
+        elif species == "feathered cat":
+            species = "feathered_cat"
+        elif species == "winged cat":
+            species = "winged_cat"
 
         if status == "medicine cat apprentice":
             status = "medicine_cat_apprentice"

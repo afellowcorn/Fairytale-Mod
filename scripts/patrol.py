@@ -55,9 +55,11 @@ class Patrol():
         self.patrol_win_stat_cat = None
         self.patrol_cats = []
         self.patrol_apprentices = []
+        self.possible_patrol_leaders = []
+        self.patrol_leader_name = None
+        self.patrol_species = []
         self.other_clan = None
         self.intro_text = ""
-
         self.patrol_skills = []
         self.patrol_hidden_skills = []
         self.patrol_statuses = []
@@ -137,8 +139,24 @@ class Patrol():
             Returns
             ----------
         """
+        self.patrol_cats.clear()
+        self.patrol_names.clear()
+        self.possible_patrol_leaders.clear()
+        self.patrol_species.clear()
+        self.patrol_skills.clear()
+        self.patrol_statuses.clear()
+        self.patrol_traits.clear()
+        self.patrol_apprentices.clear()
+        self.patrol_total_experience = 0
+        self.experience_levels.clear()
+        self.patrol_other_cats.clear()
+
         for cat in patrol_cats:
             self.patrol_cats.append(cat)
+            self.patrol_names.append(str(cat.name))
+            if cat.status != 'apprentice':
+                self.possible_patrol_leaders.append(cat)
+            self.patrol_species.append(cat.species)
             
             #Grab all the skills
             if cat.skills.primary:
@@ -149,7 +167,7 @@ class Patrol():
             
             if cat.skills.hidden:
                 self.patrol_hidden_skills.append(cat.skills.hidden.skill)
-            
+
             self.experience_levels.append(cat.experience_level)
             
             self.patrol_statuses.append(cat.status)

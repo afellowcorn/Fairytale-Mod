@@ -57,10 +57,6 @@
             "Woke up on the wrong side of the nest",
             "Can't wait to take a nap later",
             "Is batting at {PRONOUN/m_c/poss} tail",
-            "Wants to visit the elders to hear a story",
-            "Daydreams about being a warrior in LionClan",
-            "Daydreams about being a warrior in TigerClan",
-            "Daydreams about being a warrior in LeopardClan",
             "Saw a yappy little dog today",
             "Got startled by a squirrel",
             "Spends time watching fish in the nearby river",
@@ -115,6 +111,54 @@
             "clan_founder", "clanborn", "halfclan1", "halfclan2", "outsider_roots1", "outsider_roots2","loner1", "loner2", "rogue1", "rogue2", "rogue3", "abandoned1", "abandoned2", "abandoned3", "abandoned4",
             "otherclan1", "otherclan2", "otherclan3", "otherclan4","disgraced1", "disgraced2", "disgraced3", "retired_leader", "medicine_cat", "ostracized_warrior", "refugee1", "refugee2", "refugee4", "refugee5",
             "tragedy_survivor1", "tragedy_survivor2", "tragedy_survivor4","wandering_healer1", "wandering_healer2", "guided2", "guided3", "guided4", "orphaned1", "orphaned2", "orphaned3", "orphaned4", "orphaned5", "orphaned6"
+        ]
+    },
+    {
+        "id": "gen_wng",
+        "thoughts": [
+            "Is spending a considerable amount of time preening",
+            "Is wondering if {PRONOUN/m_c/poss} molt is coming soon",
+            "Hasn't been taking care of {PRONOUN/m_c/poss} feathers recently",
+            "Is stretching out {PRONOUN/m_c/poss} wings",
+            "Is aligning {PRONOUN/m_c/poss} flight feathers",
+            "Is lining {PRONOUN/m_c/poss} nest with molted feathers"
+        ],
+        "main_status_constraint": [
+            "apprentice",
+            "medicine cat apprentice",
+            "mediator apprentice",
+            "warrior",
+            "medicine cat",
+            "mediator",
+            "deputy",
+            "leader",
+            "elder"
+        ],
+        "main_species_constraint": [
+            "winged cat"
+        ]
+    },
+    {
+        "id": "gen_wurm",
+        "thoughts": [
+            "Is wondering if {PRONOUN/m_c/poss} molt is coming soon",
+            "Is scratching {PRONOUN/m_c/poss} side against a rock",
+            "Is basking in the sunlight",
+            "Is curled up in a ball"
+        ],
+        "main_status_constraint": [
+            "apprentice",
+            "medicine cat apprentice",
+            "mediator apprentice",
+            "warrior",
+            "medicine cat",
+            "mediator",
+            "deputy",
+            "leader",
+            "elder"
+        ],
+        "main_species_constraint": [
+            "tatzelwurm"
         ]
     },
     {
@@ -702,6 +746,25 @@
         ]
     },
     {
+        "id": "general_apprentices_wng_thoughts",
+        "thoughts": [
+            "Is wondering how good of a flyer {PRONOUN/m_c/subject} will be in the future",
+            "Is daydreaming about going on flights out of camp on {PRONOUN/m_c/poss} own",
+            "Is practicing {PRONOUN/m_c/poss} flight",
+            "Is grumpily preening {PRONOUN/m_c/poss} feathers",
+            "Recently fell into a bush while trying to make a quick turn in the air",
+            "Recently fell into mud while trying to make a quick turn in the air"
+        ],
+        "main_status_constraint": [
+            "apprentice",
+            "mediator apprentice",
+            "medicine cat apprentice"
+        ],
+        "main_species_constraint": [
+            "winged cat"
+        ]
+    },
+    {
         "id": "general_apprentices_to_mentor_thoughts",
         "thoughts": [
             "Is making {PRONOUN/m_c/poss} mentor laugh",
@@ -802,6 +865,26 @@
             "apprentice",
             "medicine cat apprentice",
             "mediator apprentice"
+        ],
+        "random_status_constraint": [
+            "kitten"
+        ],
+        "random_living_status": [
+            "living"
+        ]
+    },
+    {
+        "id": "apprentice_wng_alive_kits",
+        "thoughts": [
+            "Is showing off their flight skills to the kits"
+        ],
+        "main_status_constraint": [
+            "apprentice",
+            "medicine cat apprentice",
+            "mediator apprentice"
+        ],
+        "main_species_constraint": [
+            "winged cat"
         ],
         "random_status_constraint": [
             "kitten"
