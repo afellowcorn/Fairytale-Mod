@@ -1,6 +1,6 @@
 # Acorn's Fairytale Mod
 
-### [Discord Server Thread](https://discord.com/channels/1003759225522110524/1079478795490304100)
+### [Discord Server Thread](https://discord.com/channels/1003759225522110524/1098170400057339984)
 
 This mod aims to blend well with ClanGen's original style, and is a fantasy mod "taken seriously" with the subtle atmosphere of mystery and intrigue present in old stories about creatures that lurk in the wilds.
 

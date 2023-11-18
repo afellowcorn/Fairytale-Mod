@@ -147,8 +147,7 @@ if get_version_info().is_source_build:
 else:
     print("Running on PyInstaller build")
 
-print("Version Name: ", VERSION_NAME)
-print("Running on commit " + get_version_info().version_number)
+print("Clangen Version: ", VERSION_NAME)
 print("Fairytale Mod Version ", MOD_VERSION)
 
 # Load game

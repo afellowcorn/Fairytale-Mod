@@ -1,17 +1,1 @@
-<strong>v0.1.3-alpha</strong>
-- Ticked and Agouti pelts for winged cats
-- more work on winged cat white patches
-
-<strong>v0.1.2-alpha</strong>
-- shaders for winged cats and tatzelwurm
-- missing scars for winged cats and tatzelwurm
-
-<strong>v0.1.1-alpha</strong>
-- 9 new colours for garter and gartercheck
-- fix unknown parent causing None kits
-- fix two winged parents having None kits
-- fix misaligned wurm lineart
-- fix a winged singlecolour coloring mistake
-- fix tailscar error
-- adjust a few winged white patches
-- change exe name
+<strong>v0.2.0-alpha</strong>

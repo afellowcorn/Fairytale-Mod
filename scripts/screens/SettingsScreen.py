@@ -343,7 +343,7 @@ class SettingsScreen(Screens):
         self.checkboxes_text['info_text_box'].disable()
 
         i = 0
-        y_pos = 731
+        y_pos = 1410
         for tooltip in self.tooltip_text:
             if not tooltip:
                 self.tooltip[f'tip{i}'] = UIImageButton(

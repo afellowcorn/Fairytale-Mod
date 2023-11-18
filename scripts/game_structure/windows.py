@@ -904,7 +904,7 @@ class ChangelogPopup(UIWindow):
         )
 
         current_version_number = "{:.16}".format(
-            get_version_info().version_number)
+            get_version_info().mod_version)
 
         self.changelog_popup_subtitle = UITextBoxTweaked(
             f"Version {current_version_number}",

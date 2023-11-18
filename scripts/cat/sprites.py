@@ -360,7 +360,7 @@ class Sprites():
             self.make_group('extrawng', (14+a, 5), f'white_wng{i}')
         for a, i in enumerate(['BOOTS', 'MISS', 'COW', 'COWTWO', 'BUB', 'BOWTIE', 'MUSTACHE', 'REVERSEHEART',
             'SPARROW', 'VEST', 'LOVEBUG', 'TRIXIE', 'SAMMY', 'SPARKLE']):
-            self.make_group('extrawng', (14+a, 6), 'white_wng'{i})
+            self.make_group('extrawng', (14+a, 6), f'white_wng{i}')
         for a, i in enumerate(['RIGHTEAR', 'LEFTEAR', 'ESTRELLA', 'SHOOTINGSTAR', 'EYESPOT', 'REVERSEEYE',
             'FADEBELLY', 'FRONT', 'BLOSSOMSTEP', 'PEBBLE', 'TAILTWO', 'BUDDY', 'BACKSPOT', 'EYEBAGS']):
             self.make_group('extrawng', (14+a, 7), f'white_wng{i}')

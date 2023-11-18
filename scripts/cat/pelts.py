@@ -1513,7 +1513,7 @@ class Pelt():
             "Singlestripe": "dorsal-striped c_n",
             "Rosette": "unusually spotted c_n",
             "Sokoke": "c_n tabby",
-            "Masked": "masked c_n tabby"
+            "Masked": "masked c_n tabby",
             "Smoke_wng": "c_n smoke",
             "Singlestripe_wng": "dorsal-striped c_n",
             "Pigeonbar": "c_n pigeon",
