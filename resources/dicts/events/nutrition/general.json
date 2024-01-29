@@ -10,8 +10,6 @@
         ],
 		"death_text": "m_c feels that {PRONOUN/m_c/subject} {VERB/m_c/have/has} no energy, unable to stand up and unable to remain here any longer. m_c now hunts with {PRONOUN/m_c/poss} ancestors.",
         "history_text": [
-            "m_c died from starvation.",
-            null
         ],
         "cat_trait": null,
         "cat_skill": null,

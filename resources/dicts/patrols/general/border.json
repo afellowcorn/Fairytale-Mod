@@ -137,15 +137,7 @@
             {
                 "text": "The patrol shadows the dog, sending a message back to warn camp. It's an exhausting and stressful day, but by the time night falls they've confirmed that the dog is leaving the local area, and the patrol has assured c_n's safety.",
                 "exp": 20,
-                "weight": 20,
-                "relationships": [
-                    {
-                        "cats_to": ["patrol"],
-                        "cats_from": ["clan"],
-                        "mutual": false,
-                        "values": ["respect", "trust"],
-                        "amount": 5
-                    }
+                "weight": 20
                 ]
             },
             {
