@@ -36,7 +36,7 @@
         ],
         "fail_outcomes": [
             {
-                "text": "app1 tries to see the paw holds that p_l pointed out to them, but the cliff still seems unscalable in their eyes.",
+                "text": "app1 tries to see the paw holds that p_l pointed out to {PRONOUN/app1/object}, but the cliff still seems unscalable in {PRONOUN/app1/poss} eyes.",
                 "exp": 0,
                 "weight": 20
             },
