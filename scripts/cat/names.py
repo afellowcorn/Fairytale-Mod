@@ -56,9 +56,9 @@ class Name():
 
     def __init__(self,
                  status="warrior",
-                 gender=None,
                  prefix=None,
                  suffix=None,
+                 gender=None,
                  colour=None,
                  eyes=None,
                  pelt=None,
@@ -181,7 +181,7 @@ class Name():
     def __repr__(self):
         # Handles predefined suffixes (such as newborns being kit), then suffixes based on ages (fixes #2004, just trust me)
         if self.status in ['newborn', 'kitten']:
-            if self.gender == "female" and self.names_dict['all_prefixes'][self.prefix]['dimf']:
+            if self.gender == 'female' and ('dimf' in self.names_dict['all_prefixes'][self.prefix]):
                 return self.names_dict['all_prefixes'][self.prefix]['dimf']
             else:
                 return self.names_dict['all_prefixes'][self.prefix]['dim']

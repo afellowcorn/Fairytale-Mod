@@ -352,9 +352,9 @@ class Cat():
         # load_existing_name is needed so existing cats don't get their names changed/fixed for no reason
         if self.pelt is not None:
             self.name = Name(status,
-                             gender,
                              prefix,
                              suffix,
+                             self.gender,
                              self.pelt.colour,
                              self.pelt.eye_colour,
                              self.pelt.name,
@@ -364,7 +364,7 @@ class Cat():
                              load_existing_name=loading_cat,
                              moons=self.moons)
         else:
-            self.name = Name(status, gender, prefix, suffix, eyes=self.pelt.eye_colour, specsuffix_hidden=self.specsuffix_hidden,
+            self.name = Name(status, prefix, suffix, gender=self.gender, eyes=self.pelt.eye_colour, specsuffix_hidden=self.specsuffix_hidden,
                              load_existing_name = loading_cat)
 
         # Private Sprite
