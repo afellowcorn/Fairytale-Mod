@@ -1,13 +1,21 @@
 {
   "special_suffixes": {
-    "newborn": "kit",
-    "kitten": "kit",
-    "apprentice": "paw",
-    "medicine cat apprentice": "paw",
-    "mediator apprentice": "paw",
-    "leader": "star"
+    "apprentice": "Łapa",
+    "medicine cat apprentice": "Łapa",
+    "mediator apprentice": "Łapa",
+    "leader": "Gwiazda"
     },
-  "normal_suffixes" : [
+  "all_suffixes": {
+    "Futro": "neuter", "Ogon": "masc", "Pazur": "masc", "Serce": "neuter", "Skóra": "fem", "Stopa": "fem", "Wąs": "masc", "Ząb": "masc"
+  },
+  "normal_suffixes": [
+    "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro",
+    "Ogon", "Ogon", "Ogon", "Ogon", "Ogon", "Ogon", "Ogon", "Pazur", "Pazur", "Pazur", "Pazur", "Pazur", "Pazur",
+    "Serce", "Serce", "Serce", "Serce", "Serce", "Serce", "Serce", "Serce",
+    "Skóra", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra",
+    "Stopa", "Stopa", "Stopa", "Stopa", "Stopa", "Wąs", "Wąs", "Wąs", "Wąs", "Wąs", "Wąs", "Ząb", "Ząb", "Ząb", "Ząb", "Ząb"
+    ],
+  "_normal_suffixes" : [
     "fur", "fur", "fur", "fur", "fur", "fur", "fur", "fur", "fur", "fur", "fur",
     "tuft", "tuft", "tuft", "tuft", "tuft", "tooth", "tooth", "tooth", "tooth", "tooth",
     "pelt", "pelt", "pelt", "pelt", "pelt", "pelt", "pelt", "pelt", "pelt", "pelt", "pelt", 
@@ -72,7 +80,32 @@
     "masked": ["stripe", "dapple", "mask", "mask", "shade"]
   },
 
+  "all_prefixes": {
+    "Asterowy": {"masc": "Asterowy", "fem": "Asterowa", "neuter": "Asterowe", "dim": "Asterek", "dimf": "Asterka"},
+    "Biały": {"masc": "Biały", "fem": "Biała", "neuter": "Białe", "dim": "Bielinek", "dimf": "Bielinka"},
+    "Blady": {"masc": "Blady", "fem": "Blada", "neuter": "Blade", "dim": "Bladzik", "dimf": "Bladzinka"},
+    "Błękitny": {"masc": "Błękitny", "fem": "Błękitna", "neuter": "Błękitne", "dim": "Błękitek", "dimf": "Błękitka"},
+    "Brązowy": {"masc": "Brązowy", "fem": "Brązowa", "neuter": "Brązowe", "dim": "Brązik", "dimf": "Brązek"},
+    "Bursztynowy": {"masc": "Bursztynowy", "fem": "Bursztynowa", "neuter": "Bursztynowe", "dim": "Bursztynek", "dimf": "Bursztynka"},
+    "Czarny": {"masc": "Czarny", "fem": "Czarna", "neuter": "Czarne", "dim": "Czarnuszek", "dimf": "Czarnuszka"},
+    "Dębowy": {"masc": "Dębowy", "fem": "Dębowa", "neuter": "Dębowe", "dim": "Dąbek"},
+    "Jasny": {"masc": "Jasny", "fem": "Jasna", "neuter": "Jasne", "dim": "Jasnotek", "dimf": "Jasnotka"},
+    "Liliowy": {"masc": "Liliowy", "fem": "Liliowa", "neuter": "Liliowe", "dim": "Lilijek", "dimf": "Lilijka"},
+    "Mrówczy": {"masc": "Mrówczy", "fem": "Mrówcza", "neuter": "Mrówcze", "dim": "Mrówka"},
+    "Niebieski": {"masc": "Niebieski", "fem": "Niebieska", "neuter": "Niebieskie", "dim": "Niebiek", "dimf": "Niebka"},
+    "Niebiański": {"masc": "Niebiański", "fem": "Niebiańska", "neuter": "Niebiańskie", "dim": "Niebo"},
+    "Ognisty": {"masc": "Ognisty", "fem": "Ognista", "neuter": "Ogniste", "dim": "Ognik"},
+    "Piaskowy": {"masc": "Piaskowy", "fem": "Piaskowa", "neuter": "Piaskowe", "dim": "Piasek"},
+    "Piaszczysty": {"masc": "Piaszczysty", "fem": "Piaszczysta", "neuter": "Piaszczyste", "dim": "Piasek"},
+    "Pajęczy": {"masc": "Pajęczy", "fem": "Pającza", "neuter": "Pajęcze", "dim": "Pajączek"},
+    "Pszczeli": {"masc": "Pszczeli", "fem": "Pszczela", "neuter": "Pszczele", "dim": "Pszczółka"},
+    "Szary": {"masc": "Szary", "fem": "Szara", "neuter": "Szare", "dim": "Szarek", "dimf": "Szarusia"},
+    "Żółty": {"masc": "Żółty", "fem": "Żółta", "neuter": "Żółte", "dim": "Żółtek", "dimf": "Żółtka"}
+  },
   "normal_prefixes": [
+    "Dębowy", "Jasny", "Mrówczy", "Niebiański", "Pajęczy", "Pszczeli"
+  ],
+  "__normal_prefixes": [
     "Adder", "Alder", "Ant", "Antler", "Aphid", "Apple", "Apricot", "Arch", "Aspen", "Aster", 
     "Badger", "Barley", "Basil", "Bass", "Bay", "Beam", "Bear", "Beaver", "Bee", "Beech", "Beetle", "Berry", "Big", "Billow", "Birch", 
     "Bird", "Bite", "Bitter", "Bittern", "Bliss", "Blizzard", "Bloom", "Blossom", "Blotch", "Bluebell", "Bluff", "Bog", "Borage", 
@@ -113,6 +146,65 @@
   ],
 
   "colour_prefixes": {
+    "WHITE": [
+      "Biały", "Biały", "Blady"
+    ],
+    "PALEGREY": [
+      "Blady", "Niebiański", "Szary", "Szary"
+    ],
+    "SILVER": [
+      "Blady", "Błękitny", "Niebieski"
+    ],
+    "GREY": [
+      "Szary", "Szary"
+    ],
+    "DARKGREY": [
+      "Szary", "Szary"
+    ],
+    "GHOST": [
+      "Czarny", "Czarny"
+    ],
+    "PALEGINGER": [
+      "Blady", "Piaskowy", "Piaszczysty", "Żółty"
+    ],
+    "GOLDEN": [
+      "Bursztynowy", "Piaskowy", "Piaszczysty", "Żółty"
+    ],
+    "GINGER": [
+      "Bursztynowy", "Ognisty"
+    ],
+    "DARKGINGER": [
+      "Bursztynowy", "Ognisty"
+    ],
+    "SIENNA": [
+      "Ognisty"
+    ],
+    "CREAM": [
+      "Blady", "Piaskowy", "Piaszczysty", "Żółty"
+    ],
+    "LIGHTBROWN": [
+      "Blady", "Brązowy", "Piaskowy", "Piaszczysty"
+    ],
+    "LILAC": [
+      "Blady", "Liliowy"
+    ],
+    "BROWN": [
+      "Brązowy", "Brązowy"
+    ],
+    "GOLDEN-BROWN": [
+      "Brązowy", "Brązowy"
+    ],
+    "DARKBROWN": [
+      "Brązowy", "Brązowy"
+    ],
+    "CHOCOLATE": [
+      "Brązowy", "Brązowy"
+    ],
+    "BLACK": [
+      "Czarny", "Czarny", "Czarny"
+    ]
+  },
+  "__colour_prefixes": {
     "WHITE": [
     "White", "White", "Pale", "Snow", "Cloud", "Cloudy", "Milk", "Hail", "Frost", "Frozen", "Freeze", "Ice", "Icy", "Icicle",
     "Blizzard", "Flurry", "Moon", "Light", "Bone", "Bright", "Swan", "Dove", "Cotton", "Hawthorn", "Laurel", "Wisp",

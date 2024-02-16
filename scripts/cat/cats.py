@@ -133,7 +133,7 @@ class Cat():
         self.history = None
         if faded:
             self.ID = ID
-            self.name = Name(status, prefix=prefix, suffix=suffix)
+            self.name = Name(status, gender, prefix=prefix, suffix=suffix)
             self.parent1 = None
             self.parent2 = None
             self.adoptive_parents = []
@@ -352,6 +352,7 @@ class Cat():
         # load_existing_name is needed so existing cats don't get their names changed/fixed for no reason
         if self.pelt is not None:
             self.name = Name(status,
+                             gender,
                              prefix,
                              suffix,
                              self.pelt.colour,
@@ -363,7 +364,7 @@ class Cat():
                              load_existing_name=loading_cat,
                              moons=self.moons)
         else:
-            self.name = Name(status, prefix, suffix, eyes=self.pelt.eye_colour, specsuffix_hidden=self.specsuffix_hidden,
+            self.name = Name(status, gender, prefix, suffix, eyes=self.pelt.eye_colour, specsuffix_hidden=self.specsuffix_hidden,
                              load_existing_name = loading_cat)
 
         # Private Sprite

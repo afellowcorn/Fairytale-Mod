@@ -9,7 +9,7 @@ from scripts.game_structure.game_essentials import game
 
 class Name():
     if os.path.exists('resources/dicts/names/names.json'):
-        with open('resources/dicts/names/names.json') as read_file:
+        with open('resources/dicts/names/names.json', encoding='utf8') as read_file:
             names_dict = ujson.loads(read_file.read())
 
         if os.path.exists(get_save_dir() + '/prefixlist.txt'):
@@ -56,6 +56,7 @@ class Name():
 
     def __init__(self,
                  status="warrior",
+                 gender=None,
                  prefix=None,
                  suffix=None,
                  colour=None,
@@ -67,6 +68,7 @@ class Name():
                  load_existing_name=False,
                  moons = None):
         self.status = status
+        self.gender = gender
         self.prefix = prefix
         self.suffix = suffix
         self.specsuffix_hidden = specsuffix_hidden
@@ -134,14 +136,14 @@ class Name():
 
         # Add possible prefix categories to list.
         possible_prefix_categories = []
-        if game.config["cat_name_controls"]["allow_eye_names"]: # game config: cat_name_controls
+        '''if game.config["cat_name_controls"]["allow_eye_names"]: # game config: cat_name_controls
             if eyes in self.names_dict["eye_prefixes"]:
-                possible_prefix_categories.append(self.names_dict["eye_prefixes"][eyes])
+                possible_prefix_categories.append(self.names_dict["eye_prefixes"][eyes])'''
         if colour in self.names_dict["colour_prefixes"]:
             possible_prefix_categories.append(self.names_dict["colour_prefixes"][colour])
-        if biome is not None and biome in self.names_dict["biome_prefixes"]:
+        '''if biome is not None and biome in self.names_dict["biome_prefixes"]:
             possible_prefix_categories.append(self.names_dict["biome_prefixes"][biome])
-        # Choose appearance-based prefix if possible and named_after_appearance because True.
+        # Choose appearance-based prefix if possible and named_after_appearance because True.'''
         if named_after_appearance and possible_prefix_categories and not named_after_biome_:
             prefix_category = random.choice(possible_prefix_categories)
             self.prefix = random.choice(prefix_category)
@@ -153,7 +155,7 @@ class Name():
 
     # Generate possible suffix
     def give_suffix(self, pelt, biome, tortiepattern):
-        if pelt is None or pelt == 'SingleColour':
+        '''if pelt is None or pelt == 'SingleColour':
             self.suffix = random.choice(self.names_dict["normal_suffixes"])
         else:
             named_after_pelt = not random.getrandbits(2)  # Chance for True is '1/8'.
@@ -172,19 +174,21 @@ class Name():
                 else:
                     self.suffix = random.choice(self.names_dict["normal_suffixes"])
             else:
-                self.suffix = random.choice(self.names_dict["normal_suffixes"])
+                self.suffix = random.choice(self.names_dict["normal_suffixes"])'''
+
+        self.suffix = random.choice(self.names_dict["normal_suffixes"])
 
     def __repr__(self):
         # Handles predefined suffixes (such as newborns being kit), then suffixes based on ages (fixes #2004, just trust me)
+        if self.status in ['newborn', 'kitten']:
+            if self.gender == "female" and self.names_dict['all_prefixes'][self.prefix]['dimf']:
+                return self.names_dict['all_prefixes'][self.prefix]['dimf']
+            else:
+                return self.names_dict['all_prefixes'][self.prefix]['dim']
         if self.status in self.names_dict["special_suffixes"] and not self.specsuffix_hidden:
-            return self.prefix + self.names_dict["special_suffixes"][self.status]
+            return self.names_dict['all_prefixes'][self.prefix]['fem'] + ' ' + self.names_dict['special_suffixes'][self.status]
         if self.status in ['loner'] and not self.specsuffix_hidden and self.moons is not None and self.moons < 12:
-            if self.moons < 6:
-                return self.prefix + 'kit'
-            return self.prefix + 'paw'
-        if game.config['fun']['april_fools']:
-            return self.prefix + 'egg'
-        return self.prefix + self.suffix
-
+            return self.prefix + ' Łapa'
+        return self.names_dict['all_prefixes'][self.prefix][(self.names_dict['all_suffixes'][self.suffix])] + ' ' + self.suffix
 
 names = Name()
