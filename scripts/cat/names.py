@@ -73,6 +73,7 @@ class Name():
         self.suffix = suffix
         self.specsuffix_hidden = specsuffix_hidden
         self.moons = moons
+        self.eyes = eyes
 
         name_fixpref = False
         # Set prefix
@@ -181,14 +182,23 @@ class Name():
     def __repr__(self):
         # Handles predefined suffixes (such as newborns being kit), then suffixes based on ages (fixes #2004, just trust me)
         if self.status in ['newborn', 'kitten']:
-            if self.gender == 'female' and ('dimf' in self.names_dict['all_prefixes'][self.prefix]):
-                return self.names_dict['all_prefixes'][self.prefix]['dimf']
+            if self.gender == 'female' and 'dimf' in self.names_dict['all_prefixes'][self.prefix]:
+                if ('dimaf' in self.names_dict['all_prefixes'][self.prefix]) and (self.eyes in ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD', 'PALEBLUE']):
+                    return self.names_dict['all_prefixes'][self.prefix]['dimaf']
+                else:
+                    return self.names_dict['all_prefixes'][self.prefix]['dimf']
             else:
-                return self.names_dict['all_prefixes'][self.prefix]['dim']
+                if ('dima' in self.names_dict['all_prefixes'][self.prefix]) and (self.eyes in ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'GREY', 'CYAN', 'EMERALD', 'PALEBLUE']):
+                    return self.names_dict['all_prefixes'][self.prefix]['dima']
+                else:
+                    return self.names_dict['all_prefixes'][self.prefix]['dim']
+
         if self.status in self.names_dict["special_suffixes"] and not self.specsuffix_hidden:
             return self.names_dict['all_prefixes'][self.prefix]['fem'] + ' ' + self.names_dict['special_suffixes'][self.status]
+
         if self.status in ['loner'] and not self.specsuffix_hidden and self.moons is not None and self.moons < 12:
-            return self.prefix + ' Łapa'
+            return self.names_dict['all_prefixes'][self.prefix]['fem'] + ' ' + 'Łapa'
+
         return self.names_dict['all_prefixes'][self.prefix][(self.names_dict['all_suffixes'][self.suffix])] + ' ' + self.suffix
 
 names = Name()
