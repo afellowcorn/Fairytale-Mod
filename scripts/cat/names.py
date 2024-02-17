@@ -12,8 +12,8 @@ class Name():
         with open('resources/dicts/names/names.json', encoding='utf8') as read_file:
             names_dict = ujson.loads(read_file.read())
 
-        if os.path.exists(get_save_dir() + '/prefixlist.txt'):
-            with open(get_save_dir() + '/prefixlist.txt', 'r') as read_file:
+        '''if os.path.exists(get_save_dir() + '/prefixlist.txt'):
+            with open(get_save_dir() + '/prefixlist.txt', 'r', encoding='utf8') as read_file:
                 name_list = read_file.read()
                 if_names = len(name_list)
             if if_names > 0:
@@ -27,7 +27,7 @@ class Name():
                             names_dict["normal_prefixes"].append(new_name)
 
         if os.path.exists(get_save_dir() + '/suffixlist.txt'):
-            with open(get_save_dir() + '/suffixlist.txt', 'r') as read_file:
+            with open(get_save_dir() + '/suffixlist.txt', 'r', encoding='utf8') as read_file:
                 name_list = read_file.read()
                 if_names = len(name_list)
             if if_names > 0:
@@ -41,7 +41,7 @@ class Name():
                             names_dict["normal_suffixes"].append(new_name)
 
         if os.path.exists(get_save_dir() + '/specialsuffixes.txt'):
-            with open(get_save_dir() + '/specialsuffixes.txt', 'r') as read_file:
+            with open(get_save_dir() + '/specialsuffixes.txt', 'r', encoding='utf8') as read_file:
                 name_list = read_file.read()
                 if_names = len(name_list)
             if if_names > 0:
@@ -52,7 +52,7 @@ class Name():
                             del names_dict["special_suffixes"][new_name[1:]]
                         elif ':' in new_name:
                             _tmp = new_name.split(':')
-                            names_dict["special_suffixes"][_tmp[0]] = _tmp[1]
+                            names_dict["special_suffixes"][_tmp[0]] = _tmp[1]'''
 
     def __init__(self,
                  status="warrior",
@@ -137,14 +137,14 @@ class Name():
 
         # Add possible prefix categories to list.
         possible_prefix_categories = []
-        '''if game.config["cat_name_controls"]["allow_eye_names"]: # game config: cat_name_controls
+        if game.config["cat_name_controls"]["allow_eye_names"]: # game config: cat_name_controls
             if eyes in self.names_dict["eye_prefixes"]:
-                possible_prefix_categories.append(self.names_dict["eye_prefixes"][eyes])'''
+                possible_prefix_categories.append(self.names_dict["eye_prefixes"][eyes])
         if colour in self.names_dict["colour_prefixes"]:
             possible_prefix_categories.append(self.names_dict["colour_prefixes"][colour])
-        '''if biome is not None and biome in self.names_dict["biome_prefixes"]:
+        if biome is not None and biome in self.names_dict["biome_prefixes"]:
             possible_prefix_categories.append(self.names_dict["biome_prefixes"][biome])
-        # Choose appearance-based prefix if possible and named_after_appearance because True.'''
+        # Choose appearance-based prefix if possible and named_after_appearance because True.
         if named_after_appearance and possible_prefix_categories and not named_after_biome_:
             prefix_category = random.choice(possible_prefix_categories)
             self.prefix = random.choice(prefix_category)
@@ -156,7 +156,7 @@ class Name():
 
     # Generate possible suffix
     def give_suffix(self, pelt, biome, tortiepattern):
-        '''if pelt is None or pelt == 'SingleColour':
+        if pelt is None or pelt == 'SingleColour':
             self.suffix = random.choice(self.names_dict["normal_suffixes"])
         else:
             named_after_pelt = not random.getrandbits(2)  # Chance for True is '1/8'.
@@ -175,9 +175,7 @@ class Name():
                 else:
                     self.suffix = random.choice(self.names_dict["normal_suffixes"])
             else:
-                self.suffix = random.choice(self.names_dict["normal_suffixes"])'''
-
-        self.suffix = random.choice(self.names_dict["normal_suffixes"])
+                self.suffix = random.choice(self.names_dict["normal_suffixes"])
 
     def __repr__(self):
         # Handles predefined suffixes (such as newborns being kit), then suffixes based on ages (fixes #2004, just trust me)
