@@ -101,12 +101,12 @@ class Name():
             if self.prefix in self.names_dict["animal_prefixes"] and self.suffix in self.names_dict["animal_suffixes"]:
                 double_animal = True
             # Prevent the inappropriate names
-            nono_name = self.prefix + self.suffix
+            nono_name = self.prefix + ' ' + self.suffix
             # Prevent double names (ex. Iceice)
             # Prevent suffixes containing the prefix (ex. Butterflyfly)
             
             i = 0
-            while nono_name.lower() in self.names_dict["inappropriate_names"] or triple_letter or double_animal or \
+            while nono_name.lower() in self.names_dict["notallowed_names"] or triple_letter or double_animal or \
                     (self.prefix.lower() in self.suffix.lower() and not str(self.prefix) == '') or (self.suffix.lower() in self.prefix.lower() and not str(self.suffix) == ''):
 
                 # check if random die was for prefix
@@ -115,7 +115,7 @@ class Name():
                 else:
                     self.give_suffix(pelt, biome, tortiepattern)
 
-                nono_name = self.prefix + self.suffix
+                nono_name = self.prefix + ' ' + self.suffix
                 possible_three_letter = (self.prefix[-2:] + self.suffix[0], self.prefix[-1] + self.suffix[:2])
                 if not (all(i == possible_three_letter[0][0] for i in possible_three_letter[0]) or \
                         all(i == possible_three_letter[1][0] for i in possible_three_letter[1])):
@@ -182,7 +182,7 @@ class Name():
             if not self.suffix:
                 return self.prefix
             return self.prefix + ' ' + self.suffix
-            
+
         # Handles predefined suffixes (such as newborns being kit), then suffixes based on ages (fixes #2004, just trust me)
         elif self.status in ['newborn', 'kitten']:
             if self.gender == 'female' and 'dimf' in self.names_dict['all_prefixes'][self.prefix]:
