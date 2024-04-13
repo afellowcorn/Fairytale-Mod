@@ -7,25 +7,27 @@
     },
   "all_suffixes": {
     "Bieg": "masc", "Burza": "fem", "Cętka": "fem", "Chmura": "fem", "Cień": "masc", "Drzewo": "neuter", "Dym": "masc",
-    "Futro": "neuter", "Gałązka": "fem", "Gałąź": "fem", "Grad": "masc",
-    "Jagoda": "fem", "Kawka": "fem", "Kieł": "masc", "Kora": "fem", "Krok": "masc", "Księżyc": "masc", "Kwiat": "masc",
-    "Lis": "masc", "Liść": "masc", "Lot": "masc", "Łata": "fem", "Łatka": "fem",
-    "Maska": "fem", "Mgła": "fem", "Mysz": "fem", "Nietoperz": "masc", "Noc": "fem", "Noga": "fem",
-    "Ogień": "masc", "Ogon": "masc", "Oko": "neuter", "Pajęczyna": "fem", "Pazur": "masc", "Pieśń": "fem", "Pióro": "neuter",
+    "Fala": "fem", "Futro": "neuter", "Gałązka": "fem", "Gałąź": "fem", "Grad": "masc", "Grota": "fem",
+    "Jagoda": "fem", "Jaskinia": "fem", "Kawka": "fem", "Kieł": "masc", "Kora": "fem", "Krok": "masc", "Księżyc": "masc", "Kwiat": "masc",
+    "Lis": "masc", "Liść": "masc", "Lot": "masc", "Łata": "fem", "Łatka": "fem", "Łąka": "fem",
+    "Maska": "fem", "Mgła": "fem", "Morze": "neter", "Mrugnięcie": "neuter", "Mysz": "fem",
+    "Nadzieja": "fem", "Niebo": "neuter", "Niedźwiedź": "masc", "Nietoperz": "masc", "Noc": "fem", "Noga": "fem",
+    "Ogień": "masc", "Ogon": "masc", "Oko": "neuter",
+    "Pająk": "masc", "Pajęczyna": "fem", "Pazur": "masc", "Perła": "fem", "Pieśń": "fem", "Pióro": "neuter",
     "Plama": "fem", "Plamka": "fem", "Ptak": "masc", "Potop": "masc", "Pręga": "fem", "Pszczoła": "fem", "Pył": "masc", "Pysk": "masc",
-    "Sadzawka": "fem", "Serce": "neuter", "Skóra": "fem", "Skrzydło": "neuter", "Słońce": "neuter",
+    "Róg": "masc", "Sadzawka": "fem", "Serce": "neuter", "Skóra": "fem", "Skrzydło": "neuter", "Słońce": "neuter",
     "Sokół": "masc", "Stopa": "fem", "Sus": "masc", "Szept": "masc", "Szyja": "fem", "Śpiew": "masc", "Świt": "masc",
-    "Wąs": "masc", "Wąż": "masc", "Wiatr": "masc", "Woda": "fem", "Wzrok": "masc", "Ząb": "masc", "Zmierzch": "masc"
+    "Wąs": "masc", "Wąż": "masc", "Wiatr": "masc", "Woda": "fem", "Wzrok": "masc", "Ząb": "masc", "Zimorodek": "masc", "Zmierzch": "masc"
   },
   "normal_suffixes": [
-    "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro",
+    "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Futro", "Noga", "Noga", "Noga",
     "Ogon", "Ogon", "Ogon", "Ogon", "Ogon", "Ogon", "Ogon", "Pazur", "Pazur", "Pazur", "Pazur", "Pazur", "Pazur",
-    "Serce", "Serce", "Serce", "Serce", "Serce", "Serce", "Serce", "Serce",
-    "Skóra", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra",
+    "Serce", "Serce", "Serce", "Serce", "Serce", "Serce", "Serce", "Serce", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra", "Skóra",
     "Stopa", "Stopa", "Stopa", "Stopa", "Stopa", "Wąs", "Wąs", "Wąs", "Wąs", "Wąs", "Wąs", "Ząb", "Ząb", "Ząb", "Ząb", "Ząb",
-    "Bieg", "Burza", "Chmura", "Cień", "Drzewo", "Gałąź", "Grad",
-    "Jagoda", "Kieł", "Kora", "Krok", "Księżyc", "Kwiat", "Lis", "Liść", "Lot", "Mgła", "Mysz", "Nietoperz", "Noc", "Noga",
-    "Ogień", "Oko", "Pajęczyna", "Pieśń", "Pióro", "Potop", "Pszczoła", "Ptak", "Pył", "Pysk",
+    "Bieg", "Burza", "Chmura", "Cień", "Drzewo", "Fala", "Gałąź", "Grad",
+    "Jagoda", "Kieł", "Kora", "Krok", "Księżyc", "Kwiat", "Lis", "Liść", "Lot", "Łąka",
+    "Mgła", "Mrugnięcie", "Mysz", "Nadzieja", "Niebo", "Nietoperz", "Noc",
+    "Ogień", "Oko", "Pająk", "Pajęczyna", "Pieśń", "Pióro", "Potop", "Pszczoła", "Ptak", "Pył", "Pysk",
     "Sadzawka", "Skrzydło", "Słońce", "Sokół", "Sus", "Szept", "Szyja", "Śpiew", "Świt", "Wiatr", "Woda", "Wzrok", "Zmierzch"
     ],
   "__normal_suffixes" : [
@@ -70,12 +72,12 @@
     "Calico": ["Łata", "Łata", "Łatka", "Plama"],
     "Smoke": ["Cień", "Dym", "Kawka", "Mgła", "Noc", "Świt", "Zmierzch"],
     "Ticked": ["Futro", "Pył", "Skóra", "Sokół"],
-    "Mackerel": ["Liść", "Pióro", "Pręga", "Pręga", "Pszczoła"],
+    "Mackerel": ["Fala", "Liść", "Pióro", "Pręga", "Pręga", "Pszczoła"],
     "Classic": ["Kwiat", "Liść", "Pajęczyna", "Pióro", "Pręga", "Pręga"],
     "Sokoke": ["Cień", "Kwiat", "Liść", "Pióro", "Pręga", "Pręga", "Woda"],
     "Agouti": ["Futro", "Mysz", "Pył", "Skóra"],
     "Singlestripe": ["Cień", "Gałąź", "Pręga"],
-    "Masked": ["Cień", "Kawka", "Maska", "Maska", "Noc", "Pajęczyna", "Pręga", "Zmierzch"]
+    "Masked": ["Cień", "Kawka", "Maska", "Maska", "Noc", "Pająk", "Pajęczyna", "Pręga", "Zmierzch"]
   },
   "__pelt_suffixes": {
     "TwoColour": ["patch", "spot", "splash", "patch", "spots", "swan"],
@@ -104,7 +106,7 @@
     "smoke": ["Cień", "Dym", "Kawka", "Mgła", "Noc", "Plama", "Świt", "Zmierzch"],
     "rosette": ["Cętka", "Plama", "Plamka", "Woda"],
     "speckled": ["Cętka", "Grad", "Plamka", "Sokół"],
-    "mackerel": ["Liść", "Pióro", "Plama", "Pręga"],
+    "mackerel": ["Fala", "Liść", "Pióro", "Plama", "Pręga"],
     "classic": ["Kwiat", "Liść", "Pajęczyna", "Pióro", "Plama", "Pręga"],
     "sokoke": ["Cień", "Kwiat", "Liść", "Pióro", "Plama", "Pręga", "Woda"],
     "agouti": ["Futro", "Mysz", "Plamka", "Pył", "Skóra"],
@@ -134,6 +136,7 @@
     "Błękitny": {"masc": "Błękitny", "fem": "Błękitna", "neuter": "Błękitne", "dim": "Błękitek", "dimf": "Błękitka"},
     "Błotnisty": {"masc": "Błotnisty", "fem": "Błotnista", "neuter": "Błotniste", "dim": "Błotek", "dimf": "Błotko", "dima": "Błotko"},
     "Brązowy": {"masc": "Brązowy", "fem": "Brązowa", "neuter": "Brązowe", "dim": "Brązik", "dimf": "Brązek"},
+    "Brzoskwiniowy": {"masc": "Brzoskwiniowy", "fem": "Brzoskwiniowa", "neuter": "Brzoskwiniowe", "dim": "Brzoskwinek", "dimf": "Brzoskwinka"},
     "Bursztynowy": {"masc": "Bursztynowy", "fem": "Bursztynowa", "neuter": "Bursztynowe", "dim": "Bursztynek", "dimf": "Bursztynka"},
     "Chmurzysty": {"masc": "Chmurzysty", "fem": "Chmurzysta", "neuter": "Chmurzyste", "dim": "Chmurka"},
     "Cienisty": {"masc": "Cienisty", "fem": "Cienista", "neuter": "Cieniste", "dim": "Cienik", "dimf": "Cieńka", "dima": "Cień", "dimaf": "Cień"},
@@ -154,6 +157,7 @@
     "Kaktusowy": {"masc": "Kaktusowy", "fem": "Kaktusowa", "neuter": "Kaktusowe", "dim": "Kaktus", "dima": "Kaktusik"},
     "Kamienny": {"masc": "Kamienny", "fem": "Kamienna", "neuter": "Kamienne", "dim": "Kamyk", "dima": "Kamyczek"},
     "Klonowy": {"masc": "Klonowy", "fem": "Klonowa", "neuter": "Klonowe", "dim": "Klonek", "dimf": "Klonka", "dima": "Klon", "dimaf": "Klon"},
+    "Kokosowy": {"masc": "Kokosowy", "fem": "Kokosowa", "neuter": "Kokosowe", "dim": "Kokos"},
     "Koralowy": {"masc": "Koralowy", "fem": "Koralowa", "neuter": "Koralowe", "dim": "Koral", "dima": "Koralik"},
     "Kruczy": {"masc": "Kruczy", "fem": "Krucza", "neuter": "Krucze", "dim": "Kruczek", "dimf": "Kruk", "dima": "Kruk"},
     "Księżycowy": {"masc": "Księżycowy", "fem": "Księżycowa", "neuter": "Księżycowe", "dim": "Księżycek", "dimf": "Księżynka", "dima": "Księżyc", "dimaf": "Księżyc"},
@@ -166,15 +170,19 @@
     "Makowy": {"masc": "Makowy", "fem": "Makowa", "neuter": "Makowe", "dim": "Maczek", "dimf": "Makówka", "dima": "Makówka"},
     "Mały": {"masc": "Mały", "fem": "Mała", "neuter": "Małe", "dim": "Mały", "dimf": "Mała", "dima": "Malutki", "dimaf": "Malutka"},
     "Mokry": {"masc": "Mokry", "fem": "Mokra", "neuter": "Mokre", "dim": "Mokrutek", "dimf": "Mokrutka"},
+    "Morski": {"masc": "Morski", "fem": "Morska", "neuter": "Morskie", "dim": "Morze"},
     "Mrówczy": {"masc": "Mrówczy", "fem": "Mrówcza", "neuter": "Mrówcze", "dim": "Mrówka", "dima": "Mróweczka"},
+    "Mysi": {"masc": "Mysi", "fem": "Mysia", "neuter": "Mysie", "dim": "Mysz", "dimf": "Myszka", "dima": "Myszek", "dimaf": "Mysz"},
     "Nakrapiany": {"masc": "Nakrapiany", "fem": "Nakrapiana", "neuter": "Nakrapiane", "dim": "Nakrapianek", "dimf": "Nakrapianka"},
     "Niebieski": {"masc": "Niebieski", "fem": "Niebieska", "neuter": "Niebieskie", "dim": "Niebiek", "dimf": "Niebka"},
     "Niebiański": {"masc": "Niebiański", "fem": "Niebiańska", "neuter": "Niebiańskie", "dim": "Niebo"},
+    "Niedźwiedzi": {"masc": "Niedźwiedzi", "fem": "Niedźwiedza", "neuter": "Niedźwiedzie", "dim": "Niedźwiedź"},
     "Nietoperzowy": {"masc": "Nietoperzowy", "fem": "Nietoperzowa", "neuter": "Nietoperzowe", "dim": "Nietoperzyk", "dimf": "Nietoperz", "dima": "Nietoperz"},
     "Nocny": {"masc": "Nocny", "fem": "Nocna", "neuter": "Nocne", "dim": "Nocek", "dimf": "Nocka", "dima": "Noc", "dimaf": "Noc"},
     "Obłoczny": {"masc": "Obłoczny", "fem": "Obłoczna", "neuter": "Obłoczne", "dim": "Obłoczek"},
     "Ognisty": {"masc": "Ognisty", "fem": "Ognista", "neuter": "Ogniste", "dim": "Ognik", "dima": "Ogień"},
     "Orli": {"masc": "Orli", "fem": "Orla", "neuter": "Orle", "dim": "Orzeł"},
+    "Oliwkowy": {"masc": "Oliwkowy", "fem": "Oliwkowa", "neuter": "Oliwkowe", "dim": "Oliwek", "dimf": "Oliwka"},
     "Pajęczy": {"masc": "Pajęczy", "fem": "Pajęcza", "neuter": "Pajęcze", "dim": "Pajączek"},
     "Pajęczynowy": {"masc": "Pajęczynowy", "fem": "Pajęczynowa", "neuter": "Pajęczynowe", "dim": "Pajęczynek", "dimf": "Pajęczynka"},
     "Perłowy": {"masc": "Perłowy", "fem": "Perłowa", "neuter": "Perłowe", "dim": "Perła", "dima": "Perełka"},
@@ -187,6 +195,8 @@
     "Psi": {"masc": "Psi", "fem": "Psia", "neuter": "Psie", "dim": "Pies", "dima": "Piesek"},
     "Pszczeli": {"masc": "Pszczeli", "fem": "Pszczela", "neuter": "Pszczele", "dim": "Pszczółka"},
     "Rudy": {"masc": "Rudy", "fem": "Ruda", "neuter": "Rude", "dim": "Rudek", "dimf": "Ruda", "dima": "Rudy"},
+    "Rudzikowy": {"masc": "Rudzikowy", "fem": "Rudzikowa", "neuter": "Rudzikowe", "dim": "Rudzik", "dimf": "Rudziczka", "dimaf": "Rudzik"},
+    "Sczurzy": {"masc": "Sczurzy", "fem": "Sczurza", "neuter": "Sczurze", "dim": "Sczurek", "dimf": "Sczurka", "dima": "Sczureczek", "dimaf": "Sczureczka"},
     "Skrzydlaty": {"masc": "Skrzydlaty", "fem": "Skrzydlata", "neuter": "Skrzydlate", "dim": "Skrzydlaty", "dimf": "Skrzydlata", "dima": "Skrzydełko", "dimaf": "Skrzydełko"},
     "Słodki": {"masc": "Słodki", "fem": "Słodka", "neuter": "Słodkie", "dim": "Słodziutki", "dimf": "Słodziutka", "dima": "Słodyczek", "dimaf": "Słodyczka"},
     "Słoneczny": {"masc": "Słoneczny", "fem": "Słoneczna", "neuter": "Słoneczne", "dim": "Słoneczko", "dima": "Słonko"},
@@ -194,9 +204,13 @@
     "Sowi": {"masc": "Sowi", "fem": "Sowia", "neuter": "Sowie", "dim": "Sówka", "dima": "Sowa"},
     "Spalony": {"masc": "Spalony", "fem": "Spalona", "neuter": "Spalone", "dim": "Spalony", "dimf": "Spalona", "dima": "Spalek"},
     "Srebrny": {"masc": "Srebrny", "fem": "Srebrna", "neuter": "Srebrne", "dim": "Sreberko", "dima": "Srebro"},
+    "Suchy": {"masc": "Suchy", "fem": "Sucha", "neuter": "Suche", "dim": "Suszek", "dimf": "Suszka", "dima": "Suchy", "dimaf": "Susza"},
+    "Szałwiowy": {"masc": "Szałwiowy", "fem": "Szałwiowa", "neuter": "Szałwiowe", "dim": "Szałwia"},
     "Szary": {"masc": "Szary", "fem": "Szara", "neuter": "Szare", "dim": "Szarek", "dimf": "Szarusia", "dima": "Szary", "dimaf": "Szara"},
+    "Szepczący": {"masc": "Szepczący", "fem": "Szepcząca", "neuter": "Szepczące", "dim": "Szepczący", "dimf": "Szepcząca", "dima": "Szeptek", "dimaf": "Szept"},
     "Szybki": {"masc": "Szybki", "fem": "Szybka", "neuter": "Szybkie", "dim": "Szybki", "dimf": "Szybka"},
     "Śnieżny": {"masc": "Śnieżny", "fem": "Śnieżna", "neuter": "Śnieżne", "dim": "Śnieżynek", "dimf": "Śnieżynka", "dima": "Śnieżek"},
+    "Trawiasty": {"masc": "Trawiasty", "fem": "Trawiasta", "neuter": "Trawiaste", "dim": "Trawek", "dimf": "Trawa"},
     "Wierzbowy": {"masc": "Wierzbowy", "fem": "Wierzbowa", "neuter": "Wierzbowe", "dim": "Wierzbek", "dimf": "Wierzbka", "dima": "Wierzba", "dimaf": "Wierzba"},
     "Wietrzny": {"masc": "Wietrzny", "fem": "Wietrzna", "neuter": "Wietrzne", "dim": "Wiaterek", "dima": "Wiatr"},
     "Wiewiórczy": {"masc": "Wiewiórczy", "fem": "Wiewiórcza", "neuter": "Wiewiórcze", "dim": "Wiewiórka", "dima": "Wiewióreczka"},
@@ -210,8 +224,9 @@
   },
   "normal_prefixes": [
     "Ciężki", "Dębowy", "Gołębi", "Gradowy", "Jabłkowy", "Jagodowy", "Jarzębinowy", "Jasny", "Jaszczurzy", "Klonowy", "Księżycowy",
-    "Liliowy", "Lisi", "Liściasty", "Lwi", "Mały", "Mokry", "Mrówczy", "Nakrapiany", "Niebiański",
-    "Orli", "Pajęczy", "Pajęczynowy", "Piegowaty", "Pierzasty", "Psi", "Pszczeli", "Skrzydlaty", "Słodki", "Słoneczny", "Śnieżny", "Sokoli", "Szybki",
+    "Liliowy", "Lisi", "Liściasty", "Lwi", "Mały", "Mokry", "Mrówczy", "Mysi", "Nakrapiany", "Niebiański",
+    "Orli", "Pajęczy", "Pajęczynowy", "Piegowaty", "Pierzasty", "Psi", "Pszczeli",
+    "Sczurzy", "Skrzydlaty", "Słodki", "Słoneczny", "Sokoli", "Suchy", "Szepczący", "Szybki", "Śnieżny", "Trawiasty",
     "Wierzbowy", "Wietrzny", "Wiewiórczy", "Wysoki"
   ],
   "__normal_prefixes": [
@@ -259,13 +274,13 @@
     "Biały", "Biały", "Blady", "Chmurzysty", "Gołębi", "Gradowy", "Jasny", "Jasny", "Księżycowy", "Lodowaty", "Lodowy", "Obłoczny", "Powietrzny", "Śnieżny"
     ],
     "PALEGREY": [
-    "Blady", "Chmurzysty", "Gołębi", "Gradowy", "Jasny", "Kamienny", "Lodowaty", "Lodowy", "Niebiański", "Obłoczny", "Srebrny", "Szary", "Szary"
+    "Blady", "Chmurzysty", "Gołębi", "Gradowy", "Jasny", "Kamienny", "Lodowaty", "Lodowy", "Mysi", "Niebiański", "Obłoczny", "Srebrny", "Szary", "Szary"
     ],
     "SILVER": [
     "Blady", "Błękitny", "Gradowy", "Kamienny", "Liliowy", "Lodowaty", "Lodowy", "Niebieski", "Powietrzny", "Srebrny", "Srebrny", "Srebrny", "Szary"
     ],
     "GREY": [
-    "Cienisty", "Gołębi", "Kamienny", "Popielaty", "Szary", "Szary"
+    "Cienisty", "Gołębi", "Kamienny", "Mysi", "Popielaty", "Rudzikowy", "Sczurzy", "Szary", "Szary"
     ],
     "DARKGREY": [
     "Cienisty", "Gołębi", "Jagodowy", "Kamienny", "Nietoperzowy", "Nocny", "Popielaty", "Szary", "Szary"
@@ -277,10 +292,10 @@
     "Blady", "Dyniowy", "Jabłkowy", "Jasny", "Lwi", "Piaskowy", "Piaszczysty", "Słoneczny", "Żółty"
     ],
     "GOLDEN": [
-    "Bursztynowy", "Jabłkowy", "Lwi", "Piaskowy", "Piaszczysty", "Słoneczny", "Słoneczny", "Złoty", "Złoty", "Żonkilowy", "Żółty"
+    "Brzoskwiniowy", "Bursztynowy", "Jabłkowy", "Lwi", "Piaskowy", "Piaszczysty", "Słoneczny", "Słoneczny", "Złoty", "Złoty", "Żonkilowy", "Żółty"
     ],
     "GINGER": [
-    "Bursztynowy", "Czerwony", "Dyniowy", "Jarzębinowy", "Lisi", "Ognisty", "Ognisty", "Rudy", "Rudy", "Słoneczny"
+    "Brzoskwiniowy", "Bursztynowy", "Czerwony", "Dyniowy", "Jarzębinowy", "Lisi", "Ognisty", "Ognisty", "Rudy", "Rudy", "Rudzikowy", "Słoneczny"
     ],
     "DARKGINGER": [
     "Bursztynowy", "Cienisty", "Czerwony", "Czerwony", "Dębowy", "Dyniowy", "Jagodowy", "Jarzębinowy", "Lisi", "Ognisty", "Rudy", "Rudy"
@@ -289,28 +304,28 @@
     "Cienisty", "Czerwony", "Czerwony", "Dębowy", "Jagodowy", "Jarzębinowy", "Lisi", "Ognisty", "Rudy", "Rudy", "Spalony"
     ],
     "CREAM": [
-    "Blady", "Jasny", "Księżycowy", "Piaskowy", "Piaszczysty", "Żółty"
+    "Blady", "Brzoskwiniowy", "Jasny", "Księżycowy", "Piaskowy", "Piaszczysty", "Żółty"
     ],
     "LIGHTBROWN": [
     "Blady", "Brązowy", "Jasny", "Księżycowy", "Piaskowy", "Piaskowy", "Piaszczysty", "Piaszczysty", "Zakurzony", "Żonkilowy"
     ],
     "LILAC": [
-    "Blady", "Błotnisty", "Fioletowy", "Jasny", "Liliowy", "Zakurzony", "Zakurzony"
+    "Blady", "Błotnisty", "Fioletowy", "Jasny", "Liliowy", "Rudzikowy", "Zakurzony", "Zakurzony"
     ],
     "BROWN": [
     "Błotnisty", "Brązowy", "Brązowy", "Cienisty", "Dębowy", "Jeleni", "Sowi", "Zakurzony", "Zakurzony"
     ],
     "GOLDEN-BROWN": [
-    "Błotnisty", "Brązowy", "Brązowy", "Cienisty", "Dębowy", "Jeleni", "Sokoli", "Sowi", "Zakurzony"
+    "Błotnisty", "Brązowy", "Brązowy", "Cienisty", "Dębowy", "Jeleni", "Mysi", "Sokoli", "Sowi", "Zakurzony"
     ],
     "DARKBROWN": [
-    "Błotnisty", "Błotnisty", "Brązowy", "Brązowy", "Cienisty", "Dębowy", "Sokoli", "Sowi", "Zakurzony"
+    "Błotnisty", "Błotnisty", "Brązowy", "Brązowy", "Cienisty", "Dębowy", "Mysi", "Niedźwiedzi", "Sczurzy", "Sokoli", "Sowi", "Zakurzony"
     ],
     "CHOCOLATE": [
-    "Błotnisty", "Błotnisty", "Brązowy", "Brązowy", "Cienisty", "Dębowy", "Jarzębinowy", "Nocny", "Sowi", "Spalony", "Zakurzony"
+    "Błotnisty", "Błotnisty", "Brązowy", "Brązowy", "Cienisty", "Dębowy", "Jarzębinowy", "Niedźwiedzi", "Nocny", "Sowi", "Spalony", "Zakurzony"
     ],
     "BLACK": [
-    "Cienisty", "Cienisty", "Czarny", "Czarny", "Czarny", "Kruczy", "Nietoperzowy", "Nocny", "Nocny", "Sokoli", "Spalony"
+    "Cienisty", "Cienisty", "Czarny", "Czarny", "Czarny", "Kruczy", "Niedźwiedzi", "Nietoperzowy", "Nocny", "Nocny", "Sokoli", "Spalony"
     ]
   },
   "__colour_prefixes": {
@@ -409,19 +424,19 @@
     "Jeleni", "Klonowy", "Nietoperzowy", "Wiewiórczy", "Wiewiórczy", "Żołędziowy"
     ],
     "Beach": [
-    "Koralowy", "Perłowy", "Perłowy", "Piaskowy", "Piaszczysty"
+    "Kokosowy", "Koralowy", "Morski", "Morski", "Perłowy", "Perłowy", "Piaskowy", "Piaszczysty"
     ],
     "Plains": [
-    "Makowy", "Makowy", "Wierzbowy", "Wierzbowy"
+    "Makowy", "Makowy", "Szałwiowy", "Trawiasty", "Trawiasty", "Wierzbowy", "Wierzbowy"
     ],
     "Mountainous": [
-    "Kamienny", "Orli", "Orli", "Wysoki"
+    "Kamienny", "Kamienny", "Orli", "Orli", "Szepczący", "Wysoki"
     ],
     "Wetlands": [
     "Błotnisty", "Wierzbowy"
     ],
     "Desert": [
-    "Kaktusowy", "Lwi", "Piaskowy", "Piaszczysty", "Spalony", "Zakurzony"
+    "Kaktusowy", "Lwi", "Piaskowy", "Piaszczysty", "Spalony", "Suchy", "Zakurzony"
     ]
   },
   "__biome_prefixes": {
@@ -471,19 +486,19 @@
 
   "biome_suffixes": {
     "Forest": [
-    "Cień", "Gałązka", "Gałąź", "Mgła"
+    "Cień", "Gałązka", "Gałąź", "Mgła", "Niedźwiedź", "Zimorodek"
     ],
     "Beach": [
-    "Pieśń", "Potop", "Sadzawka", "Śpiew"
+    "Fala", "Morze", "Perła", "Pieśń", "Potop", "Sadzawka", "Śpiew"
     ],
     "Plains": [
-    "Bieg", "Pszczoła", "Wąż"
+    "Bieg", "Łąka", "Pszczoła", "Wąż"
     ],
     "Mountainous": [
-    "Mgła", "Szept"
+    "Grota", "Jaskinia", "Mgła", "Róg", "Szept"
     ],
     "Wetlands": [
-    "Pieśń", "Potop", "Śpiew"
+    "Pieśń", "Potop", "Sadzawka", "Śpiew", "Zimorodek"
     ],
     "Desert": [
     "Kieł", "Pył", "Wiatr", "Słońce", "Wąż", "Ząb"
@@ -521,20 +536,20 @@
   "eye_prefixes": {
     "YELLOW": ["Jasny", "Słoneczny", "Złoty", "Żółty"],
     "AMBER": ["Bursztynowy", "Dyniowy", "Ognisty", "Słoneczny", "Złoty"],
-    "HAZEL": ["Piaskowy", "Piaszczysty", "Złoty"],
+    "HAZEL": ["Piaskowy", "Piaszczysty", "Szałwiowy", "Złoty"],
     "PALEGREEN": ["Blady", "Jasny", "Zielony"],
-    "GREEN": ["Zielony", "Zielony"],
+    "GREEN": ["Oliwkowy", "Trawiasty", "Zielony", "Zielony"],
     "BLUE": ["Błękitny", "Lodowaty", "Lodowy", "Niebiański", "Niebieski"],
     "DARKBLUE": ["Błękitny", "Jagodowy", "Niebiański", "Niebieski", "Nocny"],
     "GREY": ["Kamienny", "Księżycowy", "Srebrny", "Szary"],
     "CYAN": ["Lodowaty", "Lodowy", "Niebiański", "Niebieski"],
-    "EMERALD": ["Zielony"],
+    "EMERALD": ["Liściasty", "Trawiasty", "Zielony"],
     "PALEBLUE": ["Blady", "Błękitny", "Chmurzysty", "Jasny", "Niebiański", "Niebieski", "Obłoczny"],
-    "PALEYELLOW": ["Blady", "Jasny", "Księżycowy", "Słoneczny", "Złoty", "Żółty"],
+    "PALEYELLOW": ["Blady", "Brzoskwiniowy", "Jasny", "Księżycowy", "Słoneczny", "Złoty", "Żółty"],
     "GOLD": ["Bursztynowy", "Słoneczny", "Złoty", "Złoty", "Żółty"],
     "HEATHERBLUE": ["Błękitny", "Fioletowy", "Liliowy", "Niebieski"],
-    "COPPER": ["Brązowy", "Bursztynowy", "Czerwony", "Ognisty"],
-    "SAGE": ["Liściasty", "Zielony"],
+    "COPPER": ["Brązowy", "Brzoskwiniowy", "Bursztynowy", "Czerwony", "Ognisty"],
+    "SAGE": ["Liściasty", "Oliwkowy", "Oliwkowy", "Szałwiowy", "Zielony"],
     "COBALT": ["Lodowaty", "Lodowy", "Niebiański", "Niebieski"],
     "SUNLITICE": ["Jasny", "Lodowaty", "Lodowy", "Słoneczny"],
     "GREENYELLOW": ["Piaskowy", "Piaszczysty", "Zielony", "Złoty", "Żółty"],
@@ -563,15 +578,37 @@
   },
 
   "loner_names": [
-    "Ace", "Adam", "Adik", "Adora", "Agata", "Ah ha", "Ah", "Akacja", "Alaska", "Alex", "Alien", "Amigo", "Amongus", "Amor", "Andromeda", "Aniołek", "Anioł", "Anju", "Anubis", "Armagedon",
-    "Bambus", "Barnej", "Bartek", "Bastet", "Bella", "Ben", "Betty", "Bingo", "Bingus", "Blu", "Blue", "Bodzio", "Bok Choy", "Bolt", "Bonbon", "Brokół", "Brutus", "Buddy", "Burasia", "Burbon",
-    "Cal", "Catty", "Cappuccino", "Cerberus", "Chaos", "Chica", "Chikorita", "Chloe", "Choco", "Churro", "Cola", "Curry", "Czekolada", "Czerwiec", "Czester", "Czoko",
-    "Daniel", "Dan", "Darwin", "Diabeł", "Diablo", "Diament", "Diax", "Dominika", "Dominik", "Domino", "Donat", "Donut", "Dori", "Droga Mleczna", "Dzikson", "Dynia",
-    "Edward", "Edzio", "Emilka", "Emil", "Eleven", "Elmirka", "Fallacy", "Filet", "Filip", "Fish", "Foxy", "Freddy", "Franek", "Franka", "Frederyk", "Fresio", "Furora",
-    "Gienia", "Gierka", "Ginger", "Henio", "Henryk", "Hildzia", "Jagoda", "Jagódka", "Jaskier", "Jaśmina", "Jolka", "Kabanos", "Kiciuś", "Kioto", "Konwalia", "Kotlet",
-    "Lilith", "Ludwik", "Łatka", "Malinka", "Mania", "Martyna", "Marynarz", "Melisa", "Misuri", "Morelek", "Motek", "Mrukot", "Mufinka", "Mumu", "Murek", "Nikola", "Nugat", "Nugget",
-    "One", "Orzeszek", "Oscypek", "Pączek", "Pierogi", "Pieróg", "Poziomka", "Ptysia", "Ptyś", "Puszek", "Rexik", "Rex", "Rizz", "Rolada", "Rysia", "Rysiek", "Rysio", "Ryś",
-    "Ser", "Sushi", "Szynka", "Twaróg", "Wendy", "Yuki", "Zosia"
+    "Ace", "Adam", "Adik", "Adora", "Afera", "Agata", "Ah ha", "Ah", "Akacja", "Alaska", "Alba", "Alex", "Alien", "Alvaro", "Amant", "Amigo", "Amongus", "Amor",
+    "Andromeda", "Aniołek", "Anioł", "Anju", "Anubis", "Ares", "Armagedon",
+    "Bajka", "Bambi", "Bambus", "Banan", "Bańka", "Barnej", "Baron", "Bartek", "Bastet", "Batman", "Bella", "Belzebub", "Ben", "Betty", "Beza",
+    "Bianka", "Bielik", "Bingo", "Bingus", "Biszkopt", "Black", "Blondie", "Blu", "Blue",
+    "Boczek", "Bodzio", "Bok Choy", "Bolt", "Bonbon", "Brioszka", "Brokół", "Brutus", "Brylant",
+    "Buddy", "Bułka", "Burasia", "Bura", "Burka", "Burbon", "Bursztyn", "Bury",
+    "Calineczka", "Cal", "Cappuccino", "Carzyca", "Car", "Catty", "Centka", "Cerberus", "Chaos", "Chica", "Chikorita", "Chloe", "Chmurka", "Choco", "Churro",
+    "Cola", "Cream", "Curry", "Cwaniak", "Cwaniara", "Cwany", "Czarnuszek", "Czarny", "Czaruś", "Czekolada", "Czerwiec", "Czester", "Czoko",
+    "Daniel", "Dan", "Darwin", "Demon", "Diabeł", "Diablo", "Diament", "Diax", "Diva", "Dixi", "Długi",
+    "Dominika", "Dominik", "Domino", "Donat", "Donut", "Dori", "Dragon", "Droga Mleczna", "Duży", "Dynia", "Dzikson",
+    "Edward", "Edzio", "Emilka", "Emil", "Eleven", "Elmirka", "Espresso",
+    "Fallacy", "Faworek", "Figiel", "Figlarz", "Filet", "Filip", "Fish", "Fluffy", "Foxy", "Freddy", "Franek", "Franka", "Frederyk", "Fresio", "Furora",
+    "Gienia", "Gierka", "Ginger", "Grafit", "Grey", "Grubas", "Gryzli",
+    "Hades", "Hasiok", "Henio", "Henryk", "Hildzia", "Hunter", "Huragan",
+    "Jagoda", "Jagódka", "Jaguar", "Jaskier", "Jaśmina", "Jolka",
+    "Kabanos", "Kakao", "Karmel", "Karolina", "Karol", "Kermit", "Kiciuś", "Kioto", "Koala", "Konwalia", "Koral", "Koralik", "Kotlet", "Kremówka", "Książe",
+    "Laluś", "Lena", "Leniuch", "Lilith", "Lily", "Lucky", "Lucyfer", "Ludwik", "Luna", "Lupo", "Łatek", "Łatka", "Łezka", "Łobuz",
+    "Major", "Makówka", "Mak", "Malinka", "Mania", "Martyna", "Marynarz", "Melisa", "Merida", "Migdałek", "Miedziak",
+    "Misuri", "Mokka", "Monte", "Morelek", "Motek", "Morświn", "Mróz", "Mrukot", "Mufinka", "Mumu", "Murek", "Myszka",
+    "Nikole", "Ninja", "Nocka", "Noc", "Noir", "Nugat", "Nugget", "Nyx",
+    "Obłoczek", "Olaf", "Oliver", "Omen", "Omlet", "One", "Orzeszek", "Oscypek", "Ox",
+    "Pączek", "Perełka", "Perła", "Piegus", "Pierogi", "Pieróg", "Pieszczoch", "Pies", "Piorun", "Plamka", "Platyna", "Popiel", "Popiołek", "Poziomka",
+    "Prezes", "Prezydent", "Psotek", "Psotnik", "Ptysia", "Ptysio", "Ptyś", "Puma", "Puszek", "Pyza",
+    "Rabuś", "Rexik", "Rex", "Rizz", "Rolada", "Ruda", "Rudman", "Rudolf", "Rudy", "Rudzia", "Rudzik", "Rusty", "Rysia", "Rysiek", "Rysio", "Ryś",
+    "Sadza", "Sajgon", "Salami", "Salem", "Ser", "Shadow", "Silver", "Siwa", "Siwy", "Słodziak", "Słoma", "Słomka", "Smerf", "Sowa", "Speedy",
+    "Suchar", "Sunny", "Suseł", "Sushi", "Szarik", "Szarutka", "Szary", "Sczur", "Szeryf", "Szynka", "Śnieżek", "Śnieżynka", "Śpioszek",
+    "Tiger", "Twaróg", "Tycia", "Tygrys",
+    "Urszula", "Urwis", "Uszatka",
+    "Wąsik", "Wąs", "White", "Wiewiórka", "Wiewiór", "Wicher", "Wendy",
+    "Yeti", "Yuki",
+    "Zak", "Zen", "Zoka", "Zoki", "Zosia", "Zygzag", "Żarłok"
   ],
   "__loner_names": [
     "Abigail", "Abuko", "Abyss", "Abby", "Acacia", "Ace", "Adaliz", "Adam", "Admiral", "Adora", "Aether", "Agatha", "Agent Smith", "Agnes", "Ah ha", "Ah", "Aidan", "Aiden",
@@ -685,10 +722,11 @@
     "Zendaya", "Zenith", "Zeraora", "Zikomo", "Zim", "Zion", "Zira", "Ziti", "Zoe", "Zoomie", "Zorro", "Zorua", "Zuberi", "Zuko", "Zuma", "Zuna", "Zuva"
     ],
 	"animal_suffixes": [
-		"Kawka", "Lis", "Mysz", "Nietoperz", "Pszczoła", "Ptak", "Sokół", "Wąż"
+		"Kawka", "Lis", "Mysz", "Niedźwiedź", "Nietoperz", "Pająk", "Pszczoła", "Ptak", "Sokół", "Wąż", "Zimorodek"
 	],
 	"animal_prefixes": [
-		"Gołębi", "Jaszczurzy", "Jeleni", "Koralowy", "Kruczy", "Lisi", "Lwi", "Mrówczy", "Nietoperzowy", "Orli", "Pajęczy", "Psi", "Pszczeli", "Sokoli", "Sowi", "Wiewiórczy"
+		"Gołębi", "Jaszczurzy", "Jeleni", "Koralowy", "Kruczy", "Lisi", "Lwi", "Mrówczy", "Mysi", "Niedźwiedzi", "Nietoperzowy",
+    "Orli", "Pajęczy", "Psi", "Pszczeli", "Rudzikowy", "Sczurzy", "Sokoli", "Sowi", "Wiewiórczy"
 	],
   "__animal_suffixes": [
     "badger", "bat", "bear", "bee", "beetle", "bird", "bug", "cricket", "deer", "eagle", "elk", "falcon", "fawn", "fish", "fox", "goose", "hare", "hawk", "horse", 
@@ -711,7 +749,9 @@
     "Wren"
   ],
   "notallowed_names": [
-    "brązowy pysk", "chmurzysty chmura", "cienisty cień", "czarny pysk", "czerwony pysk", "jagodowy jagoda", "nocny noc", "ognisty ogień", "pajęczynowy pajęczyna", "pierzasty pióro", "skrzydlaty skrzydło", "słoneczny słońce", "wietrzny wiatr", "żółty pysk"
+    "brązowy pysk", "chmurzysty chmura", "cienisty cień", "czarny pysk", "czerwony pysk", "jagodowy jagoda", "morski morze", "nocny noc",
+    "ognisty ogień", "pajęczynowy pajęczyna", "pajęczynowy pająk", "pajęczy pająk", "perłowy perła", "pierzasty pióro",
+    "skrzydlaty skrzydło", "słoneczny słońce", "szepczący szept", "wietrzny wiatr", "żółty pysk"
   ],
 	"__inappropriate_names": [
 		"wetback", "yellowface", "redface", "blackface", "brownface", "pancakeface", "yellowbone"
