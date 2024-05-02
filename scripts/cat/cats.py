@@ -107,6 +107,7 @@ class Cat():
     id_iter = itertools.count()
 
     all_cats_list: List[Cat] = []
+    ordered_cat_list: List[Cat] = []
 
     grief_strings = {}
 
@@ -362,7 +363,7 @@ class Cat():
                              biome=biome,
                              specsuffix_hidden=self.specsuffix_hidden,
                              load_existing_name=loading_cat,
-                             moons=self.moons)
+                             )
         else:
             self.name = Name(status, prefix, suffix, gender=self.gender, eyes=self.pelt.eye_colour, specsuffix_hidden=self.specsuffix_hidden,
                              load_existing_name = loading_cat)
@@ -426,13 +427,13 @@ class Cat():
         text = ""
         if self.status == 'leader':
             if game.clan.leader_lives > 0:
-                self.thought = 'Was startled to find themselves in Silverpelt for a moment... did they lose a life?'
+                self.thought = 'Was startled to find themself in Silverpelt for a moment... did they lose a life?'
                 return ""
             elif game.clan.leader_lives <= 0:
                 self.dead = True
                 game.just_died.append(self.ID)
                 game.clan.leader_lives = 0
-                self.thought = 'Is surprised to find themselves walking the stars of Silverpelt'
+                self.thought = 'Is surprised to find themself walking the stars of Silverpelt'
                 if game.clan.instructor.df is False:
                     text = 'They\'ve lost their last life and have travelled to StarClan.'
                 else:
@@ -440,7 +441,7 @@ class Cat():
         else:
             self.dead = True
             game.just_died.append(self.ID)
-            self.thought = 'Is surprised to find themselves walking the stars of Silverpelt'
+            self.thought = 'Is surprised to find themself walking the stars of Silverpelt'
 
         # Clear Relationships. 
         self.relationships = {}
@@ -461,7 +462,7 @@ class Cat():
                 game.clan.add_to_starclan(self)
             elif game.clan.instructor.df is True:
                 self.df = True
-                self.thought = "Is startled to find themselves wading in the muck of a shadowed forest"
+                self.thought = "Is startled to find themself wading in the muck of a shadowed forest"
                 game.clan.add_to_darkforest(self)
         else:
             self.thought = "Is fascinated by the new ghostly world they've stumbled into"
@@ -641,7 +642,6 @@ class Cat():
                 
                 Cat.grief_strings[cat.ID].append((text, (self.ID, cat.ID), "negative"))
                 
-
     def familial_grief(self, living_cat: Cat):
         """
         returns relevant grief strings for family members, if no relevant strings then returns None
@@ -760,8 +760,7 @@ class Cat():
         # If we have it sorted by rank, we also need to re-sort
         if game.sort_type == "rank" and resort:
             Cat.sort_cats()
-
-    
+   
     def rank_change_traits_skill(self, mentor):
         """Updates trait and skill upon ceremony"""  
 
@@ -790,14 +789,13 @@ class Cat():
             return
         
         self.personality.set_kit(self.is_baby()) #Update kit trait stuff
-        
 
     def describe_cat(self, short=False):
         """ Generates a string describing the cat's appearance and gender. Mainly used for generating
         the allegiances. If short is true, it will generate a very short one, with the minimal amount of information. """
         output = Pelt.describe_appearance(self, short)
         # Add "a" or "an"
-        if output[0].lower() in "aiou":
+        if output[0].lower() in "aeiou":
             output = f"an {output}"
         else:
             output = f"a {output}"
@@ -936,7 +934,6 @@ class Cat():
             )
 
             print(f"WARNING: saving history of cat #{self.ID} didn't work")
-            
 
     def generate_lead_ceremony(self):
         """
@@ -1251,8 +1248,6 @@ class Cat():
 
     def one_moon(self):
         """Handles a moon skip for an alive cat. """
-        
-        
         old_age = self.age
         self.moons += 1
         if self.moons == 1 and self.status == "newborn":
@@ -1349,10 +1344,6 @@ class Cat():
 
     def relationship_interaction(self):
         """Randomly choose a cat of the Clan and have a interaction with them."""
-        # if the cat has no relationships, skip
-        #if not self.relationships or len(self.relationships) < 1:
-        #    return
-
         cats_to_choose = [iter_cat for iter_cat in Cat.all_cats.values() if iter_cat.ID != self.ID and \
                           not iter_cat.outside and not iter_cat.exiled and not iter_cat.dead]
         # if there are not cats to interact, stop
@@ -1409,7 +1400,17 @@ class Cat():
 
         moons_with = game.clan.age - self.illnesses[illness]["moon_start"]
 
+        # focus buff
+        moons_prior = game.config["focus"]["rest and recover"]["moons_earlier_healed"]
+
         if self.illnesses[illness]["duration"] - moons_with <= 0:
+            self.healed_condition = True
+            return False
+
+        # CLAN FOCUS! - if the focus 'rest and recover' is selected
+        elif game.clan.clan_settings.get("rest and recover") and\
+            self.illnesses[illness]["duration"] + moons_prior - moons_with <= 0:
+            # print(f"rest and recover - illness {illness} of {self.name} healed earlier")
             self.healed_condition = True
             return False
 
@@ -1438,8 +1439,19 @@ class Cat():
 
         moons_with = game.clan.age - self.injuries[injury]["moon_start"]
 
+        # focus buff
+        moons_prior = game.config["focus"]["rest and recover"]["moons_earlier_healed"]
+
         # if the cat has an infected wound, the wound shouldn't heal till the illness is cured
         if not self.injuries[injury]["complication"] and self.injuries[injury]["duration"] - moons_with <= 0:
+            self.healed_condition = True
+            return False
+
+        # CLAN FOCUS! - if the focus 'rest and recover' is selected
+        elif not self.injuries[injury]["complication"] and \
+            game.clan.clan_settings.get("rest and recover") and\
+            self.injuries[injury]["duration"] + moons_prior - moons_with <= 0:
+            # print(f"rest and recover - injury {injury} of {self.name} healed earlier")
             self.healed_condition = True
             return False
 

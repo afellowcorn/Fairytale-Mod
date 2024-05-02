@@ -65,8 +65,8 @@ class Name():
                  tortiepattern=None,
                  biome=None,
                  specsuffix_hidden=False,
-                 load_existing_name=False,
-                 moons = None):
+                 load_existing_name=False
+                 ):
         self.status = status
         self.gender = gender
         self.prefix = prefix
