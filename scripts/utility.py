@@ -314,7 +314,7 @@ def create_new_cat(Cat,
                 name = choice(names.names_dict["loner_names"])
             else:
                 name = choice(
-                    names.names_dict["normal_prefixes"])  # otherwise give name from prefix list (more nature-y names)
+                    names.names_dict["loner_names"])  # otherwise give name from prefix list (more nature-y names)
 
             # now we make the cats
             if new_name:  # these cats get new names
@@ -435,8 +435,7 @@ def create_outside_cat(Cat, status, backstory, alive=True, thought=None):
     if status == 'kittypet':
         name = choice(names.names_dict["loner_names"])
     elif status in ['loner', 'rogue']:
-        name = choice(names.names_dict["loner_names"] +
-                      names.names_dict["normal_prefixes"])
+        name = choice(names.names_dict["loner_names"])
     elif status == 'former Clancat':
         name = choice(names.names_dict["normal_prefixes"])
         suffix = choice(names.names_dict["normal_suffixes"])

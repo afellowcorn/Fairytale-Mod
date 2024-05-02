@@ -177,7 +177,7 @@ class MakeClanScreen(Screens):
 
     def handle_name_clan_event(self, event):
         if event.ui_element == self.elements["random"]:
-            self.elements["name_entry"].set_text(choice(names.names_dict["__normal_prefixes"]))
+            self.elements["name_entry"].set_text(choice(names.names_dict["clan_prefixes"]))
         elif event.ui_element == self.elements["reset_name"]:
             self.elements["name_entry"].set_text("")
         elif event.ui_element == self.elements['next_step']:
@@ -710,7 +710,7 @@ class MakeClanScreen(Screens):
 
     def refresh_selected_cat_info(self, selected=None):
         # SELECTED CAT INFO
-        if selected is not None: #names.names_dict["__normal_prefixes"]
+        if selected is not None:
 
             if self.sub_screen == 'choose leader':
                 self.elements['cat_name'].set_text(str(selected.name) +
