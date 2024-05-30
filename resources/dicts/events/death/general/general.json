@@ -541,7 +541,7 @@
             "Leaf-fall",
             "Leaf-bare"
         ],
-        "camp": "Any",
+        "camp": "any",
         "death_text": "m_c has always wondered where {PRONOUN/m_c/subject} came from. {PRONOUN/m_c/subject/CAP} {VERB/m_c/sneak/sneaks} out of camp, intending to find loners who might have some clues about {PRONOUN/m_c/poss} origins. Frantic with worry and confusion after finding m_c's empty nest in the morning, c_n launches a search. They find {PRONOUN/m_c/poss} cooling body after a long search and wonders why {PRONOUN/m_c/subject} decided to leave the safety of c_n, and what killed {PRONOUN/m_c/object}.",
         "history_text": {
             "reg_death": "Curiosity killed this cat.",
@@ -761,7 +761,7 @@
             "old_age",
             "all_lives"
         ],
-        "camp": "Any",
+        "camp": "any",
         "death_text": "m_c and r_c loved each other so much they could not be parted, even by death. c_n finds their bodies still wrapped around each other in the morning.",
         "history_text": {
             "reg_death": "This cat died from old age life.",
@@ -776,7 +776,7 @@
             "Leaf-fall",
             "Leaf-bare"
         ],
-        "death_text": "m_c couldn't miss today! Such a bright day out, a perfect day to go for a walk. That was until m_c detected another scent, a strong one, and a foul one. {PRONOUN/m_c/subject} scrambled away from the area, but not before abnormally long claws slashed across their face.",
+        "death_text": "m_c couldn't miss today! Such a bright day out, a perfect day to go for a walk. That was until m_c detected another scent, a strong one, and a foul one. {PRONOUN/m_c/subject/CAP} scrambled away from the area, but not before abnormally long claws slashed across their face.",
         "history_text": {
             "reg_death": "m_c was killed by an unknown predator."
         },
