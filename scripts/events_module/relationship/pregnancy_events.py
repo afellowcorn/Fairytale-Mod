@@ -535,6 +535,12 @@ class Pregnancy_Events:
         if not single_parentage and len(cat.mate) < 1 and not allow_affair:
             return False
 
+        # check for the no_breed species tag
+        species_dict = game.species["species"]
+        if any("no_breed" in tag for tag in species_dict[cat.species]):
+            print("no breed tag")
+            return False
+
         # if function reaches this point, having kits is possible
         return True
 
@@ -552,12 +558,32 @@ class Pregnancy_Events:
         returns:
         parent can have kits, kits are adopted
         """
+        species_dict = game.species["species"]
 
         # Checks for second parent alone:
         if not Pregnancy_Events.check_if_can_have_kits(
             second_parent, single_parentage, allow_affair
         ):
             return False, False
+
+        # check for exclusive and different breed tags
+        if (
+            (
+                (
+                any("exc_breed" in tag for tag in species_dict[cat.species])
+                or any("exc_breed" in tag for tag in species_dict[second_parent.species])
+                )
+                and cat.species != second_parent.species
+            )
+            or (
+                (
+                any("diff_breed" in tag for tag in species_dict[cat.species])
+                or any("diff_breed" in tag for tag in species_dict[second_parent.species])
+                )
+                and cat.species == second_parent.species
+                )
+            ):
+            return False, True
 
         # Check to see if the pair can have kits.
         if cat.gender == second_parent.gender:
@@ -567,6 +593,7 @@ class Pregnancy_Events:
                 return False, False
             else:
                 return True, True
+
 
         return True, False
 
@@ -722,6 +749,7 @@ class Pregnancy_Events:
             other_cat = None
 
         blood_parent = None
+        par2species = None
 
         ##### SELECT BACKSTORY #####
         if cat and cat.gender == "female":
@@ -750,6 +778,22 @@ class Pregnancy_Events:
             if _m not in all_adoptive_parents:
                 all_adoptive_parents.append(_m)
 
+        # Generate a par2species in case par2 is None, so all littermates have same species inheritance weights
+        species_list = (list(game.species["species"])).copy()
+        weights = game.species["ran_weights"].copy()
+
+        for species in species_list:
+            if (
+                any("no_breed" in tag for tag in game.species["species"][species])
+                or any("exc_breed" in tag for tag in game.species["species"][species]) and species != cat.species
+                or any("diff_breed" in tag for tag in game.species["species"][species]) and species == cat.species
+                ):
+                weights.pop((species_list.index(species)))
+                species_list.remove(species)
+                print(species_list)
+
+        par2species = random.choices(species_list, weights=weights, k=1)[0]
+
         #############################
 
         #### GENERATE THE KITS ######
@@ -768,11 +812,13 @@ class Pregnancy_Events:
                                                   alive=False,
                                                   thought=thought,
                                                   age=randint(15, 120),
+                                                  species=par2species,
                                                   outside=True)[0]
                     blood_parent.thought = thought
 
                 kit = Cat(
                     parent1=blood_parent.ID,
+                    par2species=par2species,
                     moons=0,
                     backstory=backstory,
                     status='newborn')
@@ -787,7 +833,7 @@ class Pregnancy_Events:
             else:
                 # A one blood parent litter is the only option left.
                 kit = Cat(
-                    parent1=cat.ID, moons=0, backstory=backstory, status="newborn"
+                    parent1=cat.ID, par2species=par2species, moons=0, backstory=backstory, status="newborn"
                 )
                 kit.thought = f"Snuggles up to the belly of {cat.name}"
 
