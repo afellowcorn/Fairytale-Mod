@@ -8,6 +8,7 @@ from scripts.game_structure.game_essentials import game
 
 
 class Sprites:
+    colour_values = {}
     cat_tints = {}
     white_patches_tints = {}
     clan_symbols = []
@@ -29,6 +30,12 @@ class Sprites:
         self.load_tints()
 
     def load_tints(self):
+        try:
+            with open("sprites/dicts/colour.json", 'r') as read_file:
+                self.colour_values = ujson.loads(read_file.read())
+        except IOError:
+            print("ERROR: Reading Color Values")
+
         try:
             with open("sprites/dicts/tint.json", 'r') as read_file:
                 self.cat_tints = ujson.loads(read_file.read())
@@ -91,7 +98,6 @@ class Sprites:
 
                 except ValueError:
                     # Fallback for non-existent sprites
-                    print(f"WARNING: nonexistent sprite - {full_name}")
                     if not self.blank_sprite:
                         self.blank_sprite = pygame.Surface(
                             (self.size, self.size),
@@ -107,27 +113,15 @@ class Sprites:
         if not game.sprite_folders:
             raise Exception("Cannot find sprite folders or none exist")
 
-        lineart = pygame.image.load('sprites/1/lineart.png')
-        width, height = lineart.get_size()
-        del lineart  # unneeded
-
-        # if anyone changes lineart for whatever reason update this
         if isinstance(self.size, int):
             pass
-        elif width / 3 == height / 7:
-            self.size = width / 3
         else:
             self.size = 50  # default, what base clangen uses
-            print(f"lineart.png is not 3x7, falling back to {self.size}")
-            print(f"if you are a modder, please update scripts/cat/sprites.py and "
-                  f"do a search for 'if width / 3 == height / 7:'")
-
-        del width, height  # unneeded
 
         # load sprite sheets for all folders
         for f in game.sprite_folders:
             for x in [
-                'lineart', 'lineartdf', 'lineartdead',
+                'lineart', 'base', 'secondary', 'highlights', 'markings', 'markings2',
                 'eyes', 'eyes2', 'skin',
                 'scars', 'missingscars',
                 'medcatherbs',
@@ -149,11 +143,14 @@ class Sprites:
 
             # Line art
             self.make_group('lineart', (0, 0), f'lines{f}_')
+            self.make_group('lineart', (1, 0), f'lineartdead{f}_')
+            self.make_group('lineart', (2, 0), f'lineartdf{f}_')
+
             self.make_group('shadersnewwhite', (0, 0), f'shaders{f}_')
             self.make_group('lightingnew', (0, 0), f'lighting{f}_')
 
-            self.make_group('lineartdead', (0, 0), f'lineartdead{f}_')
-            self.make_group('lineartdf', (0, 0), f'lineartdf{f}_')
+            # base
+            self.make_group('base', (0, 0), f'base{f}_')
 
             # Fading Fog
             for i in range(0, 3):
@@ -202,9 +199,9 @@ class Sprites:
 
             # Define colors and categories
             color_categories = [
-                ['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK'],
-                ['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA'],
-                ['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']
+                ['WHITE', 'PALEGREY', 'SILVER', 'GREY', 'DARKGREY', 'GHOST', 'BLACK', 'RAVEN'],
+                ['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'ROSE' 'SIENNA', 'MAHOGANY'],
+                ['FAWN', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE', 'OAK']
             ]
 
             color_types = [
@@ -218,6 +215,22 @@ class Sprites:
                 for col, color in enumerate(colors):
                     for color_type in color_types:
                         self.make_group(color_type, (col, row), f'{color_type[:-7]}{f}_{color}')
+
+            for row, secondaries in enumerate([["A", "B"], ["A"]]):
+                for col, secondary in enumerate(secondaries):
+                    self.make_group('secondary', (col, row), f'secondary{f}_{row}{secondary}')
+
+            for row, highlights in enumerate([["A"], ["A"]]):
+                for col, highlight in enumerate(highlights):
+                    self.make_group('highlights', (col, row), f'highlight{f}_{row}{highlight}')
+
+            for row, markings in enumerate([["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"], ["A", "B", "C"]]):
+                for col, marking in enumerate(markings):
+                    self.make_group('markings', (col, row), f'marking{f}_{row}{marking}')
+
+            for row, markings in enumerate([["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"], ["A"]]):
+                for col, marking in enumerate(markings):
+                    self.make_group('markings2', (col, row), f'marking{f}_{row}{marking}alt')
 
             # tortiepatchesmasks
             tortiepatchesmasks = [

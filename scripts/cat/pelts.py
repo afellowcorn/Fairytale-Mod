@@ -110,10 +110,10 @@ class Pelt:
         'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN',
         'CHOCOLATE'
     ]
-    ginger_colours = ['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'SIENNA']
-    black_colours = ['GREY', 'DARKGREY', 'GHOST', 'BLACK']
+    ginger_colours = ['CREAM', 'PALEGINGER', 'GOLDEN', 'GINGER', 'DARKGINGER', 'ROSE', 'SIENNA', 'MAHOGANY']
+    black_colours = ['GREY', 'DARKGREY', 'GHOST', 'BLACK', 'RAVEN']
     white_colours = ['WHITE', 'PALEGREY', 'SILVER']
-    brown_colours = ['LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE']
+    brown_colours = ['FAWN', 'LIGHTBROWN', 'LILAC', 'BROWN', 'GOLDEN-BROWN', 'DARKBROWN', 'CHOCOLATE', 'OAK']
     colour_categories = [ginger_colours, black_colours, white_colours, brown_colours]
     eye_sprites = [
         'YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE', 'BLUEYELLOW', 'BLUEGREEN',
@@ -144,6 +144,37 @@ class Pelt:
 
     skin_sprites = ['BLACK', 'PINK', 'DARKBROWN', 'BROWN', 'LIGHTBROWN', 'DARK', 'DARKGREY', 'GREY', 'DARKSALMON',
                     'SALMON', 'PEACH', 'DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE', 'RED']
+
+    # FM data
+    colour_dict = {
+        "default": ["Tabby", "Ticked", "Mackerel", "Classic", "Sokoke", "Agouti", "Speckled", "Rosette",
+                    "SingleColour", "TwoColour", "Smoke", "Singlestripe", "Masked"],
+        "exotic": ["Bengal", "Marbled"],
+        "pigeon": ["Pigeonspread", "Pigeonbar", "Pigeoncheck"]
+    }
+
+    markings_dict = {
+        "SingleColour": [None, "0A"],
+        "TwoColour": [None, "0A"],
+        "Tabby": [None, "0A", "0A", "0Aalt"],
+        "Masked": [None, "0A", "0B", "0Balt"],
+        "Mackerel": [None, "0A", "0C", "0Calt"],
+        "Agouti": [None, "0A", "0D", "0Dalt"],
+        "Speckled": [None, "0A", "0E", "0Ealt"],
+        "Classic": [None, "0A", "0F", "0Falt"],
+        "Sokoke": [None, "0A", "0G", "0Galt"],
+        "Singlestripe": [None, "0A", "0H", "0Halt"],
+        "Ticked": [None, "0A", "0I", "0Ialt"],
+        "Marbled": [None, "0A", "0J", "0Jalt"],
+        "Bengal": [None, "0A", "0K", "0Kalt"],
+        "Smoke": [None, "0A", "0L", "0Lalt"],
+        "Rosette": [None, "0A", "0M", "0Malt"],
+        "PigeonSpread": ["1A", "1A", "1A"],
+        "PigeonBar": ["1A", "1A", "1B"],
+        "PigeonCheck": ["1A", "1A", "1C"],
+        "Garter": ["1A", "0A", "1A"],
+        "GarterCheck": ["1A", "0A", "1A", "1Aalt"]
+    }
 
     """Holds all appearance information for a cat. """
 

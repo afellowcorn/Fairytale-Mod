@@ -2382,29 +2382,149 @@ def generate_sprite(
         # checks index of cat's species in the species list and uses matching folder's sprites
         n = (list(game.species["species"]).index(cat.species)) + 1 #add 1 because people don't count from 0 smh
 
-        if cat.pelt.name not in ["Tortie", "Calico"]:
-            new_sprite.blit(
-                sprites.sprites[
-                    cat.pelt.get_sprites_name() + f'{n}_' + cat.pelt.colour + cat_sprite
-                    ],
-                (0, 0),
-            )
+        if cat.pelt.name in ["Tortie", "Calico"]:
+            peltname = cat.pelt.tortiebase.capitalize()
+            if peltname == "Single":
+                peltname = "SingleColour"
         else:
-            # Base Coat
-            new_sprite.blit(
-                sprites.sprites[cat.pelt.tortiebase + f'{n}_' + cat.pelt.colour + cat_sprite],
-                (0, 0),
-            )
+            if cat.species == "tatzelwurm":
+                peltname = "GarterCheck"
+            else:
+                peltname = cat.pelt.name
 
-            # Create the patch image
+        new_sprite.blit(
+                sprites.sprites[
+                    'base' + f'{n}_' + cat_sprite
+                    ],
+                (0, 0)
+            )
+        base = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+      
+        colourcat = "default"
+        for group, value in Pelt.colour_dict.items():
+            if peltname == "GarterCheck":
+                colourcat = "garter"
+            elif peltname in value:
+                colourcat = group
+
+        base.fill(tuple(sprites.colour_values['base'][colourcat][cat.pelt.colour]))
+        new_sprite.blit(base, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
+
+        for i, element in enumerate(Pelt.markings_dict[peltname]):
+            if not element and i != 0:
+                continue
+            elif i == 0:
+                if cat.pelt.colour in sprites.colour_values['secondary'][colourcat]:
+                    marking = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                    marking.fill(tuple(sprites.colour_values['secondary'][colourcat][cat.pelt.colour]))
+                    if not element:
+                        if cat.pelt.colour in ["LIGHTBROWN", "BROWN", "DARKBROWN"]:
+                            marking.blit(
+                            sprites.sprites['secondary' + f'{n}_0A' + cat_sprite],
+                            (0, 0),
+                            special_flags=pygame.BLEND_RGBA_MULT,
+                            )
+                        else:
+                            marking.blit(
+                            sprites.sprites['secondary' + f'{n}_0B' + cat_sprite],
+                            (0, 0),
+                            special_flags=pygame.BLEND_RGBA_MULT,
+                            )
+                    else:
+                        marking.blit(
+                            sprites.sprites['secondary' + f'{n}_{element}' + cat_sprite],
+                            (0, 0),
+                            special_flags=pygame.BLEND_RGBA_MULT,
+                        )
+                else:
+                    continue
+
+            elif i == 1:
+                marking = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                marking.fill(tuple(sprites.colour_values['highlight'][colourcat][cat.pelt.colour]))
+                marking.blit(
+                    sprites.sprites['highlight' + f'{n}_{element}' + cat_sprite],
+                    (0, 0),
+                    special_flags=pygame.BLEND_RGBA_MULT,
+                )
+
+            elif i > 1:
+                marking = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                if "alt" in element:
+                    marking.fill(tuple(sprites.colour_values['marking2'][colourcat][cat.pelt.colour]))
+                else:
+                    marking.fill(tuple(sprites.colour_values['marking1'][colourcat][cat.pelt.colour]))
+                marking.blit(
+                    sprites.sprites['marking' + f'{n}_{element}' + cat_sprite],
+                    (0, 0),
+                    special_flags=pygame.BLEND_RGBA_MULT,
+                )
+
+            new_sprite.blit(marking, (0, 0))
+
+        if cat.pelt.name in ["Tortie", "Calico"]:
+
+            #Create the patch image
             if cat.pelt.tortiepattern == "Single":
                 tortie_pattern = "SingleColour"
             else:
-                tortie_pattern = cat.pelt.tortiepattern
+                tortie_pattern = cat.pelt.tortiepattern.capitalize()
 
-            patches = sprites.sprites[
-                tortie_pattern + f'{n}_' + cat.pelt.tortiecolour + cat_sprite
-                ].copy()
+            patches = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+            patches.fill(tuple(sprites.colour_values['base'][colourcat][cat.pelt.tortiecolour]))
+
+            for i, element in enumerate(Pelt.markings_dict[tortie_pattern]):
+                if not element and i != 0:
+                    continue
+                elif i == 0:
+                    if cat.pelt.tortiecolour in sprites.colour_values['secondary'][colourcat]:
+                        marking = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                        marking.fill(tuple(sprites.colour_values['secondary'][colourcat][cat.pelt.tortiecolour]))
+                        if not element:
+                            if cat.pelt.tortiecolour in ["LIGHTBROWN", "BROWN", "DARKBROWN"]:
+                                marking.blit(
+                                sprites.sprites['secondary' + f'{n}_0A' + cat_sprite],
+                                (0, 0),
+                                special_flags=pygame.BLEND_RGBA_MULT,
+                                )
+                            else:
+                                marking.blit(
+                                sprites.sprites['secondary' + f'{n}_0B' + cat_sprite],
+                                (0, 0),
+                                special_flags=pygame.BLEND_RGBA_MULT,
+                                )
+                        else:
+                            marking.blit(
+                                sprites.sprites['secondary' + f'{n}_{element}' + cat_sprite],
+                                (0, 0),
+                                special_flags=pygame.BLEND_RGBA_MULT,
+                            )
+                    else:
+                        continue
+
+                elif i == 1:
+                    marking = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                    marking.fill(tuple(sprites.colour_values['highlight'][colourcat][cat.pelt.tortiecolour]))
+                    marking.blit(
+                        sprites.sprites['highlight' + f'{n}_{element}' + cat_sprite],
+                        (0, 0),
+                        special_flags=pygame.BLEND_RGBA_MULT,
+                    )
+
+                elif i > 1:
+                    marking = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
+                    if "alt" in element:
+                        marking.fill(tuple(sprites.colour_values['marking2'][colourcat][cat.pelt.tortiecolour]))
+                    else:
+                        marking.fill(tuple(sprites.colour_values['marking1'][colourcat][cat.pelt.tortiecolour]))
+                    marking.blit(
+                        sprites.sprites['marking' + f'{n}_{element}' + cat_sprite],
+                        (0, 0),
+                        special_flags=pygame.BLEND_RGBA_MULT,
+                    )
+
+                patches.blit(marking, (0, 0))
+
             patches.blit(
                 sprites.sprites["tortiemask" + f'{n}_' + cat.pelt.pattern + cat_sprite],
                 (0, 0),
