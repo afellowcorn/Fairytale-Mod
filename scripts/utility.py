@@ -500,31 +500,17 @@ def create_new_cat_block(
                 chosen_cat.die()
 
             if new_name:
-                name = f"{chosen_cat.name.prefix}"
-                spaces = name.count(" ")
-                if choice([1, 2]) == 1 and spaces > 0:  # adding suffix to OG name
-                    # make a list of the words within the name, then add the OG name back in the list
-                    words = name.split(" ")
-                    words.append(name)
-                    new_prefix = choice(words)  # pick new prefix from that list
-                    name = new_prefix
-                    chosen_cat.name.prefix = name
-                    chosen_cat.name.give_suffix(
-                        pelt=chosen_cat.pelt,
-                        biome=game.clan.biome,
-                        tortiepattern=chosen_cat.pelt.tortiepattern
-                    )
-                else:  # completely new name
-                    chosen_cat.name.give_prefix(
-                        eyes=chosen_cat.pelt.eye_colour,
-                        colour=chosen_cat.pelt.colour,
-                        biome=game.clan.biome
-                    )
-                    chosen_cat.name.give_suffix(
-                        pelt=chosen_cat.pelt.colour,
-                        biome=game.clan.biome,
-                        tortiepattern=chosen_cat.pelt.tortiepattern
-                    )
+                # completely new name
+                chosen_cat.name.give_prefix(
+                    eyes=chosen_cat.pelt.eye_colour,
+                    colour=chosen_cat.pelt.colour,
+                    biome=game.clan.biome
+                )
+                chosen_cat.name.give_suffix(
+                    pelt=chosen_cat.pelt.colour,
+                    biome=game.clan.biome,
+                    tortiepattern=chosen_cat.pelt.tortiepattern
+                )
 
             new_cats = [chosen_cat]
 
@@ -724,31 +710,19 @@ def create_new_cat(
                 name = choice(names.names_dict["loner_names"])
                 if choice([1, 2]) == 1:
                     accessory = choice(Pelt.collars)
-            elif (
-                    loner and choice([1, 2]) == 1
-            ):  # try to give name from full loner name list
+            else:  # try to give name from full loner name list
                 name = choice(names.names_dict["loner_names"])
-            else:
-                name = choice(
-                    names.names_dict["loner_names"])  # otherwise give name from prefix list (more nature-y names)
 
             # now we make the cats
             if new_name:  # these cats get new names
-                '''if choice([1, 2]) == 1:  # adding suffix to OG name
-                    spaces = name.count(" ")
-                    if spaces > 0:
-                        # make a list of the words within the name, then add the OG name back in the list
-                        words = name.split(" ")
-                        words.append(name)
-                        new_prefix = choice(words)  # pick new prefix from that list
-                        name = new_prefix
+                if (name in names.names_dict["all_suffixes"] and choice([1, 2]) == 1):  # adding prefix to OG name
                     new_cat = Cat(moons=age,
-                                  prefix=name,
+                                  suffix=name,
                                   status=status,
                                   gender=_gender,
                                   backstory=backstory,
                                   parent1=parent1,
-                                  parent2=parent2)'''
+                                  parent2=parent2)
                 # completely new name
                 new_cat = Cat(moons=age,
                               status=status,
@@ -2062,7 +2036,7 @@ def leader_ceremony_text_adjust(
     used to adjust the text for leader ceremonies
     """
     replace_dict = {
-        "m_c_star": (str(leader.name.prefix + "star"), choice(leader.pronouns)),
+        "m_c_star": ((str(names.names_dict["all_prefixes"][leader.name.prefix]["fem"] + " " + 'Gwiazda')), choice(leader.pronouns)),
         "m_c": (str(leader.name.prefix + leader.name.suffix), choice(leader.pronouns)),
     }
 

@@ -1282,8 +1282,7 @@ class OtherClan:
     ]
 
     def __init__(self, name="", relations=0, temperament="", chosen_symbol=""):
-        clan_names = names.names_dict["normal_prefixes"]
-        clan_names.extend(names.names_dict["clan_prefixes"])
+        clan_names = names.names_dict["clan_prefixes"]
         self.name = name or choice(clan_names)
         self.relations = relations or randint(8, 12)
         self.temperament = temperament or choice(self.temperament_list)

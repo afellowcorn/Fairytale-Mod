@@ -138,7 +138,7 @@ class Name:
         else:
             named_after_appearance = not random.getrandbits(2)  # Chance for True is '1/4'
 
-        named_after_biome_ = not random.getrandbits(3)  # chance for True is 1/8
+        named_after_biome_ = not random.getrandbits(2)  # chance for True is 1/4
 
         # Add possible prefix categories to list.
         possible_prefix_categories = []
@@ -165,8 +165,8 @@ class Name:
         if pelt is None or pelt == 'SingleColour':
             self.suffix = random.choice(self.names_dict["normal_suffixes"])
         else:
-            named_after_pelt = not random.getrandbits(2)  # Chance for True is '1/8'.
-            named_after_biome = not random.getrandbits(3)  # 1/8
+            named_after_pelt = not random.getrandbits(2)  # Chance for True is '1/4'.
+            named_after_biome = not random.getrandbits(2)  # 1/4
             # Pelt name only gets used if there's an associated suffix.
             if named_after_pelt:
                 if pelt in ["Tortie", "Calico"] and tortiepattern in self.names_dict["tortie_pelt_suffixes"]:
