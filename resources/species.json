@@ -6,9 +6,9 @@
     },
     "ran_weights": [1, 1, 1],
     "in_weights": {
-        "regular cat": [1, 1],
-        "winged cat": [1, 1],
-        "tatzelwurm": [1, 1]
+        "regular cat": [1, 1, 1],
+        "winged cat": [1, 1, 1],
+        "tatzelwurm": [1, 1, 1]
     },
     "comment": [
         "look at the official documentation for a list of all species tags.",

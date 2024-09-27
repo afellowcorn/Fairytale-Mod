@@ -51,6 +51,7 @@ class Patrol:
 
         self.patrol_statuses = {}
         self.patrol_status_list = []
+        self.patrol_species = {}
 
         # Holds new cats for easy access
         self.new_cats: List[List[Cat]] = []
@@ -163,6 +164,12 @@ class Patrol:
                     self.patrol_statuses["normal adult"] += 1
                 else:
                     self.patrol_statuses["normal adult"] = 1
+
+            # species
+            if cat.species in self.patrol_species:
+                self.patrol_species[cat.species] += 1
+            else:
+                self.patrol_species[cat.species] = 1
 
             game.patrolled.append(cat.ID)
 
@@ -852,6 +859,18 @@ class Patrol:
             if flag:
                 continue
 
+            flag = False
+            for sp, num in patrol.min_max_species.items():
+                if len(num) != 2:
+                    print(f"Issue with species limits: {patrol.patrol_id}")
+                    continue
+
+                if not (num[0] <= self.patrol_species.get(sp, -1) <= num[1]):
+                    flag = True
+                    break
+            if flag:
+                continue
+
             if biome not in patrol.biome and "any" not in patrol.biome:
                 continue
             if camp not in patrol.camp and "any" not in patrol.camp:
@@ -929,6 +948,7 @@ class Patrol:
                 min_cats=patrol.get("min_cats", 1),
                 max_cats=patrol.get("max_cats", 6),
                 min_max_status=patrol.get("min_max_status"),
+                min_max_species=patrol.get("min_max_species"),
                 antag_success_outcomes=PatrolOutcome.generate_from_info(
                     patrol.get("antag_success_outcomes"), antagonize=True
                 ),

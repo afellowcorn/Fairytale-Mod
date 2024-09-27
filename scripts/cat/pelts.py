@@ -146,11 +146,25 @@ class Pelt:
                     'SALMON', 'PEACH', 'DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BLUE', 'LIGHTBLUE', 'RED']
 
     # FM data
+    exc_pelts = {
+        "winged cat": {
+            "pigeon": ["Pigeonspread", "Pigeonbar", "Pigeoncheck"],
+        },
+        "tatzelwurm": {
+            "garter": ["Garter", "GarterCheck"]
+        },
+        "weights": {
+            "pigeon": 30,
+            "garter": 40
+        }
+    }
+
     colour_dict = {
         "default": ["Tabby", "Ticked", "Mackerel", "Classic", "Sokoke", "Agouti", "Speckled", "Rosette",
                     "SingleColour", "TwoColour", "Smoke", "Singlestripe", "Masked"],
         "exotic": ["Bengal", "Marbled"],
-        "pigeon": ["Pigeonspread", "Pigeonbar", "Pigeoncheck"]
+        "pigeon": ["Pigeonspread", "Pigeonbar", "Pigeoncheck"],
+        "garter": ["Garter", "GarterCheck"]
     }
 
     markings_dict = {
@@ -239,10 +253,10 @@ class Pelt:
         self.skin = skin
 
     @staticmethod
-    def generate_new_pelt(gender: str, parents: tuple = (), age: str = "adult"):
+    def generate_new_pelt(species: str, gender: str, parents: tuple = (), age: str = "adult"):
         new_pelt = Pelt()
 
-        pelt_white = new_pelt.init_pattern_color(parents, gender)
+        pelt_white = new_pelt.init_pattern_color(parents, species, gender)
         new_pelt.init_white_patches(pelt_white, parents)
         new_pelt.init_sprite()
         new_pelt.init_scars(age)
@@ -373,7 +387,7 @@ class Pelt:
                 eye_choice = choice([Pelt.yellow_eyes, Pelt.blue_eyes])
                 self.eye_colour2 = choice(eye_choice)
 
-    def pattern_color_inheritance(self, parents: tuple = (), gender="female"):
+    def pattern_color_inheritance(self, parents: tuple = (), species="regular cat", gender="female"):
         # setting parent pelt categories
         # We are using a set, since we don't need this to be ordered, and sets deal with removing duplicates.
         par_peltlength = set()
@@ -414,7 +428,7 @@ class Pelt:
         # If this list is empty, something went wrong.
         if not par_peltcolours:
             print("Warning - no parents: pelt randomized")
-            return self.randomize_pattern_color(gender)
+            return self.randomize_pattern_color(species, gender)
 
         # There is a 1/10 chance for kits to have the exact same pelt as one of their parents
         if not random.randint(0, game.config["cat_generation"]["direct_inheritance"]):  # 1/10 chance
@@ -570,14 +584,21 @@ class Pelt:
         self.tortiebase = chosen_tortie_base  # This will be none if the cat isn't a tortie.
         return chosen_white
 
-    def randomize_pattern_color(self, gender):
+    def randomize_pattern_color(self, species, gender):
         # ------------------------------------------------------------------------------------------------------------#
         #   PELT
         # ------------------------------------------------------------------------------------------------------------#
+        valid_pelts = Pelt.pelt_categories.copy()
+        weights = [35, 20, 30, 15, 0]
+
+        if species in Pelt.exc_pelts:
+            for category in Pelt.exc_pelts[species]:
+                valid_pelts.append(Pelt.exc_pelts[species][category])
+                weights.append(Pelt.exc_pelts["weights"][category])
 
         # Determine pelt.
         chosen_pelt = choice(
-            random.choices(Pelt.pelt_categories, weights=(35, 20, 30, 15, 0), k=1)[0]
+            random.choices(valid_pelts, weights=(weights), k=1)[0]
         )
 
         # Tortie chance
@@ -634,7 +655,7 @@ class Pelt:
         self.tortiebase = chosen_tortie_base  # This will be none if the cat isn't a tortie.
         return chosen_white
 
-    def init_pattern_color(self, parents, gender) -> bool:
+    def init_pattern_color(self, parents, species, gender) -> bool:
         """Inits self.name, self.colour, self.length, 
             self.tortiebase and determines if the cat 
             will have white patche or not. 
@@ -643,9 +664,9 @@ class Pelt:
 
         if parents:
             # If the cat has parents, use inheritance to decide pelt.
-            chosen_white = self.pattern_color_inheritance(parents, gender)
+            chosen_white = self.pattern_color_inheritance(parents, species, gender)
         else:
-            chosen_white = self.randomize_pattern_color(gender)
+            chosen_white = self.randomize_pattern_color(species, gender)
 
         return chosen_white
 

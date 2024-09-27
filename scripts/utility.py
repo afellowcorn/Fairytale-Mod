@@ -2382,15 +2382,17 @@ def generate_sprite(
         # checks index of cat's species in the species list and uses matching folder's sprites
         n = (list(game.species["species"]).index(cat.species)) + 1 #add 1 because people don't count from 0 smh
 
+        print(cat.species+" "+cat.pelt.name+" "+cat.pelt.colour)
+
         if cat.pelt.name in ["Tortie", "Calico"]:
             peltname = cat.pelt.tortiebase.capitalize()
             if peltname == "Single":
                 peltname = "SingleColour"
         else:
-            if cat.species == "tatzelwurm":
-                peltname = "GarterCheck"
-            else:
-                peltname = cat.pelt.name
+            #if cat.species == "tatzelwurm":
+            #    peltname = "GarterCheck"
+            #else:
+            peltname = cat.pelt.name
 
         new_sprite.blit(
                 sprites.sprites[
@@ -2407,6 +2409,10 @@ def generate_sprite(
             elif peltname in value:
                 colourcat = group
 
+        if colourcat == "default":
+            if cat.species == "tatzelwurm":
+                colourcat = "defaultwurm"
+
         base.fill(tuple(sprites.colour_values['base'][colourcat][cat.pelt.colour]))
         new_sprite.blit(base, (0, 0), special_flags=pygame.BLEND_RGB_MULT)
 
@@ -2418,7 +2424,16 @@ def generate_sprite(
                     marking = pygame.Surface((sprites.size, sprites.size)).convert_alpha()
                     marking.fill(tuple(sprites.colour_values['secondary'][colourcat][cat.pelt.colour]))
                     if not element:
-                        if cat.pelt.colour in ["LIGHTBROWN", "BROWN", "DARKBROWN"]:
+                        if cat.species == "tatzelwurm":
+                            if cat.pelt.name == "SingleColour":
+                                marking.blit(
+                                sprites.sprites['secondary' + f'{n}_0B' + cat_sprite],
+                                (0, 0),
+                                special_flags=pygame.BLEND_RGBA_MULT,
+                                )
+                            else:
+                                continue
+                        elif cat.pelt.colour in ["LIGHTBROWN", "BROWN", "DARKBROWN"]:
                             marking.blit(
                             sprites.sprites['secondary' + f'{n}_0A' + cat_sprite],
                             (0, 0),
@@ -2465,7 +2480,7 @@ def generate_sprite(
         if cat.pelt.name in ["Tortie", "Calico"]:
 
             #Create the patch image
-            if cat.pelt.tortiepattern == "Single":
+            if cat.pelt.tortiepattern == "single":
                 tortie_pattern = "SingleColour"
             else:
                 tortie_pattern = cat.pelt.tortiepattern.capitalize()
