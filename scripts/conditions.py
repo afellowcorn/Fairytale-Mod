@@ -8,8 +8,8 @@ TODO: Docs
 
   # pylint: enable=line-too-long
 
-from scripts.game_structure.game_essentials import game
 from scripts.cat.skills import SkillPath
+from scripts.game_structure.game_essentials import game
 
 
 def medical_cats_condition_fulfilled(all_cats,
@@ -68,6 +68,9 @@ def get_amount_cat_for_one_medic(clan):
     amount = 10
     if clan and clan.game_mode == 'cruel season':
         amount = 7
+    if clan and clan.game_mode == 'classic':
+        # just hope nobody has clans with more than 1,000,000 cats in classic
+        amount = 1000000
     return amount
 
 
