@@ -49,6 +49,7 @@ class PatrolOutcome:
         exp: int = 0,
         stat_trait: List[str] = None,
         stat_skill: List[str] = None,
+        stat_species: List[str] = None,
         can_have_stat: List[str] = None,
         dead_cats: List[str] = None,
         lost_cats: List[str] = None,
@@ -75,6 +76,7 @@ class PatrolOutcome:
         self.exp = exp
         self.stat_trait = stat_trait if stat_trait is not None else []
         self.stat_skill = stat_skill if stat_skill is not None else []
+        self.stat_species = stat_species if stat_species is not None else []
         self.can_have_stat = can_have_stat if can_have_stat is not None else []
         self.dead_cats = dead_cats if dead_cats is not None else []
         self.lost_cats = lost_cats if lost_cats is not None else []
@@ -126,7 +128,7 @@ class PatrolOutcome:
             # outcomes seperatly, so we can ensure that those occur if possible.
             special = False
 
-            if out.stat_skill or out.stat_trait:
+            if (out.stat_skill) or (out.stat_trait) or (out.stat_species):
                 special = True
                 out._get_stat_cat(patrol)
                 if not isinstance(out.stat_cat, Cat):
@@ -175,6 +177,7 @@ class PatrolOutcome:
                     exp=_d.get("exp"),
                     stat_skill=_d.get("stat_skill"),
                     stat_trait=_d.get("stat_trait"),
+                    stat_species=_d.get("stat_species"),
                     can_have_stat=_d.get("can_have_stat"),
                     dead_cats=_d.get("dead_cats"),
                     lost_cats=_d.get("lost_cats"),
@@ -339,6 +342,15 @@ class PatrolOutcome:
 
         actual_stat_cats = []
         for kitty in possible_stat_cats:
+
+            print("species: "+kitty.species+" required: "+str(self.stat_species))
+            if kitty.species in self.stat_species:
+                print("stat species found")
+                actual_stat_cats.append(kitty)
+            else:
+                continue
+
+            print(self.stat_trait)
             if kitty.personality.trait in self.stat_trait:
                 actual_stat_cats.append(kitty)
 

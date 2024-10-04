@@ -370,6 +370,17 @@ def create_new_cat_block(
     else:
         new_name = choice([True, False])
 
+    '''# SPECIES
+    species = None
+    for _tag in attribute_list:
+        match = re.match(r"species:(.+)", _tag)
+        if not match:
+            continue
+
+        if match.group(1) in [list(game.species["species"])]:
+            species = match.group(1)
+            break'''
+
     # STATUS - must be handled before backstories
     status = None
     for _tag in attribute_list:
@@ -539,6 +550,7 @@ def create_new_cat_block(
                                   # this is for singular kits, litters need this to be false
                                   litter=litter,
                                   backstory=chosen_backstory,
+                                  species=species,
                                   status=status,
                                   age=age,
                                   gender=gender,
